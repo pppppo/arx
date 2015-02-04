@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.metric.v2;
@@ -36,14 +35,15 @@ import org.deidentifier.arx.metric.Metric;
  */
 public abstract class AbstractMetricSingleDimensional extends Metric<ILSingleDimensional> {
 
-    /** SVUID*/
+    /** SVUID. */
     private static final long serialVersionUID = -1082954137578580790L;
 
-    /** Row count*/
+    /** Row count. */
     private Double            tuples         = null;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param monotonic
      * @param independent
      */
@@ -51,24 +51,34 @@ public abstract class AbstractMetricSingleDimensional extends Metric<ILSingleDim
         super(monotonic, independent);
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#createMaxInformationLoss()
+     */
     @Override
     public InformationLoss<?> createMaxInformationLoss() {
         return new ILSingleDimensional(Double.MAX_VALUE);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#createMinInformationLoss()
+     */
     @Override
     public InformationLoss<?> createMinInformationLoss() {
         return new ILSingleDimensional(0d);
     }
     
     /**
-     * Returns the number of rows in the dataset or subset
+     * Returns the number of rows in the dataset or subset.
+     *
      * @return
      */
     protected Double getNumTuples() {
         return tuples;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#initializeInternal(org.deidentifier.arx.DataDefinition, org.deidentifier.arx.framework.data.Data, org.deidentifier.arx.framework.data.GeneralizationHierarchy[], org.deidentifier.arx.ARXConfiguration)
+     */
     @Override
     protected void initializeInternal(final DataDefinition definition,
                                       final Data input, 
@@ -83,5 +93,14 @@ public abstract class AbstractMetricSingleDimensional extends Metric<ILSingleDim
         } else {
             tuples = (double)input.getDataLength();
         }
+    }
+
+    /**
+     * Returns the number of rows in the dataset or subset.
+     *
+     * @param tuples
+     */
+    protected void setNumTuples(Double tuples) {
+        this.tuples = tuples;
     }
 }

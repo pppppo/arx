@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2014 Karol Babioch <karol@babioch.de>
+ * Copyright 2014 Karol Babioch <karol@babioch.de>
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.io;
@@ -38,27 +37,22 @@ import org.deidentifier.arx.io.ImportConfigurationExcel.ExcelFileTypes;
  * This adapter can import data from Excel files. It handles both XLS and XLSX
  * files. The file type itself is defined by {@link ImportConfigurationExcel}.
  * The files are accessed using Apache POI.
- * 
- * @see <a href="https://poi.apache.org/">Aapache POI</a>
- * 
+ *
  * @author Karol Babioch
  * @author Fabian Prasser
+ * @see <a href="https://poi.apache.org/">Aapache POI</a>
  */
 public class ImportAdapterExcel extends ImportAdapter {
 
-    /**
-     * The configuration describing the Excel file
-     */
+    /** The configuration describing the Excel file. */
     private ImportConfigurationExcel config;
 
-    /**
-     * Actual iterator used to go through data
-     */
+    /** Actual iterator used to go through data. */
     private Iterator<Row>            iterator;
 
     /**
-     * Contains the last row as returned by the iterator
-     * 
+     * Contains the last row as returned by the iterator.
+     *
      * @note This row cannot be simply returned, but needs to be further
      *       processed, e.g. to return only selected columns.
      */
@@ -73,14 +67,10 @@ public class ImportAdapterExcel extends ImportAdapter {
      */
     private boolean                  headerReturned = false;
 
-    /**
-     * Number of rows within the specified sheet
-     */
+    /** Number of rows within the specified sheet. */
     private int                      totalRows;
 
-    /**
-     * Current row {@link lastRow} is referencing
-     */
+    /** Current row {@link lastRow} is referencing. */
     private int                      currentRow     = 0;
 
     /**
@@ -92,6 +82,7 @@ public class ImportAdapterExcel extends ImportAdapter {
      */
     private int                      numberOfColumns;
 
+    /**  TODO */
     private FileInputStream          input;
 
     /**
@@ -154,7 +145,8 @@ public class ImportAdapterExcel extends ImportAdapter {
      * Returns the percentage of data that has already been returned
      * 
      * The basis for this calculation is the row currently being accessed.
-     * 
+     *
+     * @return
      * @see {@link #currentRow}
      * @see {@link #totalRows}
      */
@@ -168,7 +160,8 @@ public class ImportAdapterExcel extends ImportAdapter {
      * 
      * This returns true when the file contains another line, which could be
      * accessed by {@link #iterator}.
-     * 
+     *
+     * @return
      * @note {@link #row} effectively works as buffer and will always be set
      *       up by the previous iteration, so once there is no data, it will be
      *       assigned <code>null</code>, which is checked for here.
@@ -181,13 +174,11 @@ public class ImportAdapterExcel extends ImportAdapter {
     /**
      * Returns the next row
      * 
-     * The returned element is sorted as defined by {@link ImportColumn#index}
-     * and contains as many elements as there are columns selected to import
+     * The returned element is sorted as defined by {@link ImportColumn#index} and contains as many elements as there are columns selected to import
      * from {@link #indexes}. The first row will always contain the names of the
      * columns. {@link #headerReturned} is used to keep track of that.
-     * 
-     * @throws IllegalArgumentException
-     *             In case defined datatypes don't match
+     *
+     * @return
      */
     @Override
     public String[] next() {
@@ -234,7 +225,7 @@ public class ImportAdapterExcel extends ImportAdapter {
     }
 
     /**
-     * Dummy
+     * Dummy.
      */
     @Override
     public void remove() {
@@ -250,6 +241,8 @@ public class ImportAdapterExcel extends ImportAdapter {
      * whether or not names have been assigned explicitly either the appropriate
      * values will be returned, or names will be made up on the fly following
      * the pattern "Column #x", where x is incremented for each column.
+     *
+     * @return
      */
     private String[] createHeader() {
 

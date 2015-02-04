@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.deidentifier.arx;
 
@@ -42,35 +41,42 @@ import org.deidentifier.arx.metric.Metric;
  */
 class UtilityEstimator {
 
-    /** The lattice */
+    /** The lattice. */
     private ARXLattice           lattice;
-    /** The metric */
+    
+    /** The metric. */
     private Metric<?>            metric;
 
-    /** Additional fields */
+    /** Additional fields. */
     private InformationLoss<?>[] minimumAnonymous;
-    /** Additional fields */
+    
+    /** Additional fields. */
     private InformationLoss<?>[] minimumNonAnonymous;
-    /** Additional fields */
+    
+    /** Additional fields. */
     private InformationLoss<?>[] maximumAnonymous;
-    /** Additional fields */
+    
+    /** Additional fields. */
     private InformationLoss<?>[] maximumNonAnonymous;
-    /** Additional fields */
+    
+    /** Additional fields. */
     private InformationLoss<?>[] lowerBound;
 
-    /** Monotonicity */
+    /** Monotonicity. */
     private final boolean        monotonicAnonymous;
-    /** Monotonicity */
+    
+    /** Monotonicity. */
     private final boolean        monotonicNonAnonymous;
 
-    /** Maximum/minimum*/
+    /** Maximum/minimum. */
     private InformationLoss<?>   globalMinimum;
-    /** Maximum/minimum*/
+    
+    /** Maximum/minimum. */
     private InformationLoss<?>   globalMaximum;
     
     /**
-     * Creates a new estimation process for a lattice
-     * 
+     * Creates a new estimation process for a lattice.
+     *
      * @param lattice
      * @param metric
      * @param monotonicAnonymous
@@ -101,7 +107,7 @@ class UtilityEstimator {
     }
     
     /**
-     * Estimate maximum information loss
+     * Estimate maximum information loss.
      */
     private void estimateMax() {
 
@@ -123,7 +129,7 @@ class UtilityEstimator {
     }
 
     /**
-     * Estimate minimum information loss
+     * Estimate minimum information loss.
      */
     private void estimateMin() {
 
@@ -145,7 +151,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Returns the max of both, handles null values
+     * Returns the max of both, handles null values.
+     *
      * @param first
      * @param second
      * @return
@@ -163,7 +170,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Returns the min of both, handles null values
+     * Returns the min of both, handles null values.
+     *
      * @param first
      * @param second
      * @return
@@ -191,7 +199,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Initializes the bottom node
+     * Initializes the bottom node.
+     *
      * @param node
      */
     private void initializeBottomUp(ARXNode node) {
@@ -216,7 +225,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Initializes the top node
+     * Initializes the top node.
+     *
      * @param node
      */
     private void initializeTopDown(ARXNode node) {
@@ -239,7 +249,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Propagate bottom up
+     * Propagate bottom up.
+     *
      * @param node
      */
     private void pullBottomUp(ARXNode node) {
@@ -270,7 +281,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Pulls a specific property and retains the value using a maximum aggregate function
+     * Pulls a specific property and retains the value using a maximum aggregate function.
+     *
      * @param array
      * @param target
      * @param source
@@ -284,7 +296,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Pulls a specific property and retains the value using a minimum aggregate function
+     * Pulls a specific property and retains the value using a minimum aggregate function.
+     *
      * @param array
      * @param target
      * @param source
@@ -299,7 +312,8 @@ class UtilityEstimator {
     
     
     /**
-     * Propagate top down
+     * Propagate top down.
+     *
      * @param node
      */
     private void pullTopDown(ARXNode node) {
@@ -324,7 +338,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Selects a maximum for the given node
+     * Selects a maximum for the given node.
+     *
      * @param node
      */
     private void setMaximum(ARXNode node) {
@@ -351,7 +366,8 @@ class UtilityEstimator {
     }
 
     /**
-     * Selects a minimum for the given node
+     * Selects a minimum for the given node.
+     *
      * @param node
      */
     private void setMinimum(ARXNode node) {
@@ -384,7 +400,7 @@ class UtilityEstimator {
     }
 
     /**
-     * Implements the estimation process
+     * Implements the estimation process.
      */
     void estimate() {
         estimateMin();

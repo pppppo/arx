@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.metric.v2;
@@ -40,30 +39,51 @@ import com.carrotsearch.hppc.IntIntOpenHashMap;
  */
 public class MetricMDNUNMEntropyPrecomputed extends MetricMDNUEntropyPrecomputed {
 
-    /** SVUID*/
+    /** SVUID. */
     private static final long serialVersionUID = -7428794463838685004L;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
      */
     protected MetricMDNUNMEntropyPrecomputed() {
         super(false, false, AggregateFunction.SUM);
     }
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param function
      */
     protected MetricMDNUNMEntropyPrecomputed(AggregateFunction function){
         super(false, false, function);
     }
     
+    /**
+     * Returns the configuration of this metric.
+     *
+     * @return
+     */
+    public MetricConfiguration getConfiguration() {
+        return new MetricConfiguration(false,                      // monotonic
+                                       0.5d,                       // gs-factor
+                                       true,                       // precomputed
+                                       1.0d,                       // precomputation threshold
+                                       this.getAggregateFunction() // aggregate function
+                                       );
+    }
+
+
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNUEntropyPrecomputed#toString()
+     */
     @Override
     public String toString() {
         return "Non-monotonic non-uniform entropy";
     }
 
-
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNUEntropyPrecomputed#getInformationLossInternal(org.deidentifier.arx.framework.lattice.Node, org.deidentifier.arx.framework.check.groupify.IHashGroupify)
+     */
     @Override
     protected ILMultiDimensionalWithBound getInformationLossInternal(final Node node, final IHashGroupify g) {
         
@@ -117,17 +137,26 @@ public class MetricMDNUNMEntropyPrecomputed extends MetricMDNUEntropyPrecomputed
                                                createInformationLoss(bound));
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNUEntropyPrecomputed#getLowerBoundInternal(org.deidentifier.arx.framework.lattice.Node)
+     */
     @Override
     protected AbstractILMultiDimensional getLowerBoundInternal(Node node) {
         return super.getInformationLossInternal(node, null).getLowerBound();
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNUEntropyPrecomputed#getLowerBoundInternal(org.deidentifier.arx.framework.lattice.Node, org.deidentifier.arx.framework.check.groupify.IHashGroupify)
+     */
     @Override
     protected AbstractILMultiDimensional getLowerBoundInternal(Node node,
                                                        IHashGroupify groupify) {
         return super.getInformationLossInternal(node, null).getLowerBound();
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNUEntropyPrecomputed#initializeInternal(org.deidentifier.arx.DataDefinition, org.deidentifier.arx.framework.data.Data, org.deidentifier.arx.framework.data.GeneralizationHierarchy[], org.deidentifier.arx.ARXConfiguration)
+     */
     @Override
     protected void initializeInternal(DataDefinition definition,
                                       Data input,
@@ -136,24 +165,16 @@ public class MetricMDNUNMEntropyPrecomputed extends MetricMDNUEntropyPrecomputed
         
         super.initializeInternal(definition, input, hierarchies, config);
 
-        // TODO: Compute a reasonable maximum
+        // Compute a reasonable minimum & maximum
         double[] min = new double[hierarchies.length];
         Arrays.fill(min, 0d);
+        
         double[] max = new double[hierarchies.length];
-        Arrays.fill(max, Double.MAX_VALUE / hierarchies.length);
+        for (int i=0; i<max.length; i++) {
+            max[i] = 2d * input.getDataLength() * log2(input.getDataLength());
+        }
+        
         super.setMax(max);
         super.setMin(min);
-    }
-
-    /**
-     * Returns the configuration of this metric
-     */
-    public MetricConfiguration getConfiguration() {
-        return new MetricConfiguration(false,                      // monotonic
-                                       0.5d,                       // gs-factor
-                                       true,                       // precomputed
-                                       1.0d,                       // precomputation threshold
-                                       this.getAggregateFunction() // aggregate function
-                                       );
     }
 }

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.test;
@@ -44,19 +43,27 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for data transformations
- * 
+ * Test for data transformations.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public class TestAnonymization extends AbstractTest {
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.test.AbstractTest#setUp()
+     */
     @Override
     @Before
     public void setUp() {
         super.setUp();
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testAllAttributesIdentifying() throws IOException {
         try {
@@ -80,6 +87,11 @@ public class TestAnonymization extends AbstractTest {
         Assert.fail();
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testAllAttributesInsensitive() throws IOException {
         try {
@@ -102,6 +114,11 @@ public class TestAnonymization extends AbstractTest {
         Assert.fail();
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testAllAttributesSensitive() throws IOException {
         try {
@@ -123,6 +140,12 @@ public class TestAnonymization extends AbstractTest {
         Assert.fail();
     }
 
+    /**
+     * 
+     *
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
     @Test
     public void testHierarchyWithHeightOne() throws IllegalArgumentException, IOException {
         provider.createDataDefinitionWithHeightOne();
@@ -136,6 +159,11 @@ public class TestAnonymization extends AbstractTest {
         assertFalse(result.isResultAvailable());
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testKAnonymizationWithoutOutliers() throws IOException {
 
@@ -160,6 +188,11 @@ public class TestAnonymization extends AbstractTest {
         assertTrue(Arrays.deepEquals(result, expected));
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testLDiversityDistinctWithoutOutliers() throws IOException {
 
@@ -187,6 +220,11 @@ public class TestAnonymization extends AbstractTest {
         assertTrue(Arrays.deepEquals(result, expected));
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testLDiversityEntropyWithoutOutliers() throws IOException {
 
@@ -214,6 +252,11 @@ public class TestAnonymization extends AbstractTest {
         assertTrue(Arrays.deepEquals(result, expected));
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testLDiversityWithoutOutliers() throws IOException {
 
@@ -241,6 +284,11 @@ public class TestAnonymization extends AbstractTest {
         assertTrue(Arrays.deepEquals(result, expected));
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testMoreThanOneAttributeSensitive() throws IOException {
 
@@ -263,6 +311,11 @@ public class TestAnonymization extends AbstractTest {
         Assert.fail();
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testMultipleUsesOfDataDefinition() throws IOException {
 
@@ -316,18 +369,33 @@ public class TestAnonymization extends AbstractTest {
 
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testSaveData() throws IOException {
         final Data data = provider.data;
         data.getHandle().save(new File("junit_test_data.csv"), ';');
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testSaveHierarchy() throws IOException {
         final Hierarchy hier = provider.age;
         hier.save(new File("junit_test_hierarchy_age.csv"), ';');
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testTClosenessEqualWithoutOutliers() throws IOException {
 
@@ -395,6 +463,11 @@ public class TestAnonymization extends AbstractTest {
         assertTrue(Arrays.deepEquals(result, expected));
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testTClosenessHierarchicalWithoutOutliers() throws IOException {
 
@@ -475,6 +548,11 @@ public class TestAnonymization extends AbstractTest {
         assertTrue(Arrays.deepEquals(result, expected));
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void testDPresenceWithoutOutliers() throws IOException {
         // Example taken from the d-presence paper

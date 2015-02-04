@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.framework.check;
@@ -27,27 +26,33 @@ import org.deidentifier.arx.metric.InformationLoss;
 import org.deidentifier.arx.metric.Metric;
 
 /**
- * This interface implements a generic interface for node checkers
- * 
+ * This interface implements a generic interface for node checkers.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public interface INodeChecker {
 
-    /** The result of a check*/
+    /**
+     * The result of a check.
+     */
     public static class Result {
         
-        /** Overall anonymity*/
+        /** Overall anonymity. */
         public final boolean anonymous;
-        /** k-Anonymity sub-criterion*/
+        
+        /** k-Anonymity sub-criterion. */
         public final boolean kAnonymous;
-        /** Information loss*/
+        
+        /** Information loss. */
         public final InformationLoss<?> informationLoss;
-        /** Lower bound*/
+        
+        /** Lower bound. */
         public final InformationLoss<?> lowerBound;
         
         /**
-         * Creates a new instance
+         * Creates a new instance.
+         *
          * @param anonymous
          * @param kAnonymous
          * @param infoLoss
@@ -62,16 +67,16 @@ public interface INodeChecker {
     }
 
     /**
-     * Checks the given node
-     * 
+     * Checks the given node.
+     *
      * @param node The node to check
      * @return Result
      */
     public abstract INodeChecker.Result check(final Node node);
 
     /**
-     * Checks the given node
-     * 
+     * Checks the given node.
+     *
      * @param node The node to check
      * @param forceMeasureInfoLoss
      * @return Result
@@ -79,60 +84,67 @@ public interface INodeChecker {
     public INodeChecker.Result check(Node node, boolean forceMeasureInfoLoss);
 
     /**
-     * Returns the buffer as a Data object
-     * 
+     * Returns the buffer as a Data object.
+     *
      * @return
      */
     public abstract Data getBuffer();
 
     /**
-     * Returns the current config
-     * 
+     * Returns the current config.
+     *
      * @return
      */
     public abstract ARXConfigurationInternal getConfiguration();
 
     /**
-     * Returns the data
-     * 
+     * Returns the data.
+     *
      * @return
      */
     public abstract Data getData();
 
     /**
-     * Returns the current hash groupify
-     * 
+     * Returns the current hash groupify.
+     *
      * @return
      */
     public abstract IHashGroupify getGroupify();
 
 
     /**
-     * Returns the history, if there is any
+     * Returns the history, if there is any.
+     *
      * @return
      */
     public abstract History getHistory();
 
+    /**
+     * 
+     *
+     * @param node
+     * @return
+     */
     @Deprecated
     public abstract double getInformationLoss(final Node node);
 
     /**
-     * Returns the metric used by this checker
-     * 
+     * Returns the metric used by this checker.
+     *
      * @return
      */
     public abstract Metric<?> getMetric();
 
     /**
-     * Returns the number of groups from the previous check
-     * 
+     * Returns the number of groups from the previous check.
+     *
      * @return
      */
     public abstract int getNumberOfGroups();
 
     /**
-     * Applies the given transformation and sets its properties
-     * 
+     * Applies the given transformation and sets its properties.
+     *
      * @param transformation
      * @return
      */

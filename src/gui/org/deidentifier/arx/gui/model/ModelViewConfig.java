@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.model;
@@ -21,36 +20,51 @@ package org.deidentifier.arx.gui.model;
 import java.io.Serializable;
 
 /**
- * This class models the current view configuration
- * @author Fabian Prasser
+ * This class models the current view configuration.
  *
+ * @author Fabian Prasser
  */
 public class ModelViewConfig implements Serializable {
 
-    /** Mode*/
+    /**
+     * Mode.
+     */
     public static enum Mode {
+        
+        /**  TODO */
         SORTED_INPUT,
+        
+        /**  TODO */
         SORTED_OUTPUT,
+        
+        /**  TODO */
         GROUPED,
+        
+        /**  TODO */
         UNSORTED
     }
 
-    /** SVUID*/
+    /** SVUID. */
     private static final long serialVersionUID = 4770598345842536623L;
 
-    /** Mode*/
+    /** Mode. */
     private Mode              mode             = Mode.UNSORTED;
-    /** Attribute*/
+    
+    /** Attribute. */
     private String            attribute        = null;
-    /** Subset*/
+    
+    /** Subset. */
     private boolean           subset           = false;
-    /** Sort order*/
+    
+    /** Sort order. */
     private boolean           sortOrder        = true;
-    /** Changed flag*/
+    
+    /** Changed flag. */
     private boolean           changed          = false;
 
     /**
-     * Returns the attribute
+     * Returns the attribute.
+     *
      * @return
      */
     public String getAttribute() {
@@ -58,7 +72,8 @@ public class ModelViewConfig implements Serializable {
     }
     
     /**
-     * Returns the mode
+     * Returns the mode.
+     *
      * @return
      */
     public Mode getMode() {
@@ -66,7 +81,8 @@ public class ModelViewConfig implements Serializable {
     }
 
     /**
-     * Returns the sort order
+     * Returns the sort order.
+     *
      * @return
      */
     public boolean getSortOrder(){
@@ -74,7 +90,8 @@ public class ModelViewConfig implements Serializable {
     }
 
     /**
-     * Returns whether the config has changed, and resets the flag to unmodified
+     * Returns whether the config has changed, and resets the flag to unmodified.
+     *
      * @return
      */
     public boolean isChanged(){
@@ -87,7 +104,8 @@ public class ModelViewConfig implements Serializable {
     }
 
     /**
-     * Returns whether we show the subset only
+     * Returns whether we show the subset only.
+     *
      * @return
      */
     public boolean isSubset() {
@@ -95,7 +113,8 @@ public class ModelViewConfig implements Serializable {
     }
 
     /**
-     * Sets the attribute
+     * Sets the attribute.
+     *
      * @param attribute
      */
     public void setAttribute(String attribute) {
@@ -105,7 +124,8 @@ public class ModelViewConfig implements Serializable {
     }
 
     /**
-     * Sets the mode
+     * Sets the mode.
+     *
      * @param mode
      */
     public void setMode(Mode mode) {
@@ -115,7 +135,8 @@ public class ModelViewConfig implements Serializable {
     }
 
     /**
-     * Sets the sort order
+     * Sets the sort order.
+     *
      * @param order
      */
     public void setSortOrder(boolean order){
@@ -126,7 +147,8 @@ public class ModelViewConfig implements Serializable {
     }
     
     /**
-     * Sets whether we show the subset only
+     * Sets whether we show the subset only.
+     *
      * @param subset
      */
     public void setSubset(boolean subset) {

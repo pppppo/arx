@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.metric;
@@ -26,29 +25,36 @@ import java.util.List;
 import org.deidentifier.arx.metric.Metric.AggregateFunction;
 
 /**
- * A class describing a metric and its configuration options
+ * A class describing a metric and its configuration options.
+ *
  * @author Fabian Prasser
  */
 public abstract class MetricDescription implements Serializable {
 
-    /** SVUID*/
+    /** SVUID. */
     private static final long serialVersionUID = -2774981286637344244L;
     
-    /** Name*/
+    /** Name. */
     private final String  name;
-    /** Monotonic variant supported*/
+    
+    /** Monotonic variant supported. */
     private final boolean monotonicVariantSupported;
-    /** Attribute weights supported*/
+    
+    /** Attribute weights supported. */
     private final boolean attributeWeightsSupported;
-    /** Configurable coding model supported*/
+    
+    /** Configurable coding model supported. */
     private final boolean configurableCodingModelSupported;
-    /** Pre-computation supported*/
+    
+    /** Pre-computation supported. */
     private final boolean precomputationSupported;
-    /** Aggregate functions supported*/
+    
+    /** Aggregate functions supported. */
     private final boolean aggregateFunctionSupported;
     
     /**
-     * Creates a new description
+     * Creates a new description.
+     *
      * @param name
      * @param monotonicVariantSupported
      * @param attributeWeightsSupported
@@ -71,7 +77,8 @@ public abstract class MetricDescription implements Serializable {
     }
 
     /**
-     * Creates an instance with the given configuration options
+     * Creates an instance with the given configuration options.
+     *
      * @param config
      * @return
      */
@@ -85,7 +92,8 @@ public abstract class MetricDescription implements Serializable {
     }
 
     /**
-     * Returns a list of all supported aggregate functions
+     * Returns a list of all supported aggregate functions.
+     *
      * @return
      */
     public List<Metric.AggregateFunction> getSupportedAggregateFunctions() {
@@ -115,7 +123,8 @@ public abstract class MetricDescription implements Serializable {
     }
     
     /**
-     * Returns whether an aggregate function is supported by the metric
+     * Returns whether an aggregate function is supported by the metric.
+     *
      * @return
      */
     public boolean isAggregateFunctionSupported() {
@@ -123,7 +132,8 @@ public abstract class MetricDescription implements Serializable {
     }
     
     /**
-     * Returns whether the given metric is an instance of this description
+     * Returns whether the given metric is an instance of this description.
+     *
      * @param metric
      * @return
      */

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.algorithm;
@@ -33,14 +32,14 @@ import org.deidentifier.arx.metric.InformationLoss;
 import org.deidentifier.arx.metric.InformationLossWithBound;
 
 /**
- * This class implements the FLASH algorithm
- * 
+ * This class implements the FLASH algorithm.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public class FLASHAlgorithmImpl extends AbstractAlgorithm {
 
-    /** Configuration for the algorithm's phases */
+    /** Configuration for the algorithm's phases. */
     protected final FLASHConfiguration config;
 
     /** Are the pointers for a node with id 'index' already sorted?. */
@@ -49,20 +48,16 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     /** The strategy. */
     private final FLASHStrategy        strategy;
 
-    /** 
-     * List of nodes that may be used for pruning transformations
-     * with insufficient utility
-     */
+    /** List of nodes that may be used for pruning transformations with insufficient utility. */
     private final List<Node>           potentiallyInsufficientUtility;
 
     /**
-     * Creates a new instance
-     * 
+     * Creates a new instance.
+     *
      * @param lattice
      * @param checker
      * @param strategy
-     * @param firstPhase
-     * @param secondPhase
+     * @param config
      */
     public FLASHAlgorithmImpl(Lattice lattice,
                               INodeChecker checker,
@@ -77,6 +72,9 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
                                               new LinkedList<Node>() : null;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.algorithm.AbstractAlgorithm#traverse()
+     */
     @Override
     public void traverse() {
 
@@ -129,8 +127,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     }
 
     /**
-     * Implements the FLASH algorithm (without outer loop)
-     * 
+     * Implements the FLASH algorithm (without outer loop).
+     *
      * @param start
      * @param queue
      */
@@ -164,9 +162,10 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     }
 
     /**
-     * Checks and tags the given transformation
-     * 
+     * Checks and tags the given transformation.
+     *
      * @param node
+     * @param configuration
      */
     private void checkAndTag(Node node, FLASHPhaseConfiguration configuration) {
 
@@ -194,10 +193,11 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
 
     /**
      * Checks a path binary.
-     * 
-     * @param path
-     *            The path
+     *
+     * @param path The path
+     * @param triggerSkip
      * @param queue
+     * @return
      */
     private Node checkPath(List<Node> path, NodeAction triggerSkip, PriorityQueue<Node> queue) {
 
@@ -246,8 +246,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     }
 
     /**
-     * Greedily finds a path to the top node
-     * 
+     * Greedily finds a path to the top node.
+     *
      * @param current The node to start the path with. Will be included
      * @param triggerSkip All nodes to which this trigger applies will be skipped
      * @return The path as a list
@@ -273,8 +273,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
 
     /**
      * Returns all nodes that do not have the given property and sorts the resulting array
-     * according to the strategy
-     * 
+     * according to the strategy.
+     *
      * @param level The level which is to be sorted
      * @param triggerSkip The trigger to be used for limiting the number of nodes to be sorted
      * @return A sorted array of nodes remaining on this level
@@ -298,8 +298,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     }
 
     /**
-     * Implements a depth-first search with predictive tagging
-     * 
+     * Implements a depth-first search with predictive tagging.
+     *
      * @param start
      */
     private void linearSearch(Node start) {
@@ -330,7 +330,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
 
     /**
      * We may be able to prune some transformations based on weak lower bounds on
-     * the monotonic share of a node's information loss
+     * the monotonic share of a node's information loss.
+     *
      * @param node
      */
     private void prune(Node node) {
@@ -402,8 +403,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     }
 
     /**
-     * Returns whether a node should be skipped
-     * 
+     * Returns whether a node should be skipped.
+     *
      * @param trigger
      * @param node
      * @return
@@ -461,8 +462,8 @@ public class FLASHAlgorithmImpl extends AbstractAlgorithm {
     }
 
     /**
-     * Sorts pointers to successor nodes according to the strategy
-     * 
+     * Sorts pointers to successor nodes according to the strategy.
+     *
      * @param node The node
      */
     private void sortSuccessors(final Node node) {

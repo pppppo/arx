@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.analyze;
@@ -22,29 +21,40 @@ import org.eclipse.swt.widgets.Display;
 
 
 /**
- * This class manages the execution of asynchronous analyses
+ * This class manages the execution of asynchronous analyses.
+ *
  * @author Fabian Prasser
  */
 public class AnalysisManager {
     
     /**
-     * A worker for analyses
+     * A worker for analyses.
+     *
      * @author Fabian Prasser
      */
     private class AnalysisWorker implements Runnable {
 
-        /** Stop flag*/
+        /** Stop flag. */
         private volatile boolean stopped = false;
-        /** Analysis to perform*/
+        
+        /** Analysis to perform. */
         private final Analysis analysis;
-        /** The thread*/
+        
+        /** The thread. */
         private Thread thread;
         
-        /** Creates a new instance*/
+        /**
+         * Creates a new instance.
+         *
+         * @param analysis
+         */
         private AnalysisWorker(Analysis analysis){
             this.analysis = analysis;
         }
         
+        /* (non-Javadoc)
+         * @see java.lang.Runnable#run()
+         */
         @Override
         public void run() {
             try {
@@ -64,7 +74,9 @@ public class AnalysisManager {
             }
         }
         
-        /** Trigger*/
+        /**
+         * Trigger.
+         */
         private void onInterrupt() {
             display.asyncExec(new Runnable(){
                 public void run(){
@@ -72,7 +84,10 @@ public class AnalysisManager {
                 }
             });
         }
-        /** Trigger*/
+        
+        /**
+         * Trigger.
+         */
         private void onError() {
             display.asyncExec(new Runnable(){
                 public void run(){
@@ -80,7 +95,10 @@ public class AnalysisManager {
                 }
             });
         }
-        /** Trigger*/
+        
+        /**
+         * Trigger.
+         */
         private void onFinish() {
             display.asyncExec(new Runnable(){
                 public void run(){
@@ -90,7 +108,8 @@ public class AnalysisManager {
         }
         
         /**
-         * Returns the thread
+         * Returns the thread.
+         *
          * @return
          */
         public Thread getThread(){
@@ -98,7 +117,7 @@ public class AnalysisManager {
         }
         
         /**
-         * Starts this analysis
+         * Starts this analysis.
          */
         public void start(){
             this.thread = new Thread(this);
@@ -107,26 +126,33 @@ public class AnalysisManager {
             this.thread.start();
         }
         
-        /** Stops this analysis*/
+        /**
+         * Stops this analysis.
+         */
         public synchronized void stop(){
             this.stopped = true;
             this.analysis.stop();
         }
         
-        /** Is this analysis stopped*/
+        /**
+         * Is this analysis stopped.
+         *
+         * @return
+         */
         public synchronized boolean isStopped(){
             return this.stopped;
         }
     }
     
-    /** The current worker*/
+    /** The current worker. */
     private AnalysisWorker worker = null;
-    /** The current worker*/
+    
+    /** The current worker. */
     private Display display = null;
 
     /**
-     * Creates a new instance
-     * 
+     * Creates a new instance.
+     *
      * @param display
      */
     public AnalysisManager(Display display){
@@ -150,7 +176,7 @@ public class AnalysisManager {
     }
 
     /**
-     * Stops all running analysis threads
+     * Stops all running analysis threads.
      */
     public void stop() {
 

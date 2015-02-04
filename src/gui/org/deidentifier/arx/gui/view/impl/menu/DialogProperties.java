@@ -1,25 +1,25 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.deidentifier.arx.AttributeType;
 import org.deidentifier.arx.gui.model.Model;
@@ -46,22 +46,28 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 /**
- * This class implements a dialog for editing project properties
+ * This class implements a dialog for editing project properties.
+ *
  * @author Fabian Prasser
  */
 public class DialogProperties extends TitleAreaDialog implements IDialog {
 
     /**
-     * Validates double input
-     * 
+     * Validates double input.
+     *
      * @author Fabian Prasser
      */
     private static class DoubleValidator {
+        
+        /**  TODO */
         private final double min;
+        
+        /**  TODO */
         private final double max;
 
         /**
-         * Creates a new instance
+         * Creates a new instance.
+         *
          * @param min
          * @param max
          */
@@ -71,7 +77,8 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         }
 
         /**
-         * Validates the string
+         * Validates the string.
+         *
          * @param s
          * @return
          */
@@ -88,16 +95,21 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
     }
 
     /**
-     * Validates integer input
-     * 
+     * Validates integer input.
+     *
      * @author Fabian Prasser
      */
     private static class IntegerValidator {
+        
+        /**  TODO */
         private final int min;
+        
+        /**  TODO */
         private final int max;
 
         /**
-         * Creates a new instance
+         * Creates a new instance.
+         *
          * @param min
          * @param max
          */
@@ -106,6 +118,12 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
             this.max = max;
         }
 
+        /**
+         * 
+         *
+         * @param s
+         * @return
+         */
         public boolean validate(final String s) {
             // TODO: Ugly
             try {
@@ -117,13 +135,18 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         }
     }
 
+    /**  TODO */
     private final Model model;
 
+    /**  TODO */
     private Button      ok;
+    
+    /**  TODO */
     private TabFolder   folder;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param model
      */
@@ -132,6 +155,9 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         this.model = model;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#create()
+     */
     @Override
     public void create() {
         super.create();
@@ -162,8 +188,8 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
     }
 
     /**
-     * Builds the content for a specific category
-     * 
+     * Builds the content for a specific category.
+     *
      * @param folder
      * @param category
      * @param editors
@@ -185,8 +211,8 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
     }
 
     /**
-     * Builds all editors for the model
-     * 
+     * Builds all editors for the model.
+     *
      * @param model
      * @return
      */
@@ -252,6 +278,31 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
             @Override
             public void setValue(final String s) {
                 model.setSeparator(s.toCharArray()[0]);
+            }
+        });
+
+        // Create list of locales
+        List<String> languages = new ArrayList<String>();
+        languages.add("Default");
+        for (String lang : Locale.getISOLanguages()) {
+            languages.add(lang.toUpperCase());
+        }
+        
+        // Create editor
+        result.add(new EditorSelection(Resources.getMessage("PropertyDialog.8"), Resources.getMessage("PropertyDialog.33"), languages.toArray(new String[]{})) { //$NON-NLS-1$ //$NON-NLS-2$
+
+            @Override
+            public String getValue() {
+                return String.valueOf(model.getLocale().getLanguage().toUpperCase());
+            }
+
+            @Override
+            public void setValue(final String s) {
+                if (s.equals("Default")) {
+                    model.setLocale(Locale.getDefault());
+                } else {
+                    model.setLocale(new Locale(s.toLowerCase()));
+                }
             }
         });
 
@@ -442,12 +493,18 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
+     */
     @Override
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setImages(Resources.getIconSet(newShell.getDisplay()));
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected void createButtonsForButtonBar(final Composite parent) {
 
@@ -465,6 +522,9 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         });
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected Control createDialogArea(final Composite parent) {
         parent.setLayout(new GridLayout(1, false));
@@ -475,6 +535,9 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         return parent;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#getShellListener()
+     */
     @Override
     protected ShellListener getShellListener() {
         return new ShellAdapter() {
@@ -485,6 +548,9 @@ public class DialogProperties extends TitleAreaDialog implements IDialog {
         };
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#isResizable()
+     */
     @Override
     protected boolean isResizable() {
         return false;

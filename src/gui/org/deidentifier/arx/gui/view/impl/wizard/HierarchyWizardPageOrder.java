@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.wizard;
@@ -38,26 +37,31 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * A page for configuring the order-based builder
- * @author Fabian Prasser
+ * A page for configuring the order-based builder.
  *
+ * @author Fabian Prasser
  * @param <T>
  */
 public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
 
-    /** Var */
+    /** Var. */
     private final HierarchyWizardModelOrder<T> model;
-    /** Var */
+    
+    /** Var. */
     private final Controller                   controller;
-    /** Var */
+    
+    /** Var. */
     private ComponentTable                     table;
-    /** Var */
+    
+    /** Var. */
     private Combo                              combo;
-    /** Var */
+    
+    /** Var. */
     private HierarchyWizardEditor<T>           editor; 
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param controller
      * @param wizard
      * @param model
@@ -65,8 +69,8 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
      */
     public HierarchyWizardPageOrder(final Controller controller,
                                     final HierarchyWizard<T> wizard,
-                                       final HierarchyWizardModel<T> model, 
-                                       final HierarchyWizardPageFinal<T> finalPage) {
+                                    final HierarchyWizardModel<T> model,
+                                    final HierarchyWizardPageFinal<T> finalPage) {
         super(wizard, model.getOrderModel(), finalPage);
         this.model = model.getOrderModel();
         this.controller = controller;
@@ -75,6 +79,9 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
         setPageComplete(true);
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     public void createControl(final Composite parent) {
         
@@ -85,6 +92,9 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
         setControl(composite);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.wizard.HierarchyWizardPageBuilder#updatePage()
+     */
     @Override
     public void updatePage() {
         table.setData(getDataProvider(model.getData()), new String[]{"Values"});
@@ -94,7 +104,7 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
     
     /**
-     * Moves the selected item down
+     * Moves the selected item down.
      */
     private void actionDown() {
         Integer index = table.getSelectedRow();
@@ -107,7 +117,8 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
     
     /**
-     * Sorts according to the index of a data type
+     * Sorts according to the index of a data type.
+     *
      * @param index
      * @return
      */
@@ -131,6 +142,7 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
                 String[] array = controller.actionShowOrderValuesDialog(getShell(), 
                                                                         text1, text2,
                                                                         DataType.STRING,
+                                                                        model.getLocale(),
                                                                         model.getData());
                 if (array == null) {
                     type = DataType.STRING;
@@ -152,12 +164,13 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
                 final String format = controller.actionShowFormatInputDialog(getShell(),
                                                                              text1,
                                                                              text2,
+                                                                             model.getLocale(),
                                                                              description,
                                                                              model.getData());
                 if (format == null) {
                     type = DataType.STRING;
                 } else {
-                    type = description.newInstance(format);
+                    type = description.newInstance(format, model.getLocale());
                 }
             } else {
                 type = description.newInstance();
@@ -175,7 +188,7 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
     
     /**
-     * Moves the selected item up
+     * Moves the selected item up.
      */
     private void actionUp() {
         Integer index = table.getSelectedRow();
@@ -188,7 +201,8 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
 
     /**
-     * Create the grouping-part of the page
+     * Create the grouping-part of the page.
+     *
      * @param parent
      */
     private void createGroups(Composite parent){
@@ -201,7 +215,8 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
 
     /**
-     * Create the ordering-part of the page
+     * Create the ordering-part of the page.
+     *
      * @param parent
      */
     private void createOrder(Composite parent){
@@ -271,7 +286,37 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
 
     /**
-     * Returns a description for the given label
+     * Returns a data provider for the given array.
+     *
+     * @param array
+     * @return
+     */
+    private IDataProvider getDataProvider(final String[] array){
+        return new IDataProvider(){
+            @Override
+            public int getColumnCount() {
+                return 1;
+            }
+            @Override
+            public Object getDataValue(int columnIndex, int rowIndex) {
+                return array[rowIndex];
+            }
+            @Override
+            public int getRowCount() {
+                return array.length;
+            }
+            @Override
+            public void setDataValue(int columnIndex,
+                                     int rowIndex,
+                                     Object newValue) {
+                /* Ignore*/
+            }
+        };
+    }
+    
+    /**
+     * Returns a description for the given label.
+     *
      * @param label
      * @return
      */
@@ -285,7 +330,8 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
     }
     
     /**
-     * Returns the labels of all available data types
+     * Returns the labels of all available data types.
+     *
      * @return
      */
     private String[] getDataTypes(){
@@ -295,9 +341,10 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
         }
         return list.toArray(new String[list.size()]);
     }
-    
+
     /**
-     * Returns the index of a given data type
+     * Returns the index of a given data type.
+     *
      * @param type
      * @return
      */
@@ -311,9 +358,10 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
         }
         return -1;
     }
-
+    
     /**
-     * Checks whether the data type is valid
+     * Checks whether the data type is valid.
+     *
      * @param type
      * @param values
      * @return
@@ -325,32 +373,5 @@ public class HierarchyWizardPageOrder<T> extends HierarchyWizardPageBuilder<T> {
             }
         }
         return true;
-    }
-    
-    /**
-     * Returns a data provider for the given array
-     * @return
-     */
-    private IDataProvider getDataProvider(final String[] array){
-        return new IDataProvider(){
-            @Override
-            public Object getDataValue(int columnIndex, int rowIndex) {
-                return array[rowIndex];
-            }
-            @Override
-            public void setDataValue(int columnIndex,
-                                     int rowIndex,
-                                     Object newValue) {
-                /* Ignore*/
-            }
-            @Override
-            public int getColumnCount() {
-                return 1;
-            }
-            @Override
-            public int getRowCount() {
-                return array.length;
-            }
-        };
     }
 }

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.framework.lattice;
@@ -30,62 +29,40 @@ import org.deidentifier.arx.metric.InformationLoss;
  */
 public class Node {
 
-    /**
-     * All privacy criteria are fulfilled
-     */
+    /** All privacy criteria are fulfilled. */
     public static final int    PROPERTY_ANONYMOUS            = 1 << 0;
 
-    /**
-     * Not all privacy criteria are fulfilled
-     */
+    /** Not all privacy criteria are fulfilled. */
     public static final int    PROPERTY_NOT_ANONYMOUS        = 1 << 1;
 
-    /**
-     * A k-anonymity sub-criterion is fulfilled
-     */
+    /** A k-anonymity sub-criterion is fulfilled. */
     public static final int    PROPERTY_K_ANONYMOUS          = 1 << 2;
 
-    /**
-     * A k-anonymity sub-criterion is not fulfilled
-     */
+    /** A k-anonymity sub-criterion is not fulfilled. */
     public static final int    PROPERTY_NOT_K_ANONYMOUS      = 1 << 3;
 
-    /**
-     * The transformation results in insufficient utility
-     */
+    /** The transformation results in insufficient utility. */
     public static final int    PROPERTY_INSUFFICIENT_UTILITY = 1 << 4;
 
-    /**
-     * The transformation has been checked explicitly
-     */
+    /** The transformation has been checked explicitly. */
     public static final int    PROPERTY_CHECKED              = 1 << 5;
 
-    /**
-     * A snapshot for this transformation must be created if it fits the size
-     * limits, regardless of whether it triggers the storage condition
-     */
+    /** A snapshot for this transformation must be created if it fits the size limits, regardless of whether it triggers the storage condition. */
     public static final int    PROPERTY_FORCE_SNAPSHOT       = 1 << 6;
 
-    /**
-     * This node has already been visited during the second phase
-     */
+    /** This node has already been visited during the second phase. */
     public static final int    PROPERTY_VISITED              = 1 << 7;
 
-    /**
-     * Marks nodes for which the search algorithm guarantees to never check any
-     * of its successors
-     */
+    /** Marks nodes for which the search algorithm guarantees to never check any of its successors. */
     public static final int    PROPERTY_SUCCESSORS_PRUNED    = 1 << 8;
 
-    /**
-     * We have already fired an event for this node
-     */
+    /** We have already fired an event for this node. */
     public static final int    PROPERTY_EVENT_FIRED          = 1 << 9;
 
     /** The id. */
     public final int           id;
 
-    /** Set of properties */
+    /** Set of properties. */
     private int                properties;
 
     /** The predecessors. */
@@ -112,11 +89,13 @@ public class Node {
     /** The up index. */
     private int                sucIndex;
 
-    /** Associated data */
+    /** Associated data. */
     private Object             data;
 
     /**
      * Instantiates a new node.
+     *
+     * @param id
      */
     public Node(int id) {
         this.id = id;
@@ -141,14 +120,18 @@ public class Node {
         return true;
     }
 
-    /** Associated data*/
+    /**
+     * Associated data.
+     *
+     * @return
+     */
     public Object getData() {
         return data;
     }
 
     /**
-     * Returns the information loss
-     * 
+     * Returns the information loss.
+     *
      * @return
      */
     public InformationLoss<?> getInformationLoss() {
@@ -156,8 +139,8 @@ public class Node {
     }
 
     /**
-     * Returns the level
-     * 
+     * Returns the level.
+     *
      * @return
      */
     public int getLevel() {
@@ -172,8 +155,8 @@ public class Node {
     }
 
     /**
-     * Returns the predecessors
-     * 
+     * Returns the predecessors.
+     *
      * @return
      */
     public Node[] getPredecessors() {
@@ -181,8 +164,8 @@ public class Node {
     }
 
     /**
-     * Returns the successors
-     * 
+     * Returns the successors.
+     *
      * @return
      */
     public Node[] getSuccessors() {
@@ -190,8 +173,8 @@ public class Node {
     }
 
     /**
-     * Returns the transformation
-     * 
+     * Returns the transformation.
+     *
      * @return
      */
     public int[] getTransformation() {
@@ -209,7 +192,8 @@ public class Node {
     }
 
     /**
-     * Returns whether the node has the given property
+     * Returns whether the node has the given property.
+     *
      * @param property
      * @return
      */
@@ -217,15 +201,20 @@ public class Node {
         return (properties & property) == property;
     }
 
-    /** Associated data*/
+    /**
+     * Associated data.
+     *
+     * @param data
+     */
     public void setData(Object data) {
         this.data = data;
     }
 
     /**
-     * Sets the transformation
-     * 
+     * Sets the transformation.
+     *
      * @param transformation
+     * @param level
      */
     public void setTransformation(int[] transformation, int level) {
         this.transformation = transformation;
@@ -233,8 +222,8 @@ public class Node {
     }
 
     /**
-     * Sets the information loss
-     * 
+     * Sets the information loss.
+     *
      * @param informationLoss
      */
     protected void setInformationLoss(final InformationLoss<?> informationLoss) {
@@ -244,9 +233,9 @@ public class Node {
     }
 
     /**
-     * Sets the information loss
-     * 
-     * @param informationLoss
+     * Sets the information loss.
+     *
+     * @param lowerBound
      */
     protected void setLowerBound(final InformationLoss<?> lowerBound) {
         if (this.lowerBound == null) {
@@ -256,8 +245,8 @@ public class Node {
 
     
     /**
-     * Sets the predecessors
-     * 
+     * Sets the predecessors.
+     *
      * @param nodes
      */
     protected void setPredecessors(Node[] nodes) {
@@ -265,17 +254,17 @@ public class Node {
     }
 
     /**
-     * Sets the given property
+     * Sets the given property.
+     *
      * @param property
-     * @return
      */
     protected void setProperty(int property){
         properties |= property;
     }
   
     /**
-     * Sets the successors
-     * 
+     * Sets the successors.
+     *
      * @param nodes
      */
     protected void setSuccessors(Node[] nodes) {
@@ -283,8 +272,8 @@ public class Node {
     }
 
     /**
-     * Adds a predecessor
-     * 
+     * Adds a predecessor.
+     *
      * @param predecessor
      */
     void addPredecessor(Node predecessor) {
@@ -292,8 +281,8 @@ public class Node {
     }
 
     /**
-     * Adds a successor
-     * 
+     * Adds a successor.
+     *
      * @param successor
      */
     void addSuccessor(Node successor) {

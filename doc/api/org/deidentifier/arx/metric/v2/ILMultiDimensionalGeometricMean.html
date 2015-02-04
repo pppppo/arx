@@ -116,6 +116,7 @@
 <pre>public class <span class="strong">ILMultiDimensionalGeometricMean</span>
 extends <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html" title="class in org.deidentifier.arx.metric.v2">AbstractILMultiDimensionalReduced</a></pre>
 <div class="block">This class implements an information loss which can be represented as a
+<<<<<<< HEAD
  decimal number per quasi-identifier</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../serialized-form.html#org.deidentifier.arx.metric.v2.ILMultiDimensionalGeometricMean">Serialized Form</a></dd></dl>
 </li>
@@ -187,6 +188,89 @@ extends <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDi
 <pre>public&nbsp;<a href="../../../../../org/deidentifier/arx/metric/InformationLoss.html" title="class in org.deidentifier.arx.metric">InformationLoss</a>&lt;double[]&gt;&nbsp;clone()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#clone()">AbstractILMultiDimensionalReduced</a></code></strong></div>
 <div class="block">Override this to implement a variant</div>
+=======
+ decimal number per quasi-identifier. As an aggregate function, the geometric mean
+ is applied. To handle zero values while not violating guarantees required for pruning
+ based on lower bounds, 1d is added to every individual value and 1d is subtracted from the
+ final result.</div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../serialized-form.html#org.deidentifier.arx.metric.v2.ILMultiDimensionalGeometricMean">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../org/deidentifier/arx/metric/InformationLoss.html" title="class in org.deidentifier.arx.metric">InformationLoss</a>&lt;double[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../org/deidentifier/arx/metric/v2/ILMultiDimensionalGeometricMean.html#clone()">clone</a></strong>()</code>
+<div class="block">Override this to implement a variant.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_org.deidentifier.arx.metric.v2.AbstractILMultiDimensionalReduced">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.deidentifier.arx.metric.v2.<a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html" title="class in org.deidentifier.arx.metric.v2">AbstractILMultiDimensionalReduced</a></h3>
+<code><a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#compareTo(org.deidentifier.arx.metric.InformationLoss)">compareTo</a>, <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#getValue()">getValue</a>, <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#hashCode()">hashCode</a>, <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#relativeTo(org.deidentifier.arx.metric.InformationLoss, org.deidentifier.arx.metric.InformationLoss)">relativeTo</a>, <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#toString()">toString</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_org.deidentifier.arx.metric.v2.AbstractILMultiDimensional">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.deidentifier.arx.metric.v2.<a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensional.html" title="class in org.deidentifier.arx.metric.v2">AbstractILMultiDimensional</a></h3>
+<code><a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensional.html#equals(java.lang.Object)">equals</a>, <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensional.html#max(org.deidentifier.arx.metric.InformationLoss)">max</a>, <a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensional.html#min(org.deidentifier.arx.metric.InformationLoss)">min</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_org.deidentifier.arx.metric.InformationLoss">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.deidentifier.arx.metric.<a href="../../../../../org/deidentifier/arx/metric/InformationLoss.html" title="class in org.deidentifier.arx.metric">InformationLoss</a></h3>
+<code><a href="../../../../../org/deidentifier/arx/metric/InformationLoss.html#createInformationLoss(org.deidentifier.arx.metric.InformationLoss, org.deidentifier.arx.metric.Metric, int, int)">createInformationLoss</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>getClass, notify, notifyAll, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="clone()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>clone</h4>
+<pre>public&nbsp;<a href="../../../../../org/deidentifier/arx/metric/InformationLoss.html" title="class in org.deidentifier.arx.metric">InformationLoss</a>&lt;double[]&gt;&nbsp;clone()</pre>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#clone()">AbstractILMultiDimensionalReduced</a></code></strong></div>
+<div class="block">Override this to implement a variant.</div>
+>>>>>>> refs/remotes/origin/tiles
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html#clone()">clone</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../org/deidentifier/arx/metric/v2/AbstractILMultiDimensionalReduced.html" title="class in org.deidentifier.arx.metric.v2">AbstractILMultiDimensionalReduced</a></code></dd>

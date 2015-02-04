@@ -1,23 +1,24 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,95 +32,171 @@ import org.deidentifier.arx.metric.Metric;
 
 /**
  * This class implements a representation of the generalization lattice that is
- * exposed to users of the API
- * 
+ * exposed to users of the API.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public class ARXLattice implements Serializable {
 
     /**
-     * The internal accessor class
-     * 
+     * The internal accessor class.
+     *
      * @author Fabian Prasser
      * @author Florian Kohlmayer
      */
     public class Access implements Serializable {
 
+        /**  TODO */
         private static final long serialVersionUID = 6654627605797832468L;
 
+        /**  TODO */
         private final ARXLattice  lattice;
 
+        /**
+         * 
+         *
+         * @param lattice
+         */
         public Access(final ARXLattice lattice) {
             this.lattice = lattice;
         }
 
+        /**
+         * 
+         *
+         * @return
+         */
         public Map<String, Integer> getAttributeMap() {
             return bottom.headermap;
         }
 
+        /**
+         * 
+         *
+         * @param bottom
+         */
         public void setBottom(final ARXNode bottom) {
             lattice.bottom = bottom;
         }
 
+        /**
+         * 
+         *
+         * @param levels
+         */
         public void setLevels(final ARXNode[][] levels) {
             lattice.levels = levels;
         }
 
+        /**
+         * 
+         *
+         * @param metric
+         */
         public void setMetric(final Metric<?> metric) {
             lattice.metric = metric;
         }
 
+        /**
+         * 
+         *
+         * @param node
+         */
         public void setOptimum(final ARXNode node) {
             lattice.optimum = node;
         }
 
+        /**
+         * 
+         *
+         * @param size
+         */
         public void setSize(final int size) {
             lattice.size = size;
         }
 
+        /**
+         * 
+         *
+         * @param top
+         */
         public void setTop(final ARXNode top) {
             lattice.top = top;
         }
 
+        /**
+         * 
+         *
+         * @param uncertainty
+         */
         public void setUncertainty(final boolean uncertainty) {
             lattice.uncertainty = uncertainty;
         }
+        
+        /**
+         * 
+         *
+         * @param config
+         */
+        public void setMonotonicity(ARXConfiguration config) {
+            lattice.monotonicNonAnonymous = lattice.metric.isMonotonic() || !config.isSuppressionAlwaysEnabled();
+            lattice.monotonicAnonymous = lattice.metric.isMonotonic() || config.getAbsoluteMaxOutliers() == 0;
+        }
     }
 
+    /**
+     * 
+     */
     public static enum Anonymity {
+        
+        /**  TODO */
         ANONYMOUS,
+        
+        /**  TODO */
         NOT_ANONYMOUS,
+        
+        /**  TODO */
         UNKNOWN,
+        
+        /**  TODO */
         PROBABLY_ANONYMOUS,
+        
+        /**  TODO */
         PROBABLY_NOT_ANONYMOUS
     }
 
     /**
-     * A node in the lattice
-     * 
+     * A node in the lattice.
+     *
      * @author Fabian Prasser
      * @author Florian Kohlmayer
      */
     public class ARXNode {
         
         /**
-         * Internal access class
-         * 
+         * Internal access class.
+         *
          * @author Fabian Prasser
          * @author Florian Kohlmayer
          */
         public class Access {
 
+            /**  TODO */
             private final ARXNode node;
 
+            /**
+             * 
+             *
+             * @param node
+             */
             public Access(final ARXNode node) {
                 this.node = node;
             }
 
             /**
-             * Sets the anonymity
-             * 
+             * Sets the anonymity.
+             *
              * @param anonymity
              */
             public void setAnonymity(final Anonymity anonymity) {
@@ -127,15 +204,15 @@ public class ARXLattice implements Serializable {
             }
 
             /**
-             * Set anonymous
+             * Set anonymous.
              */
             public void setAnonymous() {
                 node.anonymity = Anonymity.ANONYMOUS;
             }
 
             /**
-             * Sets the attributes
-             * 
+             * Sets the attributes.
+             *
              * @param attributes
              */
             public void setAttributes(final Map<Integer, Object> attributes) {
@@ -143,8 +220,8 @@ public class ARXLattice implements Serializable {
             }
 
             /**
-             * Set checked
-             * 
+             * Set checked.
+             *
              * @param checked
              */
             public void setChecked(final boolean checked) {
@@ -152,8 +229,8 @@ public class ARXLattice implements Serializable {
             }
 
             /**
-             * Sets the headermap
-             * 
+             * Sets the headermap.
+             *
              * @param headermap
              */
             public void setHeadermap(final Map<String, Integer> headermap) {
@@ -161,42 +238,42 @@ public class ARXLattice implements Serializable {
             }
 
             /**
-             * Sets the lower bound
-             * 
-             * @return
+             * Sets the lower bound.
+             *
+             * @param a
              */
             public void setLowerBound(final InformationLoss<?> a) {
-                node.lowerBound = a;
+                node.lowerBound = InformationLoss.createInformationLoss(a, metric, getDeserializationContext().minLevel, getDeserializationContext().maxLevel);
             }
 
             /**
-             * Sets the maximal information loss
-             * 
-             * @return
+             * Sets the maximal information loss.
+             *
+             * @param a
              */
             public void setMaximumInformationLoss(final InformationLoss<?> a) {
-                node.maxInformationLoss = a;
+                node.maxInformationLoss = InformationLoss.createInformationLoss(a, metric, getDeserializationContext().minLevel, getDeserializationContext().maxLevel);
             }
 
             /**
-             * Sets the minimal information loss
-             * 
-             * @return
+             * Sets the minimal information loss.
+             *
+             * @param a
              */
             public void setMinimumInformationLoss(final InformationLoss<?> a) {
-                node.minInformationLoss = a;
+                node.minInformationLoss = InformationLoss.createInformationLoss(a, metric, getDeserializationContext().minLevel, getDeserializationContext().maxLevel);
             }
 
             /**
-             * Set not anonymous
+             * Set not anonymous.
              */
             public void setNotAnonymous() {
                 node.anonymity = Anonymity.NOT_ANONYMOUS;
             }
 
             /**
-             * Sets the predecessors
-             * 
+             * Sets the predecessors.
+             *
              * @param predecessors
              */
             public void setPredecessors(final ARXNode[] predecessors) {
@@ -204,8 +281,8 @@ public class ARXLattice implements Serializable {
             }
 
             /**
-             * Sets the successors
-             * 
+             * Sets the successors.
+             *
              * @param successors
              */
             public void setSuccessors(final ARXNode[] successors) {
@@ -213,8 +290,8 @@ public class ARXLattice implements Serializable {
             }
 
             /**
-             * Sets the transformation
-             * 
+             * Sets the transformation.
+             *
              * @param transformation
              */
             public void setTransformation(final int[] transformation) {
@@ -222,52 +299,52 @@ public class ARXLattice implements Serializable {
             }
         }
 
-        /** Id*/
+        /** Id. */
         private Integer id = null;
 
-        /** The access */
+        /** The access. */
         private final Access         access     = new Access(this);
 
-        /** Is it anonymous */
+        /** Is it anonymous. */
         private Anonymity            anonymity;
 
-        /** Attributes */
+        /** Attributes. */
         private Map<Integer, Object> attributes = new HashMap<Integer, Object>();
 
-        /** Has the node been checked */
+        /** Has the node been checked. */
         private boolean              checked;
 
-        /** The header map */
+        /** The header map. */
         private Map<String, Integer> headermap;
 
-        /** The lower bound */
+        /** The lower bound. */
         private InformationLoss<?>   lowerBound;
         
-        /** The max information loss */
+        /** The max information loss. */
         private InformationLoss<?>   maxInformationLoss;
 
-        /** The min information loss */
+        /** The min information loss. */
         private InformationLoss<?>   minInformationLoss;
 
-        /** The predecessors */
+        /** The predecessors. */
         private ARXNode[]            predecessors;
 
-        /** The successors */
+        /** The successors. */
         private ARXNode[]            successors;
 
-        /** The transformation */
+        /** The transformation. */
         private int[]                transformation;
 
         /**
-         * Internal constructor for deserialization
+         * Internal constructor for deserialization.
          */
         public ARXNode() {
             // Empty by design
         }
 
         /**
-         * Constructor
-         * 
+         * Constructor.
+         *
          * @param node
          * @param headermap
          */
@@ -307,8 +384,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Alter associated fields
-         * 
+         * Alter associated fields.
+         *
          * @return
          */
         public Access access() {
@@ -316,8 +393,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the anonymity property
-         * 
+         * Returns the anonymity property.
+         *
          * @return
          */
         public Anonymity getAnonymity() {
@@ -325,8 +402,8 @@ public class ARXLattice implements Serializable {
         }
         
         /**
-         * Returns the attributes
-         * 
+         * Returns the attributes.
+         *
          * @return
          */
         public Map<Integer, Object> getAttributes() {
@@ -334,8 +411,8 @@ public class ARXLattice implements Serializable {
         }
         
         /**
-         * Returns the index of an attribute
-         * 
+         * Returns the index of an attribute.
+         *
          * @param attr
          * @return
          */
@@ -344,8 +421,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the generalization for the attribute
-         * 
+         * Returns the generalization for the attribute.
+         *
          * @param attribute
          * @return
          */
@@ -356,8 +433,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the maximal information loss
-         * 
+         * Returns the maximal information loss.
+         *
          * @return
          */
         public InformationLoss<?> getMaximumInformationLoss() {
@@ -365,8 +442,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the minimal information loss
-         * 
+         * Returns the minimal information loss.
+         *
          * @return
          */
         public InformationLoss<?> getMinimumInformationLoss() {
@@ -374,8 +451,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * The predecessors
-         * 
+         * The predecessors.
+         *
          * @return
          */
         public ARXNode[] getPredecessors() {
@@ -383,8 +460,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the quasi identifiers
-         * 
+         * Returns the quasi identifiers.
+         *
          * @return
          */
         public String[] getQuasiIdentifyingAttributes() {
@@ -396,8 +473,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * The successors
-         * 
+         * The successors.
+         *
          * @return
          */
         public ARXNode[] getSuccessors() {
@@ -405,8 +482,21 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the transformation as an array
-         * 
+         * Returns the sum of all generalization levels.
+         *
+         * @return
+         */
+        public int getTotalGeneralizationLevel() {
+            int level = 0;
+            for (int i : transformation) {
+                level += i;
+            }
+            return level;
+        }
+
+        /**
+         * Returns the transformation as an array.
+         *
          * @return
          */
         public int[] getTransformation() {
@@ -414,26 +504,56 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns the anonymity property
-         * 
+         * Returns the anonymity property.
+         *
          * @return
          */
         @Deprecated
         public Anonymity isAnonymous() {
             return anonymity;
         }
-
+        
         /**
-         * Returns if the node has been checked explicitly
-         * 
+         * Returns if the node has been checked explicitly.
+         *
          * @return
          */
         public boolean isChecked() {
             return checked;
         }
-        
+
         /**
-         * Returns a node's internal id
+         * De-serialization.
+         *
+         * @param aInputStream
+         * @throws ClassNotFoundException
+         * @throws IOException
+         */
+        private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
+
+            // Default de-serialization
+            aInputStream.defaultReadObject();
+            
+            // Translate information loss, if necessary
+            this.lowerBound = InformationLoss.createInformationLoss(this.lowerBound, 
+                                                                    metric, 
+                                                                    getDeserializationContext().minLevel, 
+                                                                    getDeserializationContext().maxLevel);
+            
+            this.maxInformationLoss = InformationLoss.createInformationLoss(this.maxInformationLoss, 
+                                                                            metric, 
+                                                                            getDeserializationContext().minLevel, 
+                                                                            getDeserializationContext().maxLevel);
+            
+            this.minInformationLoss = InformationLoss.createInformationLoss(this.minInformationLoss,
+                                                                            metric, 
+                                                                            getDeserializationContext().minLevel, 
+                                                                            getDeserializationContext().maxLevel);
+        }
+
+        /**
+         * Returns a node's internal id.
+         *
          * @return
          */
         protected Integer getId(){
@@ -441,7 +561,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Returns a node's lower bound, if any
+         * Returns a node's lower bound, if any.
+         *
          * @return
          */
         protected InformationLoss<?> getLowerBound(){
@@ -449,7 +570,8 @@ public class ARXLattice implements Serializable {
         }
 
         /**
-         * Internal method that sets the id
+         * Internal method that sets the id.
+         *
          * @param id
          */
         protected void setId(int id) {
@@ -457,16 +579,30 @@ public class ARXLattice implements Serializable {
         }
     }
 
+    /**
+     * 
+     */
     class IntArrayWrapper {
 
+        /**  TODO */
         private final int[] array;
+        
+        /**  TODO */
         private final int   hashCode;
 
+        /**
+         * 
+         *
+         * @param array
+         */
         public IntArrayWrapper(final int[] array) {
             this.array = array;
             this.hashCode = Arrays.hashCode(array);
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
         @Override
         public final boolean equals(final Object obj) {
             if (this == obj) { return true; }
@@ -474,68 +610,105 @@ public class ARXLattice implements Serializable {
             return Arrays.equals(array, ((IntArrayWrapper) obj).array);
         }
 
+        /**
+         * 
+         *
+         * @return
+         */
         public final int[] getArray() {
             return array;
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Object#hashCode()
+         */
         @Override
         public final int hashCode() {
             return hashCode;
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Object#toString()
+         */
         @Override
         public final String toString() {
             return Arrays.toString(array);
         }
 
     }
-
-    private static final long     serialVersionUID         = -8790104959905019184L;
-
-    /** The accessor */
-    private final Access          access                   = new Access(this);
-
-    /** The bottom node */
-    private transient ARXNode     bottom;
-
-    /** The levels in the lattice */
-    private transient ARXNode[][] levels;
-
-    /** Metric */
-    private Metric<?>             metric;
-
-    /** The optimum */
-    private transient ARXNode     optimum;
-
-    /** The number of nodes */
-    private int                   size;
-
-    /** The top node */
-    private transient ARXNode     top;
-
-    /** Is practical monotonicity being assumed */
-    private boolean               uncertainty;
-
-    /** Monotonicity of information loss*/
-    private boolean               monotonicAnonymous;
-    /** Monotonicity of information loss*/
-    private boolean               monotonicNonAnonymous;
-
-    /** Minimum loss in the lattice */
-    private InformationLoss<?>    minimumInformationLoss   = null;
-
-    /** Maximum loss in the lattice */
-    private InformationLoss<?>    maximumInformationLoss   = null;
+    
+    /**
+     * Context for deserialization.
+     *
+     * @author kohlmayer
+     */
+    public static class LatticeDeserializationContext {
+        
+        /**  TODO */
+        public int minLevel = 0;
+        
+        /**  TODO */
+        public int maxLevel = 0;
+    }
+    
+    /** Deserialization context. */
+    private static LatticeDeserializationContext deserializationContext = new LatticeDeserializationContext();
 
     /**
-     * Constructor
-     * 
-     * @param lattice
-     *            The lattice to represent
-     * @param header
-     *            The header
-     * @param config
-     *            The config
+     * Returns the deserialization context.
+     *
+     * @return
+     */
+    public static LatticeDeserializationContext getDeserializationContext() {
+        return deserializationContext;
+    }
+
+    /**  TODO */
+    private static final long     serialVersionUID                  = -8790104959905019184L;
+
+    /** The accessor. */
+    private final Access          access                            = new Access(this);
+
+    /** The bottom node. */
+    private transient ARXNode     bottom;
+
+    /** The levels in the lattice. */
+    private transient ARXNode[][] levels;
+
+    /** Metric. */
+    private Metric<?>             metric;
+
+    /** The optimum. */
+    private transient ARXNode     optimum;
+
+    /** The number of nodes. */
+    private int                   size;
+
+    /** The top node. */
+    private transient ARXNode     top;
+
+    /** Is practical monotonicity being assumed. */
+    private boolean               uncertainty;
+
+    /** Monotonicity of information loss. */
+    private boolean               monotonicAnonymous;
+    
+    /** Monotonicity of information loss. */
+    private boolean               monotonicNonAnonymous;
+
+    /** Minimum loss in the lattice. */
+    private InformationLoss<?>    minimumInformationLoss            = null;
+
+    /** Maximum loss in the lattice. */
+    private InformationLoss<?>    maximumInformationLoss            = null;
+
+    /**
+     * Constructor.
+     *
+     * @param lattice The lattice to represent
+     * @param globalOptimum
+     * @param header The header
+     * @param config The config
      */
     ARXLattice(final Lattice lattice,
                final Node globalOptimum,
@@ -618,8 +791,8 @@ public class ARXLattice implements Serializable {
     }
 
     /**
-     * Access fields of this class
-     * 
+     * Access fields of this class.
+     *
      * @return
      */
     public Access access() {
@@ -627,8 +800,8 @@ public class ARXLattice implements Serializable {
     }
 
     /**
-     * Returns the bottom node
-     * 
+     * Returns the bottom node.
+     *
      * @return
      */
     public ARXNode getBottom() {
@@ -636,8 +809,8 @@ public class ARXLattice implements Serializable {
     }
 
     /**
-     * Returns the levels of the generalization lattice
-     * 
+     * Returns the levels of the generalization lattice.
+     *
      * @return
      */
     public ARXNode[][] getLevels() {
@@ -645,7 +818,8 @@ public class ARXLattice implements Serializable {
     }
 
     /**
-     * Returns the maximal information loss
+     * Returns the maximal information loss.
+     *
      * @return
      */
     public InformationLoss<?> getMaximumInformationLoss(){
@@ -656,7 +830,8 @@ public class ARXLattice implements Serializable {
     }
 
     /**
-     * Returns the minimal information loss
+     * Returns the minimal information loss.
+     *
      * @return
      */
     public InformationLoss<?> getMinimumInformationLoss(){
@@ -667,8 +842,8 @@ public class ARXLattice implements Serializable {
     }
     
     /**
-     * Returns the number of nodes
-     * 
+     * Returns the number of nodes.
+     *
      * @return
      */
     public int getSize() {
@@ -676,8 +851,8 @@ public class ARXLattice implements Serializable {
     }
 
     /**
-     * Returns the top node
-     * 
+     * Returns the top node.
+     *
      * @return
      */
     public ARXNode getTop() {
@@ -685,9 +860,39 @@ public class ARXLattice implements Serializable {
     }
     
     /**
+     * De-serialization.
+     *
+     * @param aInputStream
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
+    private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
+
+        // Default de-serialization
+        aInputStream.defaultReadObject();
+        
+        // Translate minimum and maximum
+        this.maximumInformationLoss = InformationLoss.createInformationLoss(this.maximumInformationLoss,
+                                                                            metric,
+                                                                            getDeserializationContext().minLevel,
+                                                                            getDeserializationContext().maxLevel);
+        
+        this.minimumInformationLoss = InformationLoss.createInformationLoss(this.minimumInformationLoss,
+                                                                            metric,
+                                                                            getDeserializationContext().minLevel,
+                                                                            getDeserializationContext().maxLevel);
+        
+        // Translate metric, if necessary
+        this.metric = Metric.createMetric(this.metric, 
+                                          getDeserializationContext().minLevel, 
+                                          getDeserializationContext().maxLevel);
+    }
+
+
+    /**
      * This method triggers the estimation of the information loss of all nodes
      * in the lattice regardless of whether they have been checked for anonymity
-     * or not
+     * or not.
      */
     protected void estimateInformationLoss() {
         UtilityEstimator estimator = new UtilityEstimator(this, metric, monotonicAnonymous, monotonicNonAnonymous);
@@ -695,10 +900,11 @@ public class ARXLattice implements Serializable {
         this.minimumInformationLoss = estimator.getGlobalMinimum();
         this.maximumInformationLoss = estimator.getGlobalMaximum();
     }
-
+    
 
     /**
-     * Returns the optimum, if any
+     * Returns the optimum, if any.
+     *
      * @return
      */
     protected ARXNode getOptimum() {

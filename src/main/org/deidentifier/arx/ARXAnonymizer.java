@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx;
@@ -54,7 +53,7 @@ public class ARXAnonymizer {
      */
     class Result {
 
-        /** The algorithm */
+        /** The algorithm. */
         final AbstractAlgorithm algorithm;
 
         /** The checker. */
@@ -63,22 +62,24 @@ public class ARXAnonymizer {
         /** The lattice. */
         final Lattice           lattice;
 
-        /** The data manager */
+        /** The data manager. */
         final DataManager       manager;
 
         /** The metric. */
         final Metric<?>         metric;
         
-        /** The time*/
+        /** The time. */
         final long              time;  
 
         /**
          * Creates a new instance.
-         * 
-         * @param metric  the metric
+         *
+         * @param metric the metric
          * @param checker the checker
          * @param lattice the lattice
          * @param manager the manager
+         * @param algorithm
+         * @param time
          */
         Result(final Metric<?> metric,
                final INodeChecker checker,
@@ -95,10 +96,10 @@ public class ARXAnonymizer {
         }
 
         /**
-         * Creates a final result from this temporary result
-         * @param anonymizer
+         * Creates a final result from this temporary result.
+         *
+         * @param config
          * @param handle
-         * @param time
          * @return
          */
 		public ARXResult asResult(ARXConfiguration config, DataHandle handle) {
@@ -130,18 +131,18 @@ public class ARXAnonymizer {
     /** Snapshot size. */
     private double      snapshotSizeDataset  = 0.2d;
 
-    /** Snapshot size snapshot */
+    /** Snapshot size snapshot. */
     private double      snapshotSizeSnapshot = 0.8d;
 
-    /** The maximal number of QIs that can be processed */
+    /** The maximal number of QIs that can be processed. */
     private int         maxQuasiIdentifiers  = Integer.MAX_VALUE;
 
-    /** The maximal size of the search space that can be processed */
+    /** The maximal size of the search space that can be processed. */
     private int         maxTransformations   = 200000;
 
 
     /**
-     * Creates a new anonymizer with the default configuration
+     * Creates a new anonymizer with the default configuration.
      */
     public ARXAnonymizer() {
         // Empty by design
@@ -167,7 +168,8 @@ public class ARXAnonymizer {
     }
 
     /**
-     * Performs data anonymization
+     * Performs data anonymization.
+     *
      * @param data The data
      * @param config The privacy config
      * @return ARXResult
@@ -231,7 +233,8 @@ public class ARXAnonymizer {
     }
 
     /**
-     * Returns the maximal size of the search space
+     * Returns the maximal size of the search space.
+     *
      * @return
      */
     public int getMaxTransformations() {
@@ -261,9 +264,8 @@ public class ARXAnonymizer {
 
     /**
      * Sets the maximum size of a snapshot relative to the dataset size.
-     * 
-     * @param snapshotSizeDataset
-     *            The size
+     *
+     * @param snapshotSize
      */
     public void setMaximumSnapshotSizeDataset(final double snapshotSize) {
         // Perform sanity checks
@@ -272,10 +274,9 @@ public class ARXAnonymizer {
     }
 
     /**
-     * Sets the maximum size of a snapshot relative to the previous snapshot
-     * 
-     * @param snapshotSizeSnapshot
-     *            The size
+     * Sets the maximum size of a snapshot relative to the previous snapshot.
+     *
+     * @param snapshotSizeSnapshot The size
      */
     public void setMaximumSnapshotSizeSnapshot(final double snapshotSizeSnapshot) {
         // Perform sanity checks
@@ -303,9 +304,9 @@ public class ARXAnonymizer {
 
     /**
      * Performs some sanity checks.
-     * 
-     * @param manager
-     *            the manager
+     *
+     * @param config
+     * @param manager the manager
      */
     private void checkAfterEncoding(final ARXConfiguration config, final DataManager manager) {
 
@@ -440,16 +441,12 @@ public class ARXAnonymizer {
 
     /**
      * Prepares the data manager.
-     * 
-     * @param handle
-     *            the handle
-     * @param config
-     *            the config
-     * @param definition
-     * 			  the definition
+     *
+     * @param handle the handle
+     * @param definition the definition
+     * @param config the config
      * @return the data manager
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     private DataManager prepareDataManager(final DataHandle handle, final DataDefinition definition, final ARXConfiguration config) throws IOException {
 
@@ -462,12 +459,11 @@ public class ARXAnonymizer {
     }
 
     /**
-     * Reset a previous lattice and run the algorithm 
+     * Reset a previous lattice and run the algorithm .
+     *
      * @param handle
      * @param definition
      * @param config
-     * @param lattice
-     * @param algorithm
      * @return
      * @throws IOException
      */
@@ -490,7 +486,7 @@ public class ARXAnonymizer {
         checkAfterEncoding(config, manager);
 
         // Build or clean the lattice
-        Lattice lattice = new LatticeBuilder(manager.getMaxLevels(), manager.getMinLevels(), manager.getHierachyHeights()).build();
+        Lattice lattice = new LatticeBuilder(manager.getMaxLevels(), manager.getMinLevels()).build();
         lattice.setListener(listener);
 
         // Build a node checker

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.common;
@@ -67,14 +66,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 
 /**
- * A virtual table implemented with NatTable
- * 
+ * A virtual table implemented with NatTable.
+ *
  * @author Fabian Prasser
  */
 public class ComponentTable implements IComponent {
 
     /**
-     * Checkstyle
+     * Checkstyle.
+     *
      * @param style
      * @return
      */
@@ -82,35 +82,39 @@ public class ComponentTable implements IComponent {
         return style & (SWT.BORDER | SWT.NONE);
     }
 
-    /** The parent */
+    /** The parent. */
     private final Composite         root;
     
-    /** The underlying nattable instance */
+    /** The underlying nattable instance. */
     private final NatTable                table;
     
-    /** The context*/
+    /** The context. */
     private final CTContext context;
     
-    /** Data provider*/
+    /** Data provider. */
     private final CTDataProvider dataProviderRowHeader;
-    /** Data provider*/
+    
+    /** Data provider. */
     private final CTDataProvider dataProviderColumnHeader;
-    /** Data provider*/
+    
+    /** Data provider. */
     private final CTDataProvider dataProviderBody;
     
-    /** State */
+    /** State. */
     private Integer                 selectedRow        = null;
-    /** State */
+    
+    /** State. */
     private Integer                 selectedColumn     = null;
 
-    /** Body layer*/
+    /** Body layer. */
     private final LayerBody         bodyLayer;
 
-    /** Listeners */
+    /** Listeners. */
     private List<SelectionListener> selectionListeners = new ArrayList<SelectionListener>();
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param style
      */
@@ -119,7 +123,8 @@ public class ComponentTable implements IComponent {
     }
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param style
      * @param config
@@ -222,7 +227,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Adds a listener
+     * Adds a listener.
+     *
      * @param arg0
      */
     public void addMouseListener(MouseListener arg0) {
@@ -230,7 +236,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Adds a selection listener
+     * Adds a selection listener.
+     *
      * @param e
      * @return
      */
@@ -239,7 +246,7 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Clears the table
+     * Clears the table.
      */
     public void clear() {
 
@@ -253,15 +260,18 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Returns the backing widget
+     * Returns the backing widget.
+     *
      * @return
      */
     public Control getControl() {
         return this.root;
     }
 
-    /** 
-     * Returns the selected column, or null
+    /**
+     * 
+     * Returns the selected column, or null.
+     *
      * @return
      */
     public Integer getSelectedColumn() {
@@ -269,7 +279,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Returns the selected row, or null
+     * Returns the selected row, or null.
+     *
      * @return
      */
     public Integer getSelectedRow() {
@@ -277,7 +288,7 @@ public class ComponentTable implements IComponent {
     }
     
     /**
-     * Redraws the table
+     * Redraws the table.
      */
     public void refresh() {
         this.table.refresh();
@@ -294,7 +305,8 @@ public class ComponentTable implements IComponent {
     }
     
     /**
-     * Removes a listener
+     * Removes a listener.
+     *
      * @param arg0
      */
     public void removeMouseListener(MouseListener arg0) {
@@ -302,7 +314,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Removes a selection listener
+     * Removes a selection listener.
+     *
      * @param index
      * @return
      */
@@ -311,7 +324,8 @@ public class ComponentTable implements IComponent {
     }
     
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      */
     public void setData(IDataProvider data) {
@@ -321,7 +335,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      * @param columns
      */
@@ -332,7 +347,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      * @param rows
      * @param columns
@@ -359,7 +375,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      * @param columns
      */
@@ -368,7 +385,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      * @param rows
      * @param columns
@@ -378,7 +396,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      */
     public void setData(String[][] data) {
@@ -387,7 +406,8 @@ public class ComponentTable implements IComponent {
 
     
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      * @param columns
      */
@@ -397,7 +417,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the underlying table
+     * Updates the underlying table.
+     *
      * @param data
      * @param rows
      * @param columns
@@ -407,7 +428,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * To display coordinates
+     * To display coordinates.
+     *
      * @param x
      * @param y
      * @return
@@ -417,8 +439,10 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Action
+     * Action.
+     *
      * @param arg0
+     * @return
      */
     private boolean actionCellSelected(CellSelectionEvent arg0) {
 
@@ -440,8 +464,10 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Action
+     * Action.
+     *
      * @param arg0
+     * @return
      */
     private boolean actionColumnSelected(ColumnSelectionEvent arg0) {
         
@@ -461,8 +487,10 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Action
+     * Action.
+     *
      * @param arg0
+     * @return
      */
     private boolean actionRowSelected(RowSelectionEvent arg0) {
         
@@ -482,7 +510,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Adds a selection listener
+     * Adds a selection listener.
+     *
      * @param layer
      */
     private void addSelectionListener(final SelectionLayer layer) {
@@ -507,6 +536,12 @@ public class ComponentTable implements IComponent {
 
     }
 
+    /**
+     * 
+     *
+     * @param data
+     * @return
+     */
     private IDataProvider createBodyDataProvider(final String[][] data) {
 
         return new ListDataProvider<String[]>(Arrays.asList(data), new IColumnAccessor<String[]>(){
@@ -528,6 +563,12 @@ public class ComponentTable implements IComponent {
         });
     }
     
+    /**
+     * 
+     *
+     * @param length
+     * @return
+     */
     private IDataProvider createColumnHeaderDataProvider(final int length) {
 
         return new IDataProvider(){
@@ -554,6 +595,12 @@ public class ComponentTable implements IComponent {
         };
     }
 
+    /**
+     * 
+     *
+     * @param data
+     * @return
+     */
     private IDataProvider createColumnHeaderDataProvider(final String[] data) {
 
         return new IDataProvider(){
@@ -580,6 +627,12 @@ public class ComponentTable implements IComponent {
         };
     }
 
+    /**
+     * 
+     *
+     * @param length
+     * @return
+     */
     private IDataProvider createRowHeaderDataProvider(final int length) {
 
         return new IDataProvider(){
@@ -606,6 +659,12 @@ public class ComponentTable implements IComponent {
         };
     }
 
+    /**
+     * 
+     *
+     * @param data
+     * @return
+     */
     private IDataProvider createRowHeaderDataProvider(final String[] data) {
 
         return new IDataProvider(){
@@ -631,8 +690,9 @@ public class ComponentTable implements IComponent {
             }
         };
     }
+    
     /**
-     * Fires a new event
+     * Fires a new event.
      */
     private void fireSelectionEvent(){
         Event event = new Event();
@@ -646,7 +706,8 @@ public class ComponentTable implements IComponent {
     }
 
     /**
-     * Updates the selection
+     * Updates the selection.
+     *
      * @param row
      * @param column
      */

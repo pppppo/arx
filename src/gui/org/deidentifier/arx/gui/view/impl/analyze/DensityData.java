@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.analyze;
@@ -31,43 +30,55 @@ import de.linearbits.jhc.JHCHeatmap.Point;
 
 /**
  * This class implements a data object that can be passed to the heatmap widget to
- * display the contingency table
- * 
+ * display the contingency table.
+ *
  * @author Fabian Prasser
  */
 public class DensityData extends JHCData{
     
     /**
-     * A point implementation for density data
-     * @author Fabian Prasser
+     * A point implementation for density data.
      *
+     * @author Fabian Prasser
      */
     private class DensityPoint implements Point {
         
-        /** x*/
+        /** x. */
         private int x;
-        /** y*/
+        
+        /** y. */
         private int y;
-        /** value*/
+        
+        /** value. */
         private double value;
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap.Point#getValue()
+         */
         @Override
         public double getValue() {
             return value;
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap.Point#getX()
+         */
         @Override
         public int getX() {
             return x;
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap.Point#getY()
+         */
         @Override
         public int getY() {
             return y;
         }
         
         /**
-         * Parses the given contingency table entry
+         * Parses the given contingency table entry.
+         *
          * @param entry
          */
         private void parse(Entry entry){
@@ -78,54 +89,78 @@ public class DensityData extends JHCData{
     };
     
     /**
-     * A heatmap implementation for density data
+     * A heatmap implementation for density data.
+     *
      * @author Fabian Prasser
      */
     private class DensityHeatmap extends JHCHeatmap{
 
-        /** The one and only point*/
+        /** The one and only point. */
         private final DensityPoint point = new DensityPoint();
-        /** The table*/
+        
+        /** The table. */
         private final StatisticsContingencyTable table;
         
         /**
-         * Creates a new instance
+         * Creates a new instance.
+         *
          * @param table
          */
         private DensityHeatmap(StatisticsContingencyTable table){
             this.table = table;
         }
         
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#getHeight()
+         */
         @Override
         public int getHeight() {
             return table.values2.length;
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#getMax()
+         */
         @Override
         public double getMax() {
             return table.maxFrequency;
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#getMin()
+         */
         @Override
         public double getMin() {
             return 0d;
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#getWidth()
+         */
         @Override
         public int getWidth() {
             return table.values1.length;
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#getXLabel(int)
+         */
         @Override
         public String getXLabel(int index) {
             return table.values1[index];
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#getYLabel(int)
+         */
         @Override
         public String getYLabel(int index) {
             return table.values2[index];
         }
 
+        /* (non-Javadoc)
+         * @see de.linearbits.jhc.JHCHeatmap#iterator()
+         */
         @Override
         public Iterator<Point> iterator() {
             return new Iterator<Point>(){
@@ -150,19 +185,24 @@ public class DensityData extends JHCData{
         }
     }
 
-    /** Width*/
+    /** Width. */
     private int width = -1;
-    /** Height*/
+    
+    /** Height. */
     private int height = -1;
-    /** First column*/
+    
+    /** First column. */
     private final int column1;
-    /** Second column*/
+    
+    /** Second column. */
     private final int column2;
-    /** Statistics*/
+    
+    /** Statistics. */
     private final StatisticsBuilder statistics;
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param handle
      * @param column1
      * @param column2
@@ -173,11 +213,17 @@ public class DensityData extends JHCData{
         this.column2 = column2;
     }
 
+    /* (non-Javadoc)
+     * @see de.linearbits.jhc.JHCData#getHeatmap(int, int)
+     */
     @Override
     public JHCHeatmap getHeatmap(int width, int height) {
         return new DensityHeatmap(statistics.getContingencyTable(column1, width, column2, height));
     }
        
+    /* (non-Javadoc)
+     * @see de.linearbits.jhc.JHCData#getHeight()
+     */
     @Override
     public int getHeight() {
         if (height == -1) {
@@ -187,6 +233,9 @@ public class DensityData extends JHCData{
         return height;
     }
 
+    /* (non-Javadoc)
+     * @see de.linearbits.jhc.JHCData#getWidth()
+     */
     @Override
     public int getWidth() {
         if (width == -1) {

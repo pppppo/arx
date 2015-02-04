@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.metric.v2;
@@ -44,36 +43,37 @@ import org.deidentifier.arx.metric.MetricConfiguration;
  */
 public class MetricMDNUEntropyPrecomputed extends AbstractMetricMultiDimensional {
 
-    /** SVUID */
+    /** SVUID. */
     private static final long   serialVersionUID = 8053878428909814308L;
 
-    /** Not available in the cache */
+    /** Not available in the cache. */
     private static final double NOT_AVAILABLE    = Double.POSITIVE_INFINITY;
 
-    /** Log 2 */
+    /** Log 2. */
     private static final double LOG2             = Math.log(2);
 
     /**
-     * Computes log 2
-     * 
+     * Computes log 2.
+     *
      * @param num
      * @return
      */
     static final double log2(final double num) {
         return Math.log(num) / LOG2;
     }
-    
-    /** Cardinalities*/
+
+    /** Cardinalities. */
     private Cardinalities cardinalities;
 
-    /** Column -> Level -> Value */
-    private double[][]            cache;
+    /** Column -> Level -> Value. */
+    private double[][]    cache;
 
-    /** Column -> Id -> Level -> Output */
-    private int[][][]             hierarchies;
+    /** Column -> Id -> Level -> Output. */
+    private int[][][]     hierarchies;
 
     /**
-     * Precomputed
+     * Precomputed.
+     *
      * @param monotonic
      * @param independent
      * @param function
@@ -85,25 +85,68 @@ public class MetricMDNUEntropyPrecomputed extends AbstractMetricMultiDimensional
     }
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
      */
     protected MetricMDNUEntropyPrecomputed() {
         super(true, true, AggregateFunction.SUM);
     }
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param function
      */
     protected MetricMDNUEntropyPrecomputed(AggregateFunction function){
         super(true, true, function);
     }
+    
+    /**
+     * Returns the configuration of this metric.
+     *
+     * @return
+     */
+    public MetricConfiguration getConfiguration() {
+        return new MetricConfiguration(true,                       // monotonic
+                                       0.5d,                       // gs-factor
+                                       true,                       // precomputed
+                                       1.0d,                       // precomputation threshold
+                                       this.getAggregateFunction() // aggregate function
+                                       );
+    }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#toString()
+     */
     @Override
     public String toString() {
         return "Non-uniform entropy";
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#getInformationLossInternal(org.deidentifier.arx.framework.lattice.Node, org.deidentifier.arx.framework.check.groupify.IHashGroupify)
+     */
+    @Override
+    protected ILMultiDimensionalWithBound getInformationLossInternal(final Node node, final IHashGroupify g) {
+        
+        double[] result = getInformationLossInternalRaw(node, g);
+        
+        // Switch sign bit and round
+        for (int column = 0; column < hierarchies.length; column++) {
+            result[column] = round(result[column] == 0.0d ? result[column] : -result[column]);
+        }
+
+        // Return
+        return new ILMultiDimensionalWithBound(super.createInformationLoss(result),
+                                               super.createInformationLoss(result));
+    }
+    
+    /**
+     * 
+     *
+     * @param node
+     * @param g
+     * @return
+     */
     protected double[] getInformationLossInternalRaw(final Node node, final IHashGroupify g) {
 
         // Prepare
@@ -135,33 +178,56 @@ public class MetricMDNUEntropyPrecomputed extends AbstractMetricMultiDimensional
 
         return result;
     }
-    
-    @Override
-    protected ILMultiDimensionalWithBound getInformationLossInternal(final Node node, final IHashGroupify g) {
-        
-        double[] result = getInformationLossInternalRaw(node, g);
-        
-        // Switch sign bit and round
-        for (int column = 0; column < hierarchies.length; column++) {
-            result[column] = round(result[column] == 0.0d ? result[column] : -result[column]);
-        }
 
-        // Return
-        return new ILMultiDimensionalWithBound(super.createInformationLoss(result),
-                                               super.createInformationLoss(result));
-    }
-
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#getLowerBoundInternal(org.deidentifier.arx.framework.lattice.Node)
+     */
     @Override
     protected AbstractILMultiDimensional getLowerBoundInternal(Node node) {
         return this.getInformationLossInternal(node, null).getLowerBound();
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.Metric#getLowerBoundInternal(org.deidentifier.arx.framework.lattice.Node, org.deidentifier.arx.framework.check.groupify.IHashGroupify)
+     */
     @Override
     protected AbstractILMultiDimensional getLowerBoundInternal(Node node,
                                                                IHashGroupify groupify) {
         return this.getLowerBoundInternal(node);
     }
 
+    /**
+     * For backwards compatibility.
+     *
+     * @param cache
+     * @param cardinalities
+     * @param hierarchies
+     */
+    protected void initialize(double[][] cache, int[][][] cardinalities, int[][][] hierarchies) {
+        
+        // Initialize data structures
+        this.cache = cache;
+        this.hierarchies = hierarchies;
+        this.cardinalities = new Cardinalities(cardinalities);
+
+        // Initialize weights
+        super.initialize(hierarchies.length);
+
+        // Compute a reasonable maximum
+        double[] min = new double[hierarchies.length];
+        Arrays.fill(min, 0d);
+        
+        // Its difficult to compute a reasonale maximum in this case
+        double[] max = new double[hierarchies.length];
+        Arrays.fill(max, Double.MAX_VALUE / hierarchies.length);
+        
+        super.setMax(max);
+        super.setMin(min);
+    }
+
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.AbstractMetricMultiDimensional#initializeInternal(org.deidentifier.arx.DataDefinition, org.deidentifier.arx.framework.data.Data, org.deidentifier.arx.framework.data.GeneralizationHierarchy[], org.deidentifier.arx.ARXConfiguration)
+     */
     @Override
     protected void initializeInternal(DataDefinition definition,
                                       Data input,
@@ -195,24 +261,16 @@ public class MetricMDNUEntropyPrecomputed extends AbstractMetricMultiDimensional
             this.hierarchies[i] = hierarchies[i].getArray();
         }
 
-        // TODO: Compute a reasonable maximum
+        // Compute a reasonable min & max
         double[] min = new double[hierarchies.length];
         Arrays.fill(min, 0d);
+        
         double[] max = new double[hierarchies.length];
-        Arrays.fill(max, Double.MAX_VALUE / hierarchies.length);
+        for (int i=0; i<max.length; i++) {
+            max[i] = input.getDataLength() * log2(input.getDataLength());
+        }
+        
         super.setMax(max);
         super.setMin(min);
-    }
-
-    /**
-     * Returns the configuration of this metric
-     */
-    public MetricConfiguration getConfiguration() {
-        return new MetricConfiguration(true,                       // monotonic
-                                       0.5d,                       // gs-factor
-                                       true,                       // precomputed
-                                       1.0d,                       // precomputation threshold
-                                       this.getAggregateFunction() // aggregate function
-                                       );
     }
 }

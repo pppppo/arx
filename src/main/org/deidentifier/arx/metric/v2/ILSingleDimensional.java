@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.metric.v2;
@@ -22,33 +21,40 @@ import org.deidentifier.arx.metric.InformationLoss;
 
 /**
  * This class implements an information loss which can be represented as a
- * single decimal number
- * 
+ * single decimal number.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public class ILSingleDimensional extends InformationLoss<Double> {
 
-    /** SVUID */
+    /** SVUID. */
     private static final long serialVersionUID = 8045076435539841773L;
-    /** Values */
+    
+    /** Values. */
     private double            value;
 
     /**
-     * Creates a new instance
-     * 
+     * Creates a new instance.
+     *
      * @param value
      */
     ILSingleDimensional(final double value) {
         this.value = value;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#clone()
+     */
     @Override
     public InformationLoss<Double> clone() {
         return new ILSingleDimensional(value);
 
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#compareTo(org.deidentifier.arx.metric.InformationLoss)
+     */
     @Override
     public int compareTo(InformationLoss<?> other) {
         if (other == null) {
@@ -61,6 +67,9 @@ public class ILSingleDimensional extends InformationLoss<Double> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -71,11 +80,17 @@ public class ILSingleDimensional extends InformationLoss<Double> {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#getValue()
+     */
     @Override
     public Double getValue() {
         return value;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -86,6 +101,9 @@ public class ILSingleDimensional extends InformationLoss<Double> {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#max(org.deidentifier.arx.metric.InformationLoss)
+     */
     @Override
     public void max(final InformationLoss<?> other) {
         if (this.compareTo(other) < 0) {
@@ -93,6 +111,9 @@ public class ILSingleDimensional extends InformationLoss<Double> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#min(org.deidentifier.arx.metric.InformationLoss)
+     */
     @Override
     public void min(final InformationLoss<?> other) {
         if (this.compareTo(other) > 0) {
@@ -100,6 +121,9 @@ public class ILSingleDimensional extends InformationLoss<Double> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#relativeTo(org.deidentifier.arx.metric.InformationLoss, org.deidentifier.arx.metric.InformationLoss)
+     */
     @Override
     public double relativeTo(InformationLoss<?> min, InformationLoss<?> max) {
         double _min = convert(min).value;
@@ -108,14 +132,17 @@ public class ILSingleDimensional extends InformationLoss<Double> {
         else return (this.value - _min) / (_max - _min);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.InformationLoss#toString()
+     */
     @Override
     public String toString() {
         return String.valueOf(this.value);
     }
 
     /**
-     * Converter method
-     * 
+     * Converter method.
+     *
      * @param other
      * @return
      */

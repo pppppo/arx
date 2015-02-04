@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx;
@@ -99,10 +98,10 @@ public class DataHandleOutput extends DataHandle {
         }
     }
 
-    /** The current result */
+    /** The current result. */
     private ARXResult     result;
 
-    /** The current node */
+    /** The current node. */
     private ARXNode       node;
 
     /** The data. */
@@ -129,24 +128,22 @@ public class DataHandleOutput extends DataHandle {
     /** The names of the quasiIdentifer. */
     private String[]      quasiIdentifiers;
 
-    /** Suppression handling */
+    /** Suppression handling. */
     private final int     suppressedAttributeTypes;
 
-    /** Suppression handling */
+    /** Suppression handling. */
     private final String  suppressionString;
 
     /**
      * Instantiates a new handle.
-     * 
+     *
+     * @param result
      * @param registry The registry
      * @param manager The data manager
-     * @param checker The node checker
-     * @param node The node to apply
-     * @param statistics Statistics for the dataset
-     * @param suppressionString The suppression string
-     * @param definition The data definition
-     * @param removeOutliers Do we remove outliers
+     * @param buffer
      * @param node The underlying transformation
+     * @param statistics Statistics for the dataset
+     * @param definition The data definition
      * @param config The underlying config
      */
     protected DataHandleOutput(final ARXResult result,
@@ -232,6 +229,9 @@ public class DataHandleOutput extends DataHandle {
         return header[col];
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.DataHandle#getDataType(java.lang.String)
+     */
     @Override
     public DataType<?> getDataType(String attribute) {
         
@@ -249,6 +249,9 @@ public class DataHandleOutput extends DataHandle {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.DataHandle#getGeneralization(java.lang.String)
+     */
     @Override
     public int getGeneralization(final String attribute) {
         checkRegistry();
@@ -312,7 +315,7 @@ public class DataHandleOutput extends DataHandle {
 
 
     /**
-     * Releases all resources
+     * Releases all resources.
      */
     protected void doRelease() {
         result.releaseBuffer(this);
@@ -336,6 +339,8 @@ public class DataHandleOutput extends DataHandle {
 
     /**
      * Creates the data type array.
+     *
+     * @return
      */
     @Override
     protected DataType<?>[][] getDataTypeArray() {
@@ -375,8 +380,9 @@ public class DataHandleOutput extends DataHandle {
  
     /**
      * Gets the distinct values.
-     * 
+     *
      * @param col the column
+     * @param handler
      * @return the distinct values
      */
     @Override
@@ -396,7 +402,8 @@ public class DataHandleOutput extends DataHandle {
     }
 
     /**
-     * Returns the suppression string
+     * Returns the suppression string.
+     *
      * @return
      */
     protected String getSuppressionString(){
@@ -481,7 +488,8 @@ public class DataHandleOutput extends DataHandle {
     }
     
     /**
-     * Returns whether the given row is an outlier
+     * Returns whether the given row is an outlier.
+     *
      * @param row
      * @return
      */

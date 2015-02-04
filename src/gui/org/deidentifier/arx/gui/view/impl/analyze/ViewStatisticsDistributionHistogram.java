@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.deidentifier.arx.gui.view.impl.analyze;
 
@@ -49,23 +48,27 @@ import org.swtchart.ITitle;
 import org.swtchart.Range;
 
 /**
- * This view displays a frequency distribution
+ * This view displays a frequency distribution.
+ *
  * @author Fabian Prasser
  */
 public class ViewStatisticsDistributionHistogram extends ViewStatistics<AnalysisContextVisualizationDistribution> {
 
-    /** Minimal width of a category label */
+    /** Minimal width of a category label. */
     private static final int MIN_CATEGORY_WIDTH = 10;
 
-    /** The chart */
+    /** The chart. */
     private Chart            chart;
-    /** Internal stuff */
+    
+    /** Internal stuff. */
     private Composite        root;
-    /** Internal stuff */
+    
+    /** Internal stuff. */
     private AnalysisManager  manager;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param controller
      * @param target
@@ -81,7 +84,7 @@ public class ViewStatisticsDistributionHistogram extends ViewStatistics<Analysis
     }
 
     /**
-     * Makes the chart show category labels or not
+     * Makes the chart show category labels or not.
      */
     private void updateCategories(){
         if (chart != null){
@@ -100,6 +103,9 @@ public class ViewStatisticsDistributionHistogram extends ViewStatistics<Analysis
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#createControl(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected Control createControl(Composite parent) {
         this.root = new Composite(parent, SWT.NONE);
@@ -107,11 +113,17 @@ public class ViewStatisticsDistributionHistogram extends ViewStatistics<Analysis
         return this.root;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#createViewConfig(org.deidentifier.arx.gui.view.impl.analyze.AnalysisContext)
+     */
     @Override
     protected AnalysisContextVisualizationDistribution createViewConfig(AnalysisContext context) {
         return new AnalysisContextVisualizationDistribution(context);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#doReset()
+     */
     @Override
     protected void doReset() {
         
@@ -209,6 +221,9 @@ public class ViewStatisticsDistributionHistogram extends ViewStatistics<Analysis
         updateCategories();
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#doUpdate(org.deidentifier.arx.gui.view.impl.analyze.AnalysisContextVisualization)
+     */
     @Override
     protected void doUpdate(AnalysisContextVisualizationDistribution context) {
 

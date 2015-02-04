@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.common;
@@ -61,22 +60,31 @@ import org.eclipse.swt.widgets.MenuItem;
 public class ViewHierarchy implements IView {
 
     /**
-     * A data provider for hierarchies
-     * @author Fabian Prasser
+     * A data provider for hierarchies.
      *
+     * @author Fabian Prasser
      */
     private class HierarchyDataProvider implements IDataProvider {
 
+        /* (non-Javadoc)
+         * @see org.eclipse.nebula.widgets.nattable.data.IDataProvider#getDataValue(int, int)
+         */
         @Override
         public Object getDataValue(int columnIndex, int rowIndex) {
             return hierarchy[rowIndex][columnIndex];
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.nebula.widgets.nattable.data.IDataProvider#setDataValue(int, int, java.lang.Object)
+         */
         @Override
         public void setDataValue(int columnIndex, int rowIndex, Object newValue) {
             // Ignore
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.nebula.widgets.nattable.data.IDataProvider#getColumnCount()
+         */
         @Override
         public int getColumnCount() {
             if (hierarchy == null) return 0;
@@ -85,6 +93,9 @@ public class ViewHierarchy implements IView {
             else return hierarchy[0].length;
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.nebula.widgets.nattable.data.IDataProvider#getRowCount()
+         */
         @Override
         public int getRowCount() {
             if (hierarchy == null) return 0;
@@ -93,73 +104,95 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * A header data provider for hierarchies
-     * @author Fabian Prasser
+     * A header data provider for hierarchies.
      *
+     * @author Fabian Prasser
      */
     private class HierarchyHeaderDataProvider extends HierarchyDataProvider {
 
+        /* (non-Javadoc)
+         * @see org.deidentifier.arx.gui.view.impl.common.ViewHierarchy.HierarchyDataProvider#getDataValue(int, int)
+         */
         @Override
         public Object getDataValue(int columnIndex, int rowIndex) {
             return "Level-"+columnIndex;
         }
 
+        /* (non-Javadoc)
+         * @see org.deidentifier.arx.gui.view.impl.common.ViewHierarchy.HierarchyDataProvider#getRowCount()
+         */
         @Override
         public int getRowCount() {
             return 1;
         }
     }
 
-    /** Constant */
+    /** Constant. */
     private static final String ITEM_ALL  = Resources.getMessage("HierarchyView.0"); //$NON-NLS-1$
 
-    /** Controller */
+    /** Controller. */
     private Controller          controller;
 
-    /** Widget */
+    /** Widget. */
     private Composite           base;
-    /** Widget */
+    
+    /** Widget. */
     private Combo               min;
-    /** Widget */
+    
+    /** Widget. */
     private Combo               max;
-    /** Widget */
+    
+    /** Widget. */
     private ComponentTable      table     = null;
 
-    /** Model */
+    /** Model. */
     private final String        attribute;
-    /** Model */
+    
+    /** Model. */
     private Model               model;
-    /** Model */
+    
+    /** Model. */
     private String[][]          hierarchy = new String[][] { new String[] {} };
-    /** Model */
+    
+    /** Model. */
     private boolean             editable  = true;
 
-    /** Menu */
+    /** Menu. */
     private Menu                menu      = null;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemInsertRow;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemDeleteRow;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemInsertColumn;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemDeleteColumn;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemMoveRowUp;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemMoveRowDown;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemEditItem;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemRenameItem;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemClear;
-    /** Item */
+    
+    /** Item. */
     private MenuItem            itemInitialize;
 
     /**
-     * Constructor for non-editable views
-     * 
+     * Constructor for non-editable views.
+     *
      * @param parent
      */
     public ViewHierarchy(final Composite parent) {
@@ -171,8 +204,8 @@ public class ViewHierarchy implements IView {
     }
     
     /**
-     * Constructor for non-editable views
-     * 
+     * Constructor for non-editable views.
+     *
      * @param parent
      * @param attribute
      */
@@ -185,8 +218,8 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Constructor for editable views
-     * 
+     * Constructor for editable views.
+     *
      * @param parent
      * @param attribute
      * @param controller
@@ -207,6 +240,9 @@ public class ViewHierarchy implements IView {
         createTable(parent);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#dispose()
+     */
     @Override
     public void dispose() {
         controller.removeListener(this);
@@ -215,6 +251,9 @@ public class ViewHierarchy implements IView {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#reset()
+     */
     @Override
     public void reset() {
         setHierarchy(null);
@@ -224,7 +263,8 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Sets the hierarchy displayed by this view
+     * Sets the hierarchy displayed by this view.
+     *
      * @param type
      */
     public void setHierarchy(final AttributeType.Hierarchy type) {
@@ -234,13 +274,17 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Sets the layout data
+     * Sets the layout data.
+     *
      * @param d
      */
     public void setLayoutData(final Object d) {
         base.setLayoutData(d);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#update(org.deidentifier.arx.gui.model.ModelEvent)
+     */
     @Override
     public void update(final ModelEvent event) {
 
@@ -267,7 +311,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Clears the hierarchy
+     * Clears the hierarchy.
      */
     private void actionClear() {
         
@@ -278,7 +322,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     *  Deletes a column
+     * Deletes a column.
      */
     private void actionDeleteColumn() {
         
@@ -312,7 +356,7 @@ public class ViewHierarchy implements IView {
     }
     
     /**
-     * Deletes a row
+     * Deletes a row.
      */
     private void actionDeleteRow() {
         
@@ -342,7 +386,7 @@ public class ViewHierarchy implements IView {
     }
     
     /**
-     * Renames an item
+     * Renames an item.
      */
     private void actionEditItem() {
 
@@ -370,7 +414,7 @@ public class ViewHierarchy implements IView {
     }
     
     /**
-     * Initializes the hierarchy with identity mapping
+     * Initializes the hierarchy with identity mapping.
      */
     private void actionInitialize() {
         
@@ -404,7 +448,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Inserts a column
+     * Inserts a column.
      */
     private void actionInsertColumn() {
 
@@ -433,7 +477,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Inserts a row
+     * Inserts a row.
      */
     private void actionInsertRow() {
 
@@ -460,7 +504,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Moves an element down
+     * Moves an element down.
      */
     private void actionMoveRowDown() {
 
@@ -486,7 +530,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Moves an element up
+     * Moves an element up.
      */
     private void actionMoveRowUp() {
 
@@ -512,7 +556,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Renames an item
+     * Renames an item.
      */
     private void actionRenameItem() {
 
@@ -544,7 +588,8 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Creates the control
+     * Creates the control.
+     *
      * @param parent
      */
     private void createTable(final Composite parent) {
@@ -584,8 +629,9 @@ public class ViewHierarchy implements IView {
             createMenu();
         }
     }
+    
     /**
-     * Creates all components required for making the table editable
+     * Creates all components required for making the table editable.
      */
     private void createMenu() {
         
@@ -757,7 +803,8 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Mouse down action
+     * Mouse down action.
+     *
      * @param point
      */
     private void onMouseDown(Point point) {
@@ -791,7 +838,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Updates the global hierarchy definition
+     * Updates the global hierarchy definition.
      */
     private void pushHierarchy() {
 
@@ -800,8 +847,10 @@ public class ViewHierarchy implements IView {
         Hierarchy h = Hierarchy.create(hierarchy);
         model.getInputConfig().setHierarchy(attribute, h);
     }
+    
     /**
-     * Updates the max generalization level
+     * Updates the max generalization level.
+     *
      * @return
      */
     private boolean pushMax(){
@@ -820,7 +869,8 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Updates the min generalization level
+     * Updates the min generalization level.
+     *
      * @return
      */
     private boolean pushMin() {
@@ -839,7 +889,7 @@ public class ViewHierarchy implements IView {
     }
 
     /**
-     * Updates the combos
+     * Updates the combos.
      */
     private void updateCombos(){
         
@@ -850,7 +900,11 @@ public class ViewHierarchy implements IView {
         final List<String> minItems = new ArrayList<String>();
         final List<String> maxItems = new ArrayList<String>();
         minItems.add(ITEM_ALL);
-        for (int i = 0; i < (hierarchy==null ? 0 : hierarchy[0].length); i++) {
+        int length = 0;
+        if (!(hierarchy==null || hierarchy.length == 0)) {
+            length = hierarchy[0].length;
+        }
+        for (int i = 0; i < length; i++) {
             minItems.add(String.valueOf(i));
             maxItems.add(String.valueOf(i));
         }

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.metric.v2;
@@ -31,29 +30,32 @@ import org.deidentifier.arx.framework.lattice.Node;
 import org.deidentifier.arx.metric.MetricConfiguration;
 
 /**
- * Normalized Domain Share
- * 
+ * This class implements a variant of the Loss metric.
+ * TODO: Add reference.
+ *
  * @author Fabian Prasser
  */
 public class MetricMDNMLossPrecomputed extends MetricMDNMLoss {
 
-    /** SUID */
+    /** SUID. */
     private static final long serialVersionUID = -7505441444551612996L;
 
-    /** Cardinalities */
+    /** Cardinalities. */
     private Cardinalities     cardinalities;
-    /** Distinct values: attribute -> level -> values */
+    
+    /** Distinct values: attribute -> level -> values. */
     private int[][][]         values;
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
      */
     protected MetricMDNMLossPrecomputed() {
         super();
     }
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param function
      */
     protected MetricMDNMLossPrecomputed(AggregateFunction function) {
@@ -61,7 +63,8 @@ public class MetricMDNMLossPrecomputed extends MetricMDNMLoss {
     }
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param gsFactor
      * @param function
      */
@@ -70,6 +73,23 @@ public class MetricMDNMLossPrecomputed extends MetricMDNMLoss {
         super(gsFactor, function);
     }
 
+    /**
+     * Returns the configuration of this metric.
+     *
+     * @return
+     */
+    public MetricConfiguration getConfiguration() {
+        return new MetricConfiguration(false,                      // monotonic
+                                       super.getGeneralizationSuppressionFactor(), // gs-factor
+                                       true,      // precomputed
+                                       1.0d,      // precomputation threshold
+                                       this.getAggregateFunction() // aggregate function
+                                       );
+    }
+
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNMLoss#getLowerBoundInternal(org.deidentifier.arx.framework.lattice.Node)
+     */
     @Override
     protected AbstractILMultiDimensional getLowerBoundInternal(Node node) {
 
@@ -107,11 +127,17 @@ public class MetricMDNMLossPrecomputed extends MetricMDNMLoss {
         return super.createInformationLoss(bound);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNMLoss#getLowerBoundInternal(org.deidentifier.arx.framework.lattice.Node, org.deidentifier.arx.framework.check.groupify.IHashGroupify)
+     */
     @Override
     protected AbstractILMultiDimensional getLowerBoundInternal(Node node, IHashGroupify g) {
         return this.getLowerBoundInternal(node);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.metric.v2.MetricMDNMLoss#initializeInternal(org.deidentifier.arx.DataDefinition, org.deidentifier.arx.framework.data.Data, org.deidentifier.arx.framework.data.GeneralizationHierarchy[], org.deidentifier.arx.ARXConfiguration)
+     */
     @Override
     protected void initializeInternal(final DataDefinition definition,
                                       final Data input, 
@@ -140,17 +166,5 @@ public class MetricMDNMLossPrecomputed extends MetricMDNMLoss {
                 values[i][j] = hierarchies[i].getDistinctValues(j);
             }
         }
-    }
-
-    /**
-     * Returns the configuration of this metric
-     */
-    public MetricConfiguration getConfiguration() {
-        return new MetricConfiguration(false,                      // monotonic
-                                       super.getGeneralizationSuppressionFactor(), // gs-factor
-                                       true,      // precomputed
-                                       1.0d,      // precomputation threshold
-                                       this.getAggregateFunction() // aggregate function
-                                       );
     }
 }

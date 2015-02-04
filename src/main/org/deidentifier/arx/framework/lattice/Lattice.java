@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.framework.lattice;
@@ -33,39 +32,31 @@ public class Lattice {
     /** The levels. */
     private final Node[][] levels;
 
-    /** The maximal transformation levels for each attribute */
-    private final int[]    maxLevels;
-
-    /** The size */
+    /** The size. */
     private final int      size;
 
-    /** A listener */
+    /** A listener. */
     private ARXListener    listener = null;
 
-    /** Tag trigger */
+    /** Tag trigger. */
     private NodeAction     tagTrigger = null;
 
     /**
      * Initializes a lattice.
-     * 
-     * @param levels
-     *            the levels
-     * @param nodesMap
-     *            the nodes map
-     * @param maxLevels
-     *            the max levels
-     * @param numNodes
-     *            the num nodes
+     *
+     * @param levels the levels
+     * @param maxLevels the max levels
      */
-    public Lattice(final Node[][] levels, final int[] maxLevels, final int numNodes) {
+    public Lattice(final Node[][] levels, final int numNodes) {
 
-        this.maxLevels = maxLevels;
         this.levels = levels;
         this.size = numNodes;
     }
 
     /**
-     * Returns the bottom node
+     * Returns the bottom node.
+     *
+     * @return
      */
     public Node getBottom() {
         for (int i = 0; i<levels.length; i++) {
@@ -79,29 +70,17 @@ public class Lattice {
     }
 
     /**
-     * Returns all levels in the lattice
-     * 
+     * Returns all levels in the lattice.
+     *
      * @return
      */
     public Node[][] getLevels() {
         return levels;
     }
 
-    
-    
-    
     /**
-     * Returns the maximal levels for each quasi identifier
-     * 
-     * @return
-     */
-    public int[] getMaximumGeneralizationLevels() {
-        return maxLevels;
-    }
-
-    /**
-     * Returns the number of nodes in the lattice
-     * 
+     * Returns the number of nodes in the lattice.
+     *
      * @return
      */
     public int getSize() {
@@ -109,7 +88,9 @@ public class Lattice {
     }
 
     /**
-     * Returns the top node
+     * Returns the top node.
+     *
+     * @return
      */
     public Node getTop() {
         for (int i = levels.length - 1; i>=0; i--) {
@@ -123,8 +104,8 @@ public class Lattice {
     }
     
     /**
-     * Sets the properties to the given node
-     * 
+     * Sets the properties to the given node.
+     *
      * @param node the node
      * @param result the result
      */
@@ -153,7 +134,8 @@ public class Lattice {
     }
 
     /**
-     * Sets the information loss
+     * Sets the information loss.
+     *
      * @param node
      * @param informationLoss
      */
@@ -162,7 +144,8 @@ public class Lattice {
     }
 
     /**
-     * Sets the lower bound
+     * Sets the lower bound.
+     *
      * @param node
      * @param lowerBound
      */
@@ -171,8 +154,8 @@ public class Lattice {
     }
 
     /**
-     * Attaches a listener
-     * 
+     * Attaches a listener.
+     *
      * @param listener
      */
     public void setListener(final ARXListener listener) {
@@ -180,8 +163,8 @@ public class Lattice {
     }
 
     /**
-     * Sets the property to the given node
-     * 
+     * Sets the property to the given node.
+     *
      * @param node the node
      * @param property the property
      */
@@ -194,8 +177,8 @@ public class Lattice {
     }
     
     /**
-     * Sets the property to all predecessors of the given node
-     * 
+     * Sets the property to all predecessors of the given node.
+     *
      * @param node the node
      * @param include should the property also be set for the starting node
      * @param property the property
@@ -214,8 +197,8 @@ public class Lattice {
     }
 
     /**
-     * Sets the property to all successors of the given node
-     * 
+     * Sets the property to all successors of the given node.
+     *
      * @param node the node
      * @param include should the property also be set for the starting node
      * @param property the property
@@ -234,7 +217,8 @@ public class Lattice {
     }
 
     /**
-     * When this trigger executed, a tagged event will be fired
+     * When this trigger executed, a tagged event will be fired.
+     *
      * @param trigger
      */
     public void setTagTrigger(NodeAction trigger){
@@ -242,7 +226,9 @@ public class Lattice {
     }
 
     /**
-     * Triggers a tagged event at the listener
+     * Triggers a tagged event at the listener.
+     *
+     * @param node
      */
     private void triggerTagged(Node node) {
         if (this.listener != null && !node.hasProperty(Node.PROPERTY_EVENT_FIRED)){

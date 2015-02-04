@@ -1,23 +1,23 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.worker;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,35 +62,39 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
- * This worker loads a project file from disk
+ * This worker loads a project file from disk.
+ *
  * @author Fabian Prasser
  */
 public class WorkerLoad extends Worker<Model> {
 
-	/** The vocabulary to use*/
+	/** The vocabulary to use. */
 	private Vocabulary vocabulary = null;
-	/** The zip file*/
+	
+	/** The zip file. */
 	private ZipFile    zipfile;
-	/** The lattice*/
+	
+	/** The lattice. */
 	private ARXLattice lattice;
-	/** The model*/
+	
+	/** The model. */
 	private Model      model;
 
 	/**
-	 * Creates a new instance
-	 * 
-	 * @param file
-	 * @param controller
-	 * @throws ZipException
-	 * @throws IOException
-	 */
+     * Creates a new instance.
+     *
+     * @param file
+     * @param controller
+     * @throws ZipException
+     * @throws IOException
+     */
     public WorkerLoad(final File file, final Controller controller) throws ZipException, IOException {
         this.zipfile = new ZipFile(file);
     }
 
     /**
-     * Constructor
-     * 
+     * Constructor.
+     *
      * @param path
      * @param controller
      * @throws IOException
@@ -99,6 +103,9 @@ public class WorkerLoad extends Worker<Model> {
         this.zipfile = new ZipFile(path);
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+     */
     @Override
     public void run(final IProgressMonitor arg0) throws InvocationTargetException,
                                                         InterruptedException {
@@ -119,6 +126,7 @@ public class WorkerLoad extends Worker<Model> {
             arg0.worked(1);
             readConfiguration(map, zip);
             arg0.worked(1);
+            setMonotonicity();
             zip.close();
             arg0.worked(1);
         } catch (final Exception e) {
@@ -133,8 +141,8 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the clipboard from the file
-     * 
+     * Reads the clipboard from the file.
+     *
      * @param map
      * @param zip
      * @throws SAXException
@@ -153,7 +161,7 @@ public class WorkerLoad extends Worker<Model> {
 
         // Parse
         final XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-        final InputSource inputSource = new InputSource(zip.getInputStream(entry));
+        final InputSource inputSource = new InputSource(new BufferedInputStream(zip.getInputStream(entry)));
         xmlReader.setContentHandler(new XMLHandler() {
             @Override
             protected boolean end(final String uri,
@@ -188,8 +196,8 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the configuration from the file
-     * 
+     * Reads the configuration from the file.
+     *
      * @param map
      * @param zip
      * @throws IOException
@@ -207,8 +215,8 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the configuration from the file
-     * 
+     * Reads the configuration from the file.
+     *
      * @param prefix
      * @param output
      * @param map
@@ -229,12 +237,17 @@ public class WorkerLoad extends Worker<Model> {
         if (entry == null) { return; }
 
         // Read config
-        final ObjectInputStream oos = new ObjectInputStream(zip.getInputStream(entry));
+        final ObjectInputStream oos = new ObjectInputStream(new BufferedInputStream(zip.getInputStream(entry)));
         final ModelConfiguration config = (ModelConfiguration) oos.readObject();
         
         // Convert metric from v1 to v2
-        config.setMetric(Metric.createMetric(config.getMetric()));
-        config.getConfig().setMetric(Metric.createMetric(config.getConfig().getMetric()));
+        config.setMetric(Metric.createMetric(config.getMetric(), 
+                                             ARXLattice.getDeserializationContext().minLevel, 
+                                             ARXLattice.getDeserializationContext().maxLevel));
+        
+        config.getConfig().setMetric(Metric.createMetric(config.getConfig().getMetric(), 
+                                                         ARXLattice.getDeserializationContext().minLevel, 
+                                                         ARXLattice.getDeserializationContext().maxLevel));
         
         oos.close();
 
@@ -297,10 +310,10 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the data definition from the file
-     * 
+     * Reads the data definition from the file.
+     *
      * @param config
-     * @param definition 
+     * @param definition
      * @param prefix
      * @param zip
      * @throws IOException
@@ -317,7 +330,7 @@ public class WorkerLoad extends Worker<Model> {
 
         // Read xml
         final XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-        final InputSource inputSource = new InputSource(zip.getInputStream(entry));
+        final InputSource inputSource = new InputSource(new BufferedInputStream(zip.getInputStream(entry)));
         xmlReader.setContentHandler(new XMLHandler() {
         	
             String attr, dtype, atype, ref, min, max, format;
@@ -505,10 +518,10 @@ public class WorkerLoad extends Worker<Model> {
         });
         xmlReader.parse(inputSource);
     }
-
+    
     /**
-     * Reads the filter from the file
-     * 
+     * Reads the filter from the file.
+     *
      * @param zip
      * @throws SAXException
      * @throws IOException
@@ -520,15 +533,16 @@ public class WorkerLoad extends Worker<Model> {
         // Read filter
         final ZipEntry entry = zip.getEntry("filter.dat"); //$NON-NLS-1$
         if (entry == null) { return; }
-        final ObjectInputStream oos = new ObjectInputStream(zip.getInputStream(entry));
+        final ObjectInputStream oos = new ObjectInputStream(new BufferedInputStream(zip.getInputStream(entry)));
         model.setNodeFilter((ModelNodeFilter) oos.readObject());
         oos.close();
     }
 
     /**
-     * Reads the hierarchy from the given location
-     * 
+     * Reads the hierarchy from the given location.
+     *
      * @param zip
+     * @param prefix
      * @param ref
      * @return
      * @throws IOException
@@ -539,13 +553,14 @@ public class WorkerLoad extends Worker<Model> {
     	
         final ZipEntry entry = zip.getEntry(prefix + ref);
         if (entry == null) { throw new IOException(Resources.getMessage("WorkerLoad.5")); } //$NON-NLS-1$
-        final InputStream is = zip.getInputStream(entry);
+        final InputStream is = new BufferedInputStream(zip.getInputStream(entry));
         return Hierarchy.create(is, model.getSeparator());
     }
 
     /**
-     * Reads the input from the file
-     * 
+     * Reads the input from the file.
+     *
+     * @param config
      * @param zip
      * @throws IOException
      */
@@ -555,7 +570,7 @@ public class WorkerLoad extends Worker<Model> {
         if (entry == null) { return; }
 
         // Read input
-        config.setInput(Data.create(zip.getInputStream(entry),
+        config.setInput(Data.create(new BufferedInputStream(zip.getInputStream(entry)),
                                     model.getSeparator()));
         
         // Disable visualization
@@ -569,8 +584,8 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the lattice from several files
-     * 
+     * Reads the lattice from several files.
+     *
      * @param zip
      * @return
      * @throws IOException
@@ -588,24 +603,30 @@ public class WorkerLoad extends Worker<Model> {
         // Read infoloss
         final Map<Integer, InformationLoss<?>> max;
         final Map<Integer, InformationLoss<?>> min;
-        ObjectInputStream oos = new ObjectInputStream(zip.getInputStream(entry));
+        ObjectInputStream oos = new ObjectInputStream(new BufferedInputStream(zip.getInputStream(entry)));
         min = (Map<Integer, InformationLoss<?>>) oos.readObject();
         max = (Map<Integer, InformationLoss<?>>) oos.readObject();
         oos.close();
+        
+        // Create deserialization context
+        final int[] minMax = readMinMax(zip);
+        ARXLattice.getDeserializationContext().minLevel = minMax[0];
+        ARXLattice.getDeserializationContext().maxLevel = minMax[1];
 
+        // Read attributes
         entry = zip.getEntry("attributes.dat"); //$NON-NLS-1$
         if (entry == null) { throw new IOException(Resources.getMessage("WorkerLoad.6")); } //$NON-NLS-1$
 
         // Read attributes
         final Map<Integer, Map<Integer, Object>> attrs;
-        oos = new ObjectInputStream(zip.getInputStream(entry));
+        oos = new ObjectInputStream(new BufferedInputStream(zip.getInputStream(entry)));
         attrs = (Map<Integer, Map<Integer, Object>>) oos.readObject();
         oos.close();
 
         // Read lattice skeleton
         entry = zip.getEntry("lattice.dat"); //$NON-NLS-1$
         if (entry == null) { throw new IOException(Resources.getMessage("WorkerLoad.8")); } //$NON-NLS-1$
-        oos = new ObjectInputStream(zip.getInputStream(entry));
+        oos = new ObjectInputStream(new BufferedInputStream(zip.getInputStream(entry)));
         lattice = (ARXLattice) oos.readObject();
         final Map<String, Integer> headermap = (Map<String, Integer>) oos.readObject();
         oos.close();
@@ -618,7 +639,7 @@ public class WorkerLoad extends Worker<Model> {
 
         final Map<Integer, ARXNode> map = new HashMap<Integer, ARXNode>();
         XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-        InputSource inputSource = new InputSource(zip.getInputStream(entry));
+        InputSource inputSource = new InputSource(new BufferedInputStream(zip.getInputStream(entry)));
         xmlReader.setContentHandler(new XMLHandler() {
 
             private int       level = 0;
@@ -702,7 +723,7 @@ public class WorkerLoad extends Worker<Model> {
         // Read the lattice for the second time
         entry = zip.getEntry("lattice.xml"); //$NON-NLS-1$
         xmlReader = XMLReaderFactory.createXMLReader();
-        inputSource = new InputSource(zip.getInputStream(entry));
+        inputSource = new InputSource(new BufferedInputStream(zip.getInputStream(entry)));
         xmlReader.setContentHandler(new XMLHandler() {
         	
             private int                   id;
@@ -814,9 +835,8 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the metadata from the file
-     * 
-     * @param map
+     * Reads the metadata from the file.
+     *
      * @param zip
      * @throws IOException
      * @throws SAXException
@@ -829,7 +849,7 @@ public class WorkerLoad extends Worker<Model> {
 
         // Read vocabulary
         final XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-        final InputSource inputSource = new InputSource(zip.getInputStream(entry));
+        final InputSource inputSource = new InputSource(new BufferedInputStream(zip.getInputStream(entry)));
         xmlReader.setContentHandler(new XMLHandler() {
             
             Vocabulary_V2 vocabulary = new Vocabulary_V2();
@@ -875,8 +895,61 @@ public class WorkerLoad extends Worker<Model> {
     }
 
     /**
-     * Reads the project from the file
-     * 
+     * Reads min & max generalization levels, if any.
+     *
+     * @param zip
+     * @return
+     * @throws SAXException
+     * @throws IOException
+     */
+    private int[] readMinMax(final ZipFile zip) throws SAXException, IOException  {
+
+        // Read the lattice
+        ZipEntry entry = zip.getEntry("lattice.xml"); //$NON-NLS-1$
+        if (entry == null) {
+            return new int[]{0,0};
+        }
+
+        // The result
+        final int[] result = new int[]{Integer.MAX_VALUE, 0};
+        
+        // Read
+        XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+        InputSource inputSource = new InputSource(new BufferedInputStream(zip.getInputStream(entry)));
+        xmlReader.setContentHandler(new XMLHandler() {
+            
+            @Override
+            protected boolean end(final String uri,
+                                  final String localName,
+                                  final String qName) throws SAXException {
+                return true;
+            }
+
+            @Override
+            protected boolean start(final String uri,
+                                    final String localName,
+                                    final String qName,
+                                    final Attributes attributes) throws SAXException {
+
+                if (vocabulary.isLevel(localName)) {
+                    int level = Integer.valueOf(attributes.getValue(vocabulary.getDepth()));
+                    result[0] = Math.min(result[0], level);
+                    result[1] = Math.max(result[1], level);
+                }
+                return true;
+            }
+        });
+        
+        // Parse
+        xmlReader.parse(inputSource);
+        
+        // Result
+        return result;
+    }
+
+    /**
+     * Reads the project from the file.
+     *
      * @param zip
      * @throws IOException
      * @throws ClassNotFoundException
@@ -888,14 +961,14 @@ public class WorkerLoad extends Worker<Model> {
         if (entry == null) { throw new IOException(Resources.getMessage("WorkerLoad.11")); } //$NON-NLS-1$
 
         // Read model
-        final ObjectInputStream oos = new ObjectInputStream(zip.getInputStream(entry));
+        final ObjectInputStream oos = new ObjectInputStream(new BufferedInputStream(zip.getInputStream(entry)));
         model = (Model) oos.readObject();
         oos.close();
     }
 
     /**
-     * Reads a transformation from the serialized array representation
-     * 
+     * Reads a transformation from the serialized array representation.
+     *
      * @param payload
      * @return
      */
@@ -907,5 +980,14 @@ public class WorkerLoad extends Worker<Model> {
             r[i - 1] = Integer.valueOf(a[i].trim());
         }
         return r;
+    }
+    
+    /**
+     * Fix monotonicity for backwards compatibility.
+     */
+    private void setMonotonicity() {
+        if (lattice != null && model != null && model.getOutputConfig() != null && model.getOutputConfig().getConfig() != null) {
+            lattice.access().setMonotonicity(model.getOutputConfig().getConfig());
+        }
     }
 }

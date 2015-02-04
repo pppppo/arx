@@ -1,23 +1,23 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,27 +29,33 @@ import org.deidentifier.arx.ARXLattice.Anonymity;
 import org.deidentifier.arx.ARXResult;
 
 /**
- * This class implements a filter for a generalization lattice
+ * This class implements a filter for a generalization lattice.
+ *
  * @author Fabian Prasser
  */
 public class ModelNodeFilter implements Serializable {
 
-    /** SVUID*/
+    /** SVUID. */
     private static final long    serialVersionUID   = 5451641489562102719L;
 
-    /** The anonymity properties allowed*/
+    /** The anonymity properties allowed. */
     private final Set<Anonymity> anonymity          = new HashSet<Anonymity>();
-    /** The generalization levels allowed*/
+    
+    /** The generalization levels allowed. */
     private Set<Integer>[]       generalizations    = null;
-    /** The initial number of nodes*/
+    
+    /** The initial number of nodes. */
     private int                  maxNumNodesInitial = 0;
-    /** Bound for min information loss*/
+    
+    /** Bound for min information loss. */
     private double               minInformationLoss = 0d;
-    /** Bound for max information loss*/
+    
+    /** Bound for max information loss. */
     private double               maxInformationLoss = 1d;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param maxLevels
      * @param maxNumNodesInitial
      */
@@ -61,9 +67,47 @@ public class ModelNodeFilter implements Serializable {
             generalizations[i] = new HashSet<Integer>();
         }
     }
+    
+    /**
+     * Creates a new instance used for cloning.
+     * 
+     * @param anonymity
+     * @param generalizations
+     * @param maxNumNodesInitial
+     * @param minInformationLoss
+     * @param maxInformationLoss
+     */
+    @SuppressWarnings("unchecked")
+    private ModelNodeFilter(Set<Anonymity> anonymity, Set<Integer>[] generalizations, int maxNumNodesInitial, double minInformationLoss, double maxInformationLoss) {
+        for (Anonymity element : anonymity) {
+            this.anonymity.add(element);
+        }
+
+        this.generalizations = new Set[generalizations.length];
+        for (int i = 0; i < generalizations.length; i++) {
+            Set<Integer> current = generalizations[i];
+            this.generalizations[i] = new HashSet<Integer>();
+            for (Integer integer : current) {
+                this.generalizations[i].add(integer);
+            }
+        }
+
+        this.maxNumNodesInitial = maxNumNodesInitial;
+        this.minInformationLoss = minInformationLoss;
+        this.maxInformationLoss = maxInformationLoss;
+
+    }
 
     /**
-     * Allows transformations with any information loss to pass the filter
+     * Clones the ModelNodeFilter instance.
+     */
+    public ModelNodeFilter clone() {
+        return new ModelNodeFilter(anonymity, generalizations, maxNumNodesInitial, minInformationLoss, maxInformationLoss);
+    }
+
+
+    /**
+     * Allows transformations with any information loss to pass the filter.
      */
     public void allowAllInformationLoss() {
         minInformationLoss = 0d;
@@ -71,14 +115,15 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Allows anonymous transformations to pass the filter
+     * Allows anonymous transformations to pass the filter.
      */
     public void allowAnonymous() {
         anonymity.add(Anonymity.ANONYMOUS);
     }
 
     /**
-     * Allows transformations with certain generalization level to pass the filter
+     * Allows transformations with certain generalization level to pass the filter.
+     *
      * @param dimension
      * @param level
      */
@@ -87,27 +132,28 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Allows transformations with certain information loss to pass the filter
+     * Allows transformations with certain information loss to pass the filter.
+     *
      * @param min
      * @param max
      */
     public void allowInformationLoss(final double min, final double max) {
         if (min<0d || min>1d || max <0d || max>1d) {
-            throw new IllegalArgumentException("Threshold must be relative [0,1]");
+            throw new IllegalArgumentException("Threshold must be in range [0,1]");
         }
         minInformationLoss = min;
         maxInformationLoss = max;
     }
 
     /**
-     * Allows non-anonymous transformations to pass the filter
+     * Allows non-anonymous transformations to pass the filter.
      */
     public void allowNonAnonymous() {
         anonymity.add(Anonymity.NOT_ANONYMOUS);
     }
 
     /**
-     * Allows unknown transformations to pass the filter
+     * Allows unknown transformations to pass the filter.
      */
     public void allowUnknown() {
         anonymity.add(Anonymity.PROBABLY_NOT_ANONYMOUS);
@@ -116,7 +162,7 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Allows no transformaions to pass the filter
+     * Allows no transformaions to pass the filter.
      */
     public void disallowAll() {
         anonymity.clear();
@@ -128,14 +174,15 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Filters out anonymous transformations
+     * Filters out anonymous transformations.
      */
     public void disallowAnonymous() {
         anonymity.remove(Anonymity.ANONYMOUS);
     }
 
     /**
-     * Filters out transformations with certain generalization level
+     * Filters out transformations with certain generalization level.
+     *
      * @param dimension
      * @param level
      */
@@ -144,14 +191,14 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Filters out non-anonymous transformations
+     * Filters out non-anonymous transformations.
      */
     public void disallowNonAnonymous() {
         anonymity.remove(Anonymity.NOT_ANONYMOUS);
     }
 
     /**
-     * Filters out unknown transformations
+     * Filters out unknown transformations.
      */
     public void disallowUnknown() {
         anonymity.remove(Anonymity.PROBABLY_ANONYMOUS);
@@ -167,6 +214,9 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
+     * 
+     *
+     * @param dimension
      * @return the generalizations
      */
     public Set<Integer> getAllowedGeneralizations(final int dimension) {
@@ -188,8 +238,8 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Creates a node filter for the given result
-     * 
+     * Creates a node filter for the given result.
+     *
      * @param result
      */
     public void initialize(final ARXResult result) {
@@ -319,7 +369,8 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Returns whether the given node is allowed to pass this filter
+     * Returns whether the given node is allowed to pass this filter.
+     *
      * @param lattice
      * @param node
      * @return
@@ -344,7 +395,8 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Returns setting
+     * Returns setting.
+     *
      * @return
      */
     public boolean isAllowedAnonymous() {
@@ -352,8 +404,8 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Returns whether the given generalization is allowed
-     * 
+     * Returns whether the given generalization is allowed.
+     *
      * @param dimension
      * @param level
      * @return
@@ -364,7 +416,8 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Returns setting
+     * Returns setting.
+     *
      * @return
      */
     public boolean isAllowedNonAnonymous() {
@@ -372,7 +425,8 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Returns setting
+     * Returns setting.
+     *
      * @return
      */
     public boolean isAllowedUnknown() {
@@ -382,10 +436,11 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Cleans up the settings
-     * 
+     * Cleans up the settings.
+     *
      * @param lattice
-     * @return
+     * @param visible
+     * @param optimum
      */
     private void clean(final ARXLattice lattice, final Set<ARXNode> visible, final int[] optimum) {
 
@@ -423,9 +478,11 @@ public class ModelNodeFilter implements Serializable {
     }
 
     /**
-     * Counts the number of visible nodes
-     * 
+     * Counts the number of visible nodes.
+     *
      * @param lattice
+     * @param visible
+     * @param hidden
      * @return
      */
     private int count(final ARXLattice lattice, final Set<ARXNode> visible, final Set<ARXNode> hidden) {
@@ -438,5 +495,32 @@ public class ModelNodeFilter implements Serializable {
             }
         }
         return visible.size();
+    }
+    
+
+    /**
+     * 
+     *
+     * @param stream
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        
+        stream.defaultReadObject();
+        
+        if (this.minInformationLoss < 0d) {
+            this.minInformationLoss = 0d;
+        }
+        if (this.minInformationLoss > 1d) {
+            this.minInformationLoss = 1d;
+        }
+        if (this.maxInformationLoss < 0d) {
+            this.maxInformationLoss = 0d;
+        }
+        if (this.maxInformationLoss > 1d) {
+            this.maxInformationLoss = 1d;
+        }
+        
     }
 }

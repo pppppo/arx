@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.test;
@@ -35,14 +34,19 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Test for data transformations
- * 
+ * Test for data transformations.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 @RunWith(Parameterized.class)
 public class TestAnonymizationTCloseness extends TestAnonymizationAbstract {
 
+    /**
+     * 
+     *
+     * @return
+     */
     @Parameters(name = "{index}:[{0}]")
     public static Collection<Object[]> cases() {
         return Arrays.asList(new Object[][] {
@@ -66,7 +70,7 @@ public class TestAnonymizationTCloseness extends TestAnonymizationAbstract {
                 { new ARXAnonymizationTestCase(ARXConfiguration.create(0.04d, Metric.createEntropyMetric(true)).addCriterion(new EqualDistanceTCloseness("Highest level of school completed", 0.2d)).addCriterion(new KAnonymity(5)), "Highest level of school completed", "../arx-data/data-junit/atus.csv", "5267622.788737194", new int[] { 0, 5, 0, 1, 2, 2, 2, 2 }, true) },
                 { new ARXAnonymizationTestCase(ARXConfiguration.create(0.04d, Metric.createEntropyMetric(true)).addCriterion(new EqualDistanceTCloseness("Highest level of school completed", 0.2d)).addCriterion(new KAnonymity(100)), "Highest level of school completed", "../arx-data/data-junit/atus.csv", "5267622.788737194", new int[] { 0, 5, 0, 1, 2, 2, 2, 2 }, true) },
                 { new ARXAnonymizationTestCase(ARXConfiguration.create(0.04d, Metric.createEntropyMetric(false)).addCriterion(new KAnonymity(5)), "RAMNTALL", "../arx-data/data-junit/cup.csv", "1407619.3716609064", new int[] { 3, 4, 1, 0, 0, 4, 4 }, false) },
-                { new ARXAnonymizationTestCase(ARXConfiguration.create(0.04d, Metric.createEntropyMetric(false)).addCriterion(new KAnonymity(100)), "RAMNTALL", "../arx-data/data-junit/cup.csv", "1516301.8703843413", new int[] { 3, 4, 1, 1, 0, 2, 1 }, false) },
+                { new ARXAnonymizationTestCase(ARXConfiguration.create(0.04d, Metric.createEntropyMetric(false)).addCriterion(new KAnonymity(100)), "RAMNTALL", "../arx-data/data-junit/cup.csv", "1509368.8882843896", new int[] { 3, 4, 1, 1, 0, 2, 1 }, false) },
                 /* 20 */{ new ARXAnonymizationTestCase(ARXConfiguration.create(0.0d, Metric.createEntropyMetric(false)).addCriterion(new KAnonymity(5)), "RAMNTALL", "../arx-data/data-junit/cup.csv", "2023751.243421626", new int[] { 4, 4, 1, 2, 1, 4, 4 }, false) },
                 { new ARXAnonymizationTestCase(ARXConfiguration.create(0.0d, Metric.createEntropyMetric(false)).addCriterion(new KAnonymity(100)), "RAMNTALL", "../arx-data/data-junit/cup.csv", "2032837.6390798881", new int[] { 5, 4, 1, 0, 1, 4, 4 }, false) },
                 { new ARXAnonymizationTestCase(ARXConfiguration.create(0.04d, Metric.createEntropyMetric(false)).addCriterion(new KAnonymity(5)), "RAMNTALL", "../arx-data/data-junit/cup.csv", "1407669.5060439722", new int[] { 3, 4, 1, 0, 0, 4, 2 }, true) },
@@ -87,10 +91,18 @@ public class TestAnonymizationTCloseness extends TestAnonymizationAbstract {
         });
     }
 
+    /**
+     * 
+     *
+     * @param testCase
+     */
     public TestAnonymizationTCloseness(final ARXAnonymizationTestCase testCase) {
         super(testCase);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.test.TestAnonymizationAbstract#test()
+     */
     @Override
     @Test
     public void test() throws IOException {

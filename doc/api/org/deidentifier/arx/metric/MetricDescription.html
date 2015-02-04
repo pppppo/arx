@@ -101,6 +101,7 @@
 <pre>public abstract class <span class="strong">MetricDescription</span>
 extends java.lang.Object
 implements java.io.Serializable</pre>
+<<<<<<< HEAD
 <div class="block">A class describing a metric and its configuration options</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#org.deidentifier.arx.metric.MetricDescription">Serialized Form</a></dd></dl>
 </li>
@@ -259,6 +260,166 @@ implements java.io.Serializable</pre>
 <h4>isInstance</h4>
 <pre>public abstract&nbsp;boolean&nbsp;isInstance(<a href="../../../../org/deidentifier/arx/metric/Metric.html" title="class in org.deidentifier.arx.metric">Metric</a>&lt;?&gt;&nbsp;metric)</pre>
 <div class="block">Returns whether the given metric is an instance of this description</div>
+=======
+<div class="block">A class describing a metric and its configuration options.</div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#org.deidentifier.arx.metric.MetricDescription">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>abstract <a href="../../../../org/deidentifier/arx/metric/Metric.html" title="class in org.deidentifier.arx.metric">Metric</a>&lt;?&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#createInstance(org.deidentifier.arx.metric.MetricConfiguration)">createInstance</a></strong>(<a href="../../../../org/deidentifier/arx/metric/MetricConfiguration.html" title="class in org.deidentifier.arx.metric">MetricConfiguration</a>&nbsp;config)</code>
+<div class="block">Creates an instance with the given configuration options.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#getName()">getName</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/deidentifier/arx/metric/Metric.AggregateFunction.html" title="enum in org.deidentifier.arx.metric">Metric.AggregateFunction</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#getSupportedAggregateFunctions()">getSupportedAggregateFunctions</a></strong>()</code>
+<div class="block">Returns a list of all supported aggregate functions.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#isAggregateFunctionSupported()">isAggregateFunctionSupported</a></strong>()</code>
+<div class="block">Returns whether an aggregate function is supported by the metric.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#isAttributeWeightsSupported()">isAttributeWeightsSupported</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#isConfigurableCodingModelSupported()">isConfigurableCodingModelSupported</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>abstract boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#isInstance(org.deidentifier.arx.metric.Metric)">isInstance</a></strong>(<a href="../../../../org/deidentifier/arx/metric/Metric.html" title="class in org.deidentifier.arx.metric">Metric</a>&lt;?&gt;&nbsp;metric)</code>
+<div class="block">Returns whether the given metric is an instance of this description.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#isMonotonicVariantSupported()">isMonotonicVariantSupported</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/deidentifier/arx/metric/MetricDescription.html#isPrecomputationSupported()">isPrecomputationSupported</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="createInstance(org.deidentifier.arx.metric.MetricConfiguration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createInstance</h4>
+<pre>public abstract&nbsp;<a href="../../../../org/deidentifier/arx/metric/Metric.html" title="class in org.deidentifier.arx.metric">Metric</a>&lt;?&gt;&nbsp;createInstance(<a href="../../../../org/deidentifier/arx/metric/MetricConfiguration.html" title="class in org.deidentifier.arx.metric">MetricConfiguration</a>&nbsp;config)</pre>
+<div class="block">Creates an instance with the given configuration options.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>config</code> - </dd>
+<dt><span class="strong">Returns:</span></dt><dd></dd></dl>
+</li>
+</ul>
+<a name="getName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getName</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getName()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the name</dd></dl>
+</li>
+</ul>
+<a name="getSupportedAggregateFunctions()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSupportedAggregateFunctions</h4>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../org/deidentifier/arx/metric/Metric.AggregateFunction.html" title="enum in org.deidentifier.arx.metric">Metric.AggregateFunction</a>&gt;&nbsp;getSupportedAggregateFunctions()</pre>
+<div class="block">Returns a list of all supported aggregate functions.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd></dd></dl>
+</li>
+</ul>
+<a name="isAttributeWeightsSupported()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isAttributeWeightsSupported</h4>
+<pre>public&nbsp;boolean&nbsp;isAttributeWeightsSupported()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the attributeWeightsSupported</dd></dl>
+</li>
+</ul>
+<a name="isConfigurableCodingModelSupported()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isConfigurableCodingModelSupported</h4>
+<pre>public&nbsp;boolean&nbsp;isConfigurableCodingModelSupported()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the configurableCodingModelSupported</dd></dl>
+</li>
+</ul>
+<a name="isAggregateFunctionSupported()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isAggregateFunctionSupported</h4>
+<pre>public&nbsp;boolean&nbsp;isAggregateFunctionSupported()</pre>
+<div class="block">Returns whether an aggregate function is supported by the metric.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd></dd></dl>
+</li>
+</ul>
+<a name="isInstance(org.deidentifier.arx.metric.Metric)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isInstance</h4>
+<pre>public abstract&nbsp;boolean&nbsp;isInstance(<a href="../../../../org/deidentifier/arx/metric/Metric.html" title="class in org.deidentifier.arx.metric">Metric</a>&lt;?&gt;&nbsp;metric)</pre>
+<div class="block">Returns whether the given metric is an instance of this description.</div>
+>>>>>>> refs/remotes/origin/tiles
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>metric</code> - </dd>
 <dt><span class="strong">Returns:</span></dt><dd></dd></dl>
 </li>

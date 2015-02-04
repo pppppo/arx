@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.wizard;
@@ -38,36 +37,46 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * A page for configuring the redaction-based builder
- * @author Fabian Prasser
+ * A page for configuring the redaction-based builder.
  *
+ * @author Fabian Prasser
  * @param <T>
  */
 public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<T> {
 
-    /** Var */
+    /** Var. */
     private final HierarchyWizardModelRedaction<T> model;
-    /** Var */
+    
+    /** Var. */
     private Button                                 buttonLeftAlign;
-    /** Var */
+    
+    /** Var. */
     private Button                                 buttonRightAlign;
-    /** Var */
+    
+    /** Var. */
     private Button                                 buttonLeftRedact;
-    /** Var */
+    
+    /** Var. */
     private Button                                 buttonRightRedact;
-    /** Var */
+    
+    /** Var. */
     private Combo                                  comboPaddingChar;
-    /** Var */
+    
+    /** Var. */
     private Combo                                  comboRedactionChar;
-    /** Var */
+    
+    /** Var. */
     private Text                                   textDomainSize;
-    /** Var */
+    
+    /** Var. */
     private Text                                   textAlphabetSize;
-    /** Var */
+    
+    /** Var. */
     private Text                                   textMaximalLength;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param controller
      * @param wizard
      * @param model
@@ -84,6 +93,9 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
         setPageComplete(true);
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     public void createControl(final Composite parent) {
         
@@ -201,6 +213,9 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
         setControl(composite);
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
+     */
     @Override
     public boolean isPageComplete() {
         
@@ -227,12 +242,18 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
         return false;
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.wizard.HierarchyWizardPageBuilder#setVisible(boolean)
+     */
     @Override
     public void setVisible(boolean value){
         super.setVisible(value);
         model.setVisible(value);
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.wizard.HierarchyWizardPageBuilder#updatePage()
+     */
     @Override
     public void updatePage() {
         textMaximalLength.setText(model.getMaxValueLength() == null ? "" : String.valueOf(model.getMaxValueLength()));
@@ -247,7 +268,8 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
     }
     
     /**
-     * Creates combo items
+     * Creates combo items.
+     *
      * @param combo
      * @param padding
      */
@@ -260,7 +282,8 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
     }
 
     /**
-     * Decorates a text field for domain properties
+     * Decorates a text field for domain properties.
+     *
      * @param text
      */
     private void decorate(final Text text) {
@@ -292,7 +315,8 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
     
 
     /**
-     * Returns the index of the item, or adds it to the combo
+     * Returns the index of the item, or adds it to the combo.
+     *
      * @param combo
      * @param value
      * @return
@@ -308,7 +332,9 @@ public class HierarchyWizardPageRedaction<T> extends HierarchyWizardPageBuilder<
     }
     
     /**
-     * Returns whether a valid number has been entered
+     * Returns whether a valid number has been entered.
+     *
+     * @param text
      * @return
      */
     private boolean isValidNumber(String text) {

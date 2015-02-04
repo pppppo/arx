@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.define;
@@ -29,6 +28,7 @@ import org.deidentifier.arx.gui.view.def.IView;
 import org.deidentifier.arx.gui.view.impl.common.ComponentTitledFolder;
 import org.deidentifier.arx.gui.view.impl.common.ComponentTitledFolderButton;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,54 +41,70 @@ import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.ToolItem;
 
 /**
- * This view displays general settings regarding data transformation
+ * This view displays general settings regarding data transformation.
+ *
  * @author Fabian Prasser
  */
 public class ViewGeneralSettings implements IView {
 
-    /** Static settings */
+    /** Static settings. */
     private static final int      LABEL_WIDTH  = 50;
-    /** Static settings */
+    
+    /** Static settings. */
     private static final int      LABEL_HEIGHT = 20;
 
-    /** Controller */
+    /** Controller. */
     private final Controller      controller;
-    /** Model */
+    
+    /** Model. */
     private Model                 model;
 
-    /** View */
+    /** View. */
     // TODO: Deactivated in ARX 2.3 due to buggy implementation
     // private Button buttonProtectSensitiveAssociations;
 
     /** View */
     private Scale                 sliderOutliers;
-    /** View */
+    
+    /** View. */
     private Label                 labelOutliers;
-    /** View */
+    
+    /** View. */
     private Button                buttonPracticalMonotonicity;
-    /** View */
+    
+    /** View. */
     private Composite             root;
-    /** View */
+    
+    /** View. */
     private ComponentTitledFolder folder;
-    /** View */
+    
+    /** View. */
     private ComponentTitledFolder folder2;
-    /** View */
+    
+    /** View. */
     private ToolItem              enable;
-    /** View */
+    
+    /** View. */
     private ToolItem              push;
-    /** View */
+    
+    /** View. */
     private ToolItem              pull;
-    /** View */
+    
+    /** View. */
     private ViewCriteriaList      clv;
-    /** View */
+    
+    /** View. */
     private Button                precomputedVariant;
-    /** View */
+    
+    /** View. */
     private Scale                 precomputationThreshold;
-    /** View */
+    
+    /** View. */
     private Label                 labelThreshold;
     
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param controller
      */
@@ -105,12 +121,18 @@ public class ViewGeneralSettings implements IView {
         this.root = build(parent);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#dispose()
+     */
     @Override
     public void dispose() {
         controller.removeListener(this);
         clv.dispose();
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#reset()
+     */
     @Override
     public void reset() {
         precomputedVariant.setSelection(false);
@@ -121,11 +143,14 @@ public class ViewGeneralSettings implements IView {
         SWTUtil.disable(root);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#update(org.deidentifier.arx.gui.model.ModelEvent)
+     */
     @Override
     public void update(final ModelEvent event) {
         if (event.part == ModelPart.MODEL) {
             model = (Model) event.data;
-            root.setRedraw(false);
+            
             sliderOutliers.setSelection(SWTUtil.doubleToSlider(0d, 0.999d, model.getInputConfig().getAllowedOutliers()));
             labelOutliers.setText(String.valueOf(model.getInputConfig().getAllowedOutliers()));
             buttonPracticalMonotonicity.setSelection(model.getInputConfig().isPracticalMonotonicity());
@@ -134,7 +159,7 @@ public class ViewGeneralSettings implements IView {
             // buttonProtectSensitiveAssociations.setSelection(model.getInputConfig().isProtectSensitiveAssociations());
             
             updateControlls();
-            root.setRedraw(true);
+            
         } else if (event.part == ModelPart.INPUT) {
             SWTUtil.enable(root);
             updateControlls();
@@ -149,6 +174,12 @@ public class ViewGeneralSettings implements IView {
         }
     }
 
+    /**
+     * 
+     *
+     * @param parent
+     * @return
+     */
     private Composite build(final Composite parent) {
 
         // Create input group
@@ -232,7 +263,13 @@ public class ViewGeneralSettings implements IView {
         final Label sLabel = new Label(group, SWT.PUSH);
         sLabel.setText(Resources.getMessage("CriterionDefinitionView.11")); //$NON-NLS-1$
 
-        labelOutliers = new Label(group, SWT.BORDER | SWT.CENTER);
+        Composite outliersBase = new Composite(group, SWT.NONE);
+        GridData baseData = SWTUtil.createFillHorizontallyGridData();
+        baseData.horizontalSpan = 3;
+        outliersBase.setLayoutData(baseData);
+        outliersBase.setLayout(GridLayoutFactory.swtDefaults().numColumns(2).create());
+        
+        labelOutliers = new Label(outliersBase, SWT.BORDER | SWT.CENTER);
         GridData d2 = new GridData();
         d2.minimumWidth = LABEL_WIDTH;
         d2.widthHint = LABEL_WIDTH;
@@ -240,10 +277,8 @@ public class ViewGeneralSettings implements IView {
         labelOutliers.setLayoutData(d2);
         labelOutliers.setText("0"); //$NON-NLS-1$
 
-        sliderOutliers = new Scale(group, SWT.HORIZONTAL);
-        GridData d3 = SWTUtil.createFillHorizontallyGridData();
-        d3.horizontalSpan = 2;
-        sliderOutliers.setLayoutData(d3);
+        sliderOutliers = new Scale(outliersBase, SWT.HORIZONTAL);
+        sliderOutliers.setLayoutData(SWTUtil.createFillHorizontallyGridData());
         sliderOutliers.setMaximum(SWTUtil.SLIDER_MAX);
         sliderOutliers.setMinimum(0);
         sliderOutliers.setSelection(0);
@@ -326,6 +361,7 @@ public class ViewGeneralSettings implements IView {
         precomputationThreshold.setMaximum(SWTUtil.SLIDER_MAX);
         precomputationThreshold.setMinimum(0);
         precomputationThreshold.setSelection(0);
+        precomputationThreshold.setEnabled(false);
         precomputationThreshold.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(final SelectionEvent arg0) {
@@ -381,7 +417,8 @@ public class ViewGeneralSettings implements IView {
     }
 
     /**
-     * Returns the currently selected criterion
+     * Returns the currently selected criterion.
+     *
      * @return
      */
     private ModelCriterion getSelectedCriterion() {
@@ -400,11 +437,10 @@ public class ViewGeneralSettings implements IView {
     
     /**
      * This method adjusts the toolbar attached to the folder with criteria
-     * according to the current state of the model
+     * according to the current state of the model.
      */
     private void updateControlls(){
 
-        root.setRedraw(false);
         ModelCriterion mc = null;
         
         // K-Anonymity
@@ -445,7 +481,6 @@ public class ViewGeneralSettings implements IView {
         }
         
         if (mc == null){
-            root.setRedraw(true);
             return;
         }
         
@@ -462,27 +497,24 @@ public class ViewGeneralSettings implements IView {
         }
 
         // Precomputation
-        if (!model.getMetricDescription().isPrecomputationSupported()) {
-            this.precomputedVariant.setSelection(false);
-            this.precomputedVariant.setEnabled(false);
-            this.precomputationThreshold.setSelection(SWTUtil.doubleToSlider(0d, 1d, model.getMetricConfiguration().getPrecomputationThreshold()));
-            this.precomputationThreshold.setEnabled(false);
-            this.labelThreshold.setText(String.valueOf(model.getMetricConfiguration().getPrecomputationThreshold()));
+        this.precomputedVariant.setSelection(model.getMetricConfiguration()
+                                                  .isPrecomputed());
+        if (model.getMetricConfiguration().isPrecomputed()) {
+            this.precomputationThreshold.setSelection(SWTUtil.doubleToSlider(0d,
+                                                                             1d,
+                                                                             model.getMetricConfiguration()
+                                                                                  .getPrecomputationThreshold()));
+            this.precomputationThreshold.setEnabled(true);
+            this.labelThreshold.setText(String.valueOf(model.getMetricConfiguration()
+                                                            .getPrecomputationThreshold()));
         } else {
-            this.precomputedVariant.setEnabled(true);
-            this.precomputedVariant.setSelection(model.getMetricConfiguration().isPrecomputed());
-            if (model.getMetricConfiguration().isPrecomputed()) {
-                this.precomputationThreshold.setSelection(SWTUtil.doubleToSlider(0d, 1d, model.getMetricConfiguration().getPrecomputationThreshold()));
-                this.precomputationThreshold.setEnabled(true);
-                this.labelThreshold.setText(String.valueOf(model.getMetricConfiguration().getPrecomputationThreshold()));
-            } else {
-                this.precomputationThreshold.setSelection(SWTUtil.doubleToSlider(0d, 1d, model.getMetricConfiguration().getPrecomputationThreshold()));
-                this.precomputationThreshold.setEnabled(false);
-                this.labelThreshold.setText(String.valueOf(model.getMetricConfiguration().getPrecomputationThreshold()));
-            }
+            this.precomputationThreshold.setSelection(SWTUtil.doubleToSlider(0d,
+                                                                             1d,
+                                                                             model.getMetricConfiguration()
+                                                                                  .getPrecomputationThreshold()));
+            this.precomputationThreshold.setEnabled(false);
+            this.labelThreshold.setText(String.valueOf(model.getMetricConfiguration()
+                                                            .getPrecomputationThreshold()));
         }
-        
-        
-        root.setRedraw(true);
     }
 }

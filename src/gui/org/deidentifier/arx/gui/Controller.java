@@ -1,20 +1,19 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
- * Copyright (C) 2014 Karol Babioch <karol@babioch.de>
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2014 Karol Babioch <karol@babioch.de>
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui;
@@ -31,6 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,26 +85,30 @@ import org.eclipse.swt.widgets.Shell;
 import cern.colt.Swapper;
 
 /**
- * The main controller for the whole tool
- * 
+ * The main controller for the whole tool.
+ *
  * @author Fabian Prasser
  */
 public class Controller implements IView {
 
-    /** The debug data */
+    /** The debug data. */
     private final DebugData                  debug     = new DebugData();
-    /** Listeners registered by the views */
+    
+    /** Listeners registered by the views. */
     private final Map<ModelPart, Set<IView>> listeners = Collections.synchronizedMap(new HashMap<ModelPart, Set<IView>>());
-    /** The main window */
+    
+    /** The main window. */
     private final MainWindow                 main;
-    /** The model */
+    
+    /** The model. */
     private Model                            model;
-    /** The resources */
+    
+    /** The resources. */
     private final Resources                  resources;
 
     /**
-     * Creates a new controller
-     * 
+     * Creates a new controller.
+     *
      * @param main
      */
     public Controller(final MainWindow main) {
@@ -113,7 +117,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Applies the selected transformation
+     * Applies the selected transformation.
      */
     public void actionApplySelectedTransformation() {
 
@@ -148,15 +152,15 @@ public class Controller implements IView {
     }
 
     /**
-     * Clears the event log
+     * Clears the event log.
      */
     public void actionClearEventLog() {
         this.debug.clearEventLog();
     }
 
     /**
-     * Enables and disables a criterion
-     * 
+     * Enables and disables a criterion.
+     *
      * @param criterion
      */
     public void actionCriterionEnable(ModelCriterion criterion) {
@@ -169,8 +173,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Pull settings into the criterion
-     * 
+     * Pull settings into the criterion.
+     *
      * @param criterion
      */
     public void actionCriterionPull(ModelCriterion criterion) {
@@ -213,8 +217,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Pushes the settings of the criterion
-     * 
+     * Pushes the settings of the criterion.
+     *
      * @param criterion
      */
     public void actionCriterionPush(ModelCriterion criterion) {
@@ -243,7 +247,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Toggles the "show groups" option
+     * Toggles the "show groups" option.
      */
     public void actionDataShowGroups() {
 
@@ -258,8 +262,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Sorts the data
-     * 
+     * Sorts the data.
+     *
      * @param input
      */
     public void actionDataSort(boolean input) {
@@ -281,7 +285,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Toggles the "subset" option
+     * Toggles the "subset" option.
      */
     public void actionDataToggleSubset() {
 
@@ -296,7 +300,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Starts the anonymization
+     * Starts the anonymization.
      */
     public void actionMenuEditAnonymize() {
 
@@ -395,7 +399,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Starts the wizard
+     * Starts the wizard.
      */
     public void actionMenuEditCreateHierarchy() {
         if (model == null) {
@@ -427,7 +431,7 @@ public class Controller implements IView {
 
         HierarchyBuilder<?> builder = model.getInputConfig().getHierarchyBuilder(attr);
         @SuppressWarnings({ "unchecked", "rawtypes" })
-        ARXWizard<HierarchyWizardResult<?>> wizard = new HierarchyWizard(this, attr, builder, type, data);
+        ARXWizard<HierarchyWizardResult<?>> wizard = new HierarchyWizard(this, attr, builder, type, model.getLocale(), data);
 
         if (wizard.open(main.getShell())) {
             HierarchyWizardResult<?> result = wizard.getResult();
@@ -442,7 +446,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Starts the "edit settings" dialog
+     * Starts the "edit settings" dialog.
      */
     public void actionMenuEditSettings() {
         if (model == null) {
@@ -468,7 +472,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->exit
+     * File->exit.
      */
     public void actionMenuFileExit() {
         if (main.showQuestionDialog(main.getShell(),
@@ -487,7 +491,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->export data
+     * File->export data.
      */
     public void actionMenuFileExportData() {
         if (model == null) {
@@ -539,7 +543,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->Export hierarchy
+     * File->Export hierarchy.
      */
     public void actionMenuFileExportHierarchy() {
 
@@ -581,7 +585,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->Import data
+     * File->Import data.
      */
     public void actionMenuFileImportData() {
 
@@ -610,7 +614,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->Import hierarchy
+     * File->Import hierarchy.
      */
     public void actionMenuFileImportHierarchy() {
         if (model == null) {
@@ -666,7 +670,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->New project
+     * File->New project.
      */
     public void actionMenuFileNew() {
 
@@ -692,7 +696,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->Open project
+     * File->Open project.
      */
     public void actionMenuFileOpen() {
 
@@ -718,7 +722,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->Save project
+     * File->Save project.
      */
     public void actionMenuFileSave() {
         if (model == null) {
@@ -735,7 +739,7 @@ public class Controller implements IView {
     }
 
     /**
-     * File->Save project as
+     * File->Save project as.
      */
     public void actionMenuFileSaveAs() {
         if (model == null) {
@@ -759,29 +763,29 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows the "about" dialog
+     * Shows the "about" dialog.
      */
     public void actionMenuHelpAbout() {
         main.showAboutDialog();
     }
 
     /**
-     * Shows the "debug" dialog
+     * Shows the "debug" dialog.
      */
     public void actionMenuHelpDebug() {
         if (model != null && model.isDebugEnabled()) main.showDebugDialog();
     }
 
     /**
-     * Shows the "help" dialog
+     * Shows the "help" dialog.
      */
     public void actionMenuHelpHelp() {
         actionShowHelpDialog(null);
     }
 
     /**
-     * Internal method for loading a project
-     * 
+     * Internal method for loading a project.
+     *
      * @param path
      */
     public void actionOpenProject(String path) {
@@ -800,10 +804,16 @@ public class Controller implements IView {
 
         main.showProgressDialog(Resources.getMessage("Controller.83"), worker); //$NON-NLS-1$
         if (worker.getError() != null) {
+            
+            String message = worker.getError().getMessage();
+            if (message == null || message.equals("")) {
+                message = "Error loading project: "+worker.getError().getClass().getSimpleName();
+            }
+            
             getResources().getLogger().info(worker.getError());
             main.showInfoDialog(main.getShell(),
                                 Resources.getMessage("Controller.85"), //$NON-NLS-1$
-                                worker.getError().getMessage());
+                                message);
             return;
         }
 
@@ -918,21 +928,23 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows an error dialog
-     * 
-     * @param header
+     * Shows an error dialog.
+     *
+     * @param shell
      * @param text
+     * @param t
      */
     public void actionShowErrorDialog(final Shell shell, final String text, final Throwable t) {
         main.showErrorDialog(shell, text, t);
     }
 
     /**
-     * Shows a dialog for selecting a format string for a data type
-     * 
+     * Shows a dialog for selecting a format string for a data type.
+     *
      * @param shell The parent shell
      * @param title The dialog's title
      * @param text The dialog's text
+     * @param locale The locale
      * @param type The description of the data type for which to choose a format string
      * @param values The values to check the format string against
      * @return The format string, or <code>null</code> if no format was (or could be) selected
@@ -940,18 +952,20 @@ public class Controller implements IView {
     public String actionShowFormatInputDialog(final Shell shell,
                                               final String title,
                                               final String text,
+                                              final Locale locale,
                                               final DataTypeDescription<?> type,
                                               final Collection<String> values) {
 
-        return main.showFormatInputDialog(shell, title, text, null, type, values);
+        return main.showFormatInputDialog(shell, title, text, null, locale, type, values);
     }
 
     /**
-     * Shows a dialog for selecting a format string for a data type
-     * 
+     * Shows a dialog for selecting a format string for a data type.
+     *
      * @param shell The parent shell
      * @param title The dialog's title
      * @param text The dialog's text
+     * @param locale The locale
      * @param type The description of the data type for which to choose a format string
      * @param values The values to check the format string against
      * @return The format string, or <code>null</code> if no format was (or could be) selected
@@ -959,19 +973,21 @@ public class Controller implements IView {
     public String actionShowFormatInputDialog(final Shell shell,
                                               final String title,
                                               final String text,
+                                              final Locale locale,
                                               final DataTypeDescription<?> type,
                                               final String[] values) {
 
-        return main.showFormatInputDialog(shell, title, text, null, type, Arrays.asList(values));
+        return main.showFormatInputDialog(shell, title, text, null, locale, type, Arrays.asList(values));
     }
 
     /**
-     * Shows a dialog for selecting a format string for a data type
-     * 
+     * Shows a dialog for selecting a format string for a data type.
+     *
      * @param shell The parent shell
      * @param title The dialog's title
      * @param text The dialog's text
      * @param preselected A preselected format string
+     * @param locale The locale
      * @param type The description of the data type for which to choose a format string
      * @param values The values to check the format string against
      * @return The format string, or <code>null</code> if no format was (or could be) selected
@@ -980,15 +996,16 @@ public class Controller implements IView {
                                               final String title,
                                               final String text,
                                               final String preselected,
+                                              final Locale locale,
                                               final DataTypeDescription<?> type,
                                               final Collection<String> values) {
 
-        return main.showFormatInputDialog(shell, title, text, preselected, type, values);
+        return main.showFormatInputDialog(shell, title, text, preselected, locale, type, values);
     }
 
     /**
-     * Shows a help dialog
-     * 
+     * Shows a help dialog.
+     *
      * @param id
      */
     public void actionShowHelpDialog(String id) {
@@ -996,8 +1013,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows an info dialog
-     * 
+     * Shows an info dialog.
+     *
      * @param shell
      * @param header
      * @param text
@@ -1007,8 +1024,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows an input dialog
-     * 
+     * Shows an input dialog.
+     *
      * @param shell
      * @param header
      * @param text
@@ -1023,8 +1040,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows a "open file" dialog
-     * 
+     * Shows a "open file" dialog.
+     *
      * @param shell
      * @param filter
      * @return
@@ -1034,26 +1051,29 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows an input dialog for ordering data items
-     * 
+     * Shows an input dialog for ordering data items.
+     *
      * @param shell
      * @param title The dialog's title
      * @param text The dialog's text
      * @param type The data type
+     * @param locale
      * @param values The values
+     * @return
      */
     public String[] actionShowOrderValuesDialog(final Shell shell,
                                                 final String title,
                                                 final String text,
                                                 final DataType<?> type,
+                                                final Locale locale,
                                                 final String[] values) {
 
-        return main.showOrderValuesDialog(shell, title, text, type, values);
+        return main.showOrderValuesDialog(shell, title, text, type, locale, values);
     }
 
     /**
-     * Shows a progress dialog
-     * 
+     * Shows a progress dialog.
+     *
      * @param text
      * @param worker
      */
@@ -1063,8 +1083,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Shows a question dialog
-     * 
+     * Shows a question dialog.
+     *
      * @param shell
      * @param header
      * @param text
@@ -1077,8 +1097,9 @@ public class Controller implements IView {
     }
 
     /**
-     * Internal method for showing a "save file" dialog
-     * 
+     * Internal method for showing a "save file" dialog.
+     *
+     * @param shell
      * @param filter
      * @return
      */
@@ -1087,7 +1108,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Includes all tuples in the research subset
+     * Includes all tuples in the research subset.
      */
     public void actionSubsetAll() {
         Data data = model.getInputConfig().getInput();
@@ -1102,7 +1123,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Creates a research subset from a file
+     * Creates a research subset from a file.
      */
     public void actionSubsetFile() {
 
@@ -1148,7 +1169,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Excludes all tuples from the subset
+     * Excludes all tuples from the subset.
      */
     public void actionSubsetNone() {
         Data data = model.getInputConfig().getInput();
@@ -1161,7 +1182,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Creates a subset by executing a query
+     * Creates a subset by executing a query.
      */
     public void actionSubsetQuery() {
         DialogQueryResult result = main.showQueryDialog(model.getQuery(), model.getInputConfig().getInput());
@@ -1178,8 +1199,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Registers a listener at the controller
-     * 
+     * Registers a listener at the controller.
+     *
      * @param target
      * @param listener
      */
@@ -1190,6 +1211,9 @@ public class Controller implements IView {
         listeners.get(target).add(listener);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#dispose()
+     */
     @Override
     public void dispose() {
         for (final Set<IView> listeners : getListeners().values()) {
@@ -1200,8 +1224,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Returns debug data
-     * 
+     * Returns debug data.
+     *
      * @return
      */
     public String getDebugData() {
@@ -1209,8 +1233,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Returns the resources
-     * 
+     * Returns the resources.
+     *
      * @return
      */
     public Resources getResources() {
@@ -1219,8 +1243,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Unregisters a listener
-     * 
+     * Unregisters a listener.
+     *
      * @param listener
      */
     public void removeListener(final IView listener) {
@@ -1229,6 +1253,9 @@ public class Controller implements IView {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#reset()
+     */
     @Override
     public void reset() {
         for (final Set<IView> listeners : getListeners().values()) {
@@ -1238,6 +1265,9 @@ public class Controller implements IView {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#update(org.deidentifier.arx.gui.model.ModelEvent)
+     */
     @Override
     public void update(final ModelEvent event) {
         if (model != null && model.isDebugEnabled()) this.debug.addEvent(event);
@@ -1252,10 +1282,9 @@ public class Controller implements IView {
     }
 
     /**
-     * Internal method for importing data
-     * 
-     * @param path
-     * @param separator
+     * Internal method for importing data.
+     *
+     * @param config
      */
     private void actionImportData(ImportConfiguration config) {
 
@@ -1339,8 +1368,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Internal method for importing hierarchies
-     * 
+     * Internal method for importing hierarchies.
+     *
      * @param path
      * @param separator
      * @return
@@ -1366,7 +1395,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Resets the output
+     * Resets the output.
      */
     private void actionResetOutput() {
 
@@ -1386,7 +1415,7 @@ public class Controller implements IView {
     }
 
     /**
-     * Internal method for saving a project
+     * Internal method for saving a project.
      */
     private void actionSaveProject() {
         if (model == null) {
@@ -1409,8 +1438,8 @@ public class Controller implements IView {
 
     /**
      * Creates a deep copy of the listeners, to avoid concurrent modification
-     * issues during updates of the model
-     * 
+     * issues during updates of the model.
+     *
      * @return
      */
     private Map<ModelPart, Set<IView>> getListeners() {
@@ -1423,8 +1452,8 @@ public class Controller implements IView {
     }
 
     /**
-     * Updates the view config
-     * 
+     * Updates the view config.
+     *
      * @param force Force update even if unchanged
      */
     private void updateViewConfig(boolean force) {

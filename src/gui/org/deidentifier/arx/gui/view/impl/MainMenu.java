@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl;
@@ -32,18 +31,27 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This class implements the global main menu
+ * This class implements the global main menu.
+ *
  * @author Fabian Prasser
  */
 public class MainMenu implements IView {
 
+    /**  TODO */
     private static final String FILE_NAME = Resources.getMessage("MainMenu.0"); //$NON-NLS-1$
+    
+    /**  TODO */
     private static final String EDIT_NAME = Resources.getMessage("MainMenu.1"); //$NON-NLS-1$
+    
+    /**  TODO */
     private static final String HELP_NAME = Resources.getMessage("MainMenu.2"); //$NON-NLS-1$
 
+    /**  TODO */
     private Menu menu;
+    
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param shell
      * @param controller
      */
@@ -247,7 +255,8 @@ public class MainMenu implements IView {
     }
     
     /**
-     * Enable/disable a menu
+     * Enable/disable a menu.
+     *
      * @param menu
      * @param text
      * @param enabled
@@ -264,16 +273,25 @@ public class MainMenu implements IView {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#dispose()
+     */
     @Override
     public void dispose() {
         // Nothing to do for now
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#reset()
+     */
     @Override
     public void reset() {
         // Nothing to do for now
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#update(org.deidentifier.arx.gui.model.ModelEvent)
+     */
     @Override
     public void update(ModelEvent event) {
         if (event.part == ModelPart.MODEL) {

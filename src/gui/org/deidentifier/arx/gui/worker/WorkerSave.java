@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.worker;
@@ -30,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -55,20 +55,24 @@ import org.deidentifier.arx.metric.InformationLoss;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
- * This worker saves a project file to disk
+ * This worker saves a project file to disk.
+ *
  * @author Fabian Prasser
  */
 public class WorkerSave extends Worker<Model> {
 
-    /** The vocabulary to use*/
+    /** The vocabulary to use. */
     private Vocabulary vocabulary = new Vocabulary_V2();
-	/** The path*/
+	
+	/** The path. */
     private final String     path;
-    /** The model*/
+    
+    /** The model. */
     private final Model      model;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param path
      * @param controller
      * @param model
@@ -80,6 +84,9 @@ public class WorkerSave extends Worker<Model> {
         this.model = model;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+     */
     @Override
     public void run(final IProgressMonitor arg0) throws InvocationTargetException,
                                                         InterruptedException {
@@ -89,6 +96,7 @@ public class WorkerSave extends Worker<Model> {
         try {
             final FileOutputStream f = new FileOutputStream(path);
             final ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(f));
+            zip.setLevel(Deflater.BEST_SPEED);
             model.createConfig(); 
             writeMetadata(model, zip);
             arg0.worked(1);
@@ -122,8 +130,8 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Converts an attribute name to a file name
-     * 
+     * Converts an attribute name to a file name.
+     *
      * @param a
      * @return
      */
@@ -132,11 +140,11 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Converts a configuration to XML
-     * 
-     * @param model
+     * Converts a configuration to XML.
+     *
+     * @param config
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private String toXML(final ModelConfiguration config) throws IOException {
         
@@ -184,13 +192,13 @@ public class WorkerSave extends Worker<Model> {
     }
     
     /**
-     * Returns an XML representation of the data definition
-     * @param config 
-     * 
+     * Returns an XML representation of the data definition.
+     *
+     * @param config
      * @param handle
      * @param definition
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private String toXML(final ModelConfiguration config, 
                          final DataHandle handle,
@@ -234,12 +242,11 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Returns an XML representation of the lattice
-     * 
+     * Returns an XML representation of the lattice.
+     *
      * @param map
      * @param l
      * @param zip
-     * @return
      * @throws IOException
      */
     private void toXML(final Map<String, Integer> map,
@@ -296,12 +303,12 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Returns an XML representation of the clipboard
-     * 
+     * Returns an XML representation of the clipboard.
+     *
      * @param map
      * @param clipboard
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private String toXML(final Map<String, Integer> map,
                          final List<ARXNode> clipboard) throws IOException {
@@ -316,11 +323,11 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Converts a model to XML
-     * 
+     * Converts a model to XML.
+     *
      * @param model
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private String toXML(final Model model) throws IOException {
     	
@@ -329,6 +336,7 @@ public class WorkerSave extends Worker<Model> {
         writer.write(vocabulary.getName(), model.getName());
         writer.write(vocabulary.getSeparator(), model.getSeparator());
         writer.write(vocabulary.getDescription(), model.getDescription());
+        writer.write(vocabulary.getLocale(), model.getLocale().getLanguage().toUpperCase());
         writer.write(vocabulary.getHistorySize(), model.getHistorySize());
         writer.write(vocabulary.getSnapshotSizeDataset(), model.getSnapshotSizeDataset());
         writer.write(vocabulary.getSnapshotSizeSnapshot(), model.getSnapshotSizeSnapshot());
@@ -342,8 +350,9 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the clipboard to the file
-     * 
+     * Writes the clipboard to the file.
+     *
+     * @param model
      * @param map
      * @param zip
      * @throws IOException
@@ -362,8 +371,10 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the configuration to the file
-     * 
+     * Writes the configuration to the file.
+     *
+     * @param config
+     * @param prefix
      * @param zip
      * @throws IOException
      */
@@ -386,8 +397,9 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the configuration to the file
-     * 
+     * Writes the configuration to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */
@@ -402,8 +414,10 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the data definition to the file
-     * 
+     * Writes the data definition to the file.
+     *
+     * @param config
+     * @param prefix
      * @param zip
      * @throws IOException
      */
@@ -426,8 +440,9 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the current filter to the file
-     * 
+     * Writes the current filter to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */
@@ -440,8 +455,10 @@ public class WorkerSave extends Worker<Model> {
     }
     
     /**
-     * Writes the hierarchies to the file
-     * 
+     * Writes the hierarchies to the file.
+     *
+     * @param config
+     * @param prefix
      * @param zip
      * @throws IOException
      */
@@ -457,8 +474,9 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the input to the file
-     * 
+     * Writes the input to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */
@@ -477,8 +495,9 @@ public class WorkerSave extends Worker<Model> {
     
 
     /**
-     * Writes the input subset to the file
-     * 
+     * Writes the input subset to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */
@@ -493,8 +512,9 @@ public class WorkerSave extends Worker<Model> {
     }
     
     /**
-     * Writes the lattice to the file
-     * 
+     * Writes the lattice to the file.
+     *
+     * @param model
      * @param zip
      * @return
      * @throws IOException
@@ -557,9 +577,9 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the meta data to the file
-     * 
-     * @param map
+     * Writes the meta data to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */
@@ -578,8 +598,9 @@ public class WorkerSave extends Worker<Model> {
     }
 
     /**
-     * Writes the project to the file
-     * 
+     * Writes the project to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */
@@ -596,11 +617,12 @@ public class WorkerSave extends Worker<Model> {
     }
 
 	/**
-	 * Writes the output to the file
-	 * 
-	 * @param zip
-	 * @throws IOException
-	 */
+     * Writes the output to the file.
+     *
+     * @param model
+     * @param zip
+     * @throws IOException
+     */
 	private void writeOutput(final Model model, final ZipOutputStream zip) throws IOException {
 		if (model.getOutput() != null) {
 			zip.putNextEntry(new ZipEntry("data/output.csv")); //$NON-NLS-1$
@@ -610,8 +632,9 @@ public class WorkerSave extends Worker<Model> {
 	}
 
     /**
-     * Writes the output to the file
-     * 
+     * Writes the output to the file.
+     *
+     * @param model
      * @param zip
      * @throws IOException
      */

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.test;
@@ -41,32 +40,45 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for data transformations
- * 
+ * Test for data transformations.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public abstract class TestAnonymizationAbstract extends AbstractTest {
 
     /**
-     * Represents a test case
-     * 
+     * Represents a test case.
+     *
      * @author Fabian Prasser
      * @author Florian Kohlmayer
      */
     public static class ARXAnonymizationTestCase {
 
+        /**  TODO */
         public ARXConfiguration config;
+        
+        /**  TODO */
         public String           dataset;
+        
+        /**  TODO */
         public String           sensitiveAttribute;
+        
+        /**  TODO */
         public String           optimalInformationLoss;
+        
+        /**  TODO */
         public int[]            optimalTransformation;
+        
+        /**  TODO */
         public boolean          practical;
+        
+        /**  TODO */
         public int[]            statistics;
 
         /**
-         * Creates a new instance
-         * 
+         * Creates a new instance.
+         *
          * @param config
          * @param dataset
          * @param optimalInformationLoss
@@ -82,8 +94,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         }
 
         /**
-         * Creates a new instance
-         * 
+         * Creates a new instance.
+         *
          * @param config
          * @param dataset
          * @param optimalInformationLoss
@@ -101,8 +113,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         }
 
         /**
-         * Creates a new instance
-         * 
+         * Creates a new instance.
+         *
          * @param config
          * @param sensitiveAttribute
          * @param dataset
@@ -120,8 +132,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         }
 
         /**
-         * Creates a new instance
-         * 
+         * Creates a new instance.
+         *
          * @param config
          * @param sensitiveAttribute
          * @param dataset
@@ -147,8 +159,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         }
 
         /**
-         * Creates a new instance
-         * 
+         * Creates a new instance.
+         *
          * @param config
          * @param sensitiveAttribute
          * @param dataset
@@ -166,8 +178,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         }
 
         /**
-         * Creates a new instance
-         * 
+         * Creates a new instance.
+         *
          * @param config
          * @param sensitiveAttribute
          * @param dataset
@@ -192,6 +204,9 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
             this.statistics = statistics;
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Object#toString()
+         */
         @Override
         public String toString() {
             return config.getCriteria() + "-" + config.getMaxOutliers() + "-" + config.getMetric() + "-" + dataset + "-PM:" +
@@ -199,12 +214,12 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         }
     }
 
-    /** The test case */
+    /** The test case. */
     protected final ARXAnonymizationTestCase testCase;
 
     /**
-     * Creates a new instance
-     * 
+     * Creates a new instance.
+     *
      * @param testCase
      */
     public TestAnonymizationAbstract(final ARXAnonymizationTestCase testCase) {
@@ -212,8 +227,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
     }
 
     /**
-     * Returns the data object for the test case
-     * 
+     * Returns the data object for the test case.
+     *
      * @param testCase
      * @return
      * @throws IOException
@@ -260,6 +275,9 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         return data;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.test.AbstractTest#setUp()
+     */
     @Override
     @Before
     public void setUp() {
@@ -267,6 +285,11 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
         // We also intentionally don't call super.setUp()
     }
 
+    /**
+     * 
+     *
+     * @throws IOException
+     */
     @Test
     public void test() throws IOException {
 
@@ -340,8 +363,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
     }
 
     /**
-     * Returns the configuration of FLASH
-     * 
+     * Returns the configuration of FLASH.
+     *
      * @param config
      * @return
      */
@@ -366,8 +389,8 @@ public abstract class TestAnonymizationAbstract extends AbstractTest {
     }
 
     /**
-     * Transforms it into a string representation
-     * 
+     * Transforms it into a string representation.
+     *
      * @param classification
      * @return
      */

@@ -1,25 +1,23 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.examples;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,8 +37,8 @@ import org.deidentifier.arx.aggregates.HierarchyBuilderRedactionBased.Order;
 import cern.colt.Arrays;
 
 /**
- * This class implements examples of how to use the builders for generalization hierarchies
- * 
+ * This class implements examples of how to use the builders for generalization hierarchies.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
@@ -48,9 +46,8 @@ public class Example18 extends Example {
 
     /**
      * Entry point.
-     * 
+     *
      * @param args The arguments
-     * @throws ParseException 
      */
     public static void main(final String[] args) {
    
@@ -63,7 +60,7 @@ public class Example18 extends Example {
     }
 
     /**
-     * Shows how to load and store hierarchy specifications
+     * Shows how to load and store hierarchy specifications.
      */
     private static void loadStore() {
         try {
@@ -101,7 +98,7 @@ public class Example18 extends Example {
     }
 
     /**
-     * Exemplifies the use of the order-based builder
+     * Exemplifies the use of the order-based builder.
      */
     private static void orderBased() {
 
@@ -140,7 +137,7 @@ public class Example18 extends Example {
     }
 
     /**
-     * Exemplifies the use of the interval-based builder
+     * Exemplifies the use of the interval-based builder.
      */
     private static void intervalBased() {
 
@@ -189,7 +186,7 @@ public class Example18 extends Example {
     }
 
     /**
-     * Exemplifies the use of the redaction-based builder
+     * Exemplifies the use of the redaction-based builder.
      */
     private static void redactionBased() {
 
@@ -217,7 +214,7 @@ public class Example18 extends Example {
     
     /**
      * Exemplifies the use of the interval-based builder for LDL cholesterol
-     * in mmol/l
+     * in mmol/l.
      */
     private static void ldlCholesterol() {
 
@@ -265,7 +262,7 @@ public class Example18 extends Example {
     }
 
     /**
-     * Exemplifies the use of the order-based builder
+     * Exemplifies the use of the order-based builder.
      */
     private static void dates() {
 
@@ -308,7 +305,8 @@ public class Example18 extends Example {
     }
     
     /**
-     * Returns example data
+     * Returns example data.
+     *
      * @return
      */
     private static String[] getExampleData(){
@@ -321,7 +319,9 @@ public class Example18 extends Example {
     }
     
     /**
-     * Returns example date data
+     * Returns example date data.
+     *
+     * @param stringFormat
      * @return
      */
     private static String[] getExampleDateData(String stringFormat){
@@ -340,7 +340,8 @@ public class Example18 extends Example {
     }
     
     /**
-     * Returns example data
+     * Returns example data.
+     *
      * @return
      */
     private static String[] getExampleLDLData() {

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.menu;
@@ -51,8 +50,12 @@ import org.eclipse.swt.widgets.Shell;
 import de.linearbits.objectselector.ICallback;
 import de.linearbits.objectselector.SelectorTokenizer;
 
+/**
+ * 
+ */
 public class DialogQuery extends TitleAreaDialog implements IDialog {
     
+    /**  TODO */
     private Runnable updater = new Runnable(){
         
         private DataSelector previous = null; 
@@ -84,34 +87,72 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         }
     };
     
+    /**  TODO */
     private static final int INTERVAL = 500;
     
+    /**  TODO */
     private Button           ok          = null;
+    
+    /**  TODO */
     private Button           cancel      = null;
+    
+    /**  TODO */
     private StyledText       text        = null;
+    
+    /**  TODO */
     private Label            status       = null;
+    
+    /**  TODO */
     private Data             data        = null;
+    
+    /**  TODO */
     private String           queryString = null;
+    
+    /**  TODO */
     private DataSelector     selector    = null;
+    
+    /**  TODO */
     private ICallback        highlighter = null;
+    
+    /**  TODO */
     private List<StyleRange> styles      = new ArrayList<StyleRange>();
+    
+    /**  TODO */
     private boolean          stop        = false;
 
+    /**
+     * 
+     *
+     * @param data
+     * @param parent
+     * @param initial
+     */
     public DialogQuery(final Data data, final Shell parent, String initial) {
         super(parent);
         this.queryString = initial;
         this.data = data;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#close()
+     */
     @Override
     public boolean close() {
         return super.close();
     }
     
+    /**
+     * 
+     *
+     * @return
+     */
     public DialogQueryResult getResult() {
         return new DialogQueryResult(queryString, selector);
     }
     
+    /**
+     * 
+     */
     private void highlight() {
         
         if (highlighter==null){
@@ -254,6 +295,9 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         text.setRedraw(true);
     }
     
+    /**
+     * 
+     */
     private void parse() {
         final String query = text.getText();
         final DataSelector selector;
@@ -272,12 +316,18 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         this.ok.setEnabled(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
+     */
     @Override
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setImages(Resources.getIconSet(newShell.getDisplay()));
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected void createButtonsForButtonBar(final Composite parent) {
 
@@ -309,6 +359,9 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         parse();
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.TitleAreaDialog#createContents(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected Control createContents(Composite parent) {
         Control contents = super.createContents(parent);
@@ -317,6 +370,9 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         return contents;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected Control createDialogArea(final Composite parent) {
 
@@ -343,6 +399,9 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         return parent;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#getShellListener()
+     */
     @Override
     protected ShellListener getShellListener() {
         return new ShellAdapter() {
@@ -353,6 +412,9 @@ public class DialogQuery extends TitleAreaDialog implements IDialog {
         };
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#isResizable()
+     */
     @Override
     protected boolean isResizable() {
         return false;

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx;
@@ -35,7 +34,8 @@ import org.deidentifier.arx.framework.data.DataManager;
 import org.deidentifier.arx.metric.Metric;
 
 /**
- * A generic configuration for the ARX anonymizer
+ * A generic configuration for the ARX anonymizer.
+ *
  * @author Fabian Prasser
  */
 public class ARXConfiguration implements Serializable, Cloneable {
@@ -48,11 +48,12 @@ public class ARXConfiguration implements Serializable, Cloneable {
      */
     public static class ARXConfigurationInternal {
         
-        /** The wrapped object*/
+        /** The wrapped object. */
         private final ARXConfiguration config;
         
         /**
-         * Creates a new instance
+         * Creates a new instance.
+         *
          * @param config
          */
         protected ARXConfigurationInternal(ARXConfiguration config){
@@ -60,7 +61,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
         
         /**
-         * Returns the maximum number of allowed outliers
+         * Returns the maximum number of allowed outliers.
+         *
          * @return
          */
         public final int getAbsoluteMaxOutliers() {
@@ -86,7 +88,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Returns the criteria's requirements
+         * Returns the criteria's requirements.
+         *
          * @return
          */
         public int getRequirements() {
@@ -94,7 +97,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Returns the specific length of each entry in a snapshot
+         * Returns the specific length of each entry in a snapshot.
+         *
          * @return
          */
         public int getSnapshotLength() {
@@ -102,7 +106,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
         
         /**
-         * Returns an integer representing all attribute types that must be suppressed
+         * Returns an integer representing all attribute types that must be suppressed.
+         *
          * @return
          */
         public int getSuppressedAttributeTypes() {
@@ -110,7 +115,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Convenience method for checking the requirements
+         * Convenience method for checking the requirements.
+         *
          * @param requirement
          * @return
          */
@@ -119,7 +125,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Returns the max relative number of outliers
+         * Returns the max relative number of outliers.
+         *
          * @return
          */
         public double getMaxOutliers() {
@@ -127,7 +134,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Is practical monotonicity assumed
+         * Is practical monotonicity assumed.
+         *
          * @return
          */
         public boolean isPracticalMonotonicity() {
@@ -152,6 +160,9 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
+         * 
+         *
+         * @param <T>
          * @param clazz
          * @return
          * @see org.deidentifier.arx.ARXConfiguration#getCriterion(java.lang.Class)
@@ -172,7 +183,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Returns the metric used for measuring information loss
+         * Returns the metric used for measuring information loss.
+         *
          * @return
          */
         public Metric<?> getMetric() {
@@ -180,7 +192,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
 
         /**
-         * Determines whether the anonymity criterion is montonic
+         * Determines whether the anonymity criterion is montonic.
+         *
          * @return
          */
         public boolean isCriterionMonotonic() {
@@ -188,20 +201,22 @@ public class ARXConfiguration implements Serializable, Cloneable {
         }
     }
 
-    /** Do the criteria require a counter per equivalence class*/
+    /** Do the criteria require a counter per equivalence class. */
     public static final int       REQUIREMENT_COUNTER           = 0x1;
 
-    /** Do the criteria require distributions of sensitive values in the equivalence classes */
+    /** Do the criteria require distributions of sensitive values in the equivalence classes. */
     public static final int       REQUIREMENT_DISTRIBUTION      = 0x4;
 
-    /** Do the criteria require a second counter */
+    /** Do the criteria require a second counter. */
     public static final int       REQUIREMENT_SECONDARY_COUNTER = 0x2;
     
-    /** For serialization*/
+    /** For serialization. */
     private static final long     serialVersionUID              = -6713510386735241964L;
 
     /**
-     * Creates a new config without tuple suppression
+     * Creates a new config without tuple suppression.
+     *
+     * @return
      */
     public static ARXConfiguration create() {
         return new ARXConfiguration();
@@ -209,8 +224,10 @@ public class ARXConfiguration implements Serializable, Cloneable {
 
     /**
      * Creates a new config that allows the given percentage of outliers and
-     * thus implements tuple suppression
+     * thus implements tuple suppression.
+     *
      * @param supp
+     * @return
      */
     public static ARXConfiguration create(double supp) {
         return new ARXConfiguration(supp);
@@ -219,8 +236,10 @@ public class ARXConfiguration implements Serializable, Cloneable {
     /**
      * Creates a new config that allows the given percentage of outliers and
      * thus implements tuple suppression. Defines the metric for measuring information loss.
+     *
      * @param supp
      * @param metric
+     * @return
      */
     public static ARXConfiguration create(double supp, Metric<?> metric) {
         return new ARXConfiguration(supp, metric);
@@ -228,56 +247,58 @@ public class ARXConfiguration implements Serializable, Cloneable {
 
     /**
      * Creates a new config that allows to define the metric for measuring information loss.
+     *
      * @param metric
+     * @return
      */
     public static ARXConfiguration create(Metric<?> metric) {
         return new ARXConfiguration(metric);
     }
 
-    /** Absolute tuple outliers */
+    /** Absolute tuple outliers. */
     private int                                absMaxOutliers               = 0;
 
-    /** Criteria */
+    /** Criteria. */
     private PrivacyCriterion[]                 aCriteria                    = new PrivacyCriterion[0];
 
-    /** A map of weights per attribute */
+    /** A map of weights per attribute. */
     private Map<String, Double>                attributeWeights             = null;
 
-    /** The criteria */
+    /** The criteria. */
     private Set<PrivacyCriterion>              criteria                     = new HashSet<PrivacyCriterion>();
 
     /** The metric. */
-    private Metric<?>                          metric                       = Metric.createDiscernabilityMetric(true);
+    private Metric<?>                          metric                       = Metric.createLossMetric();
 
-    /** Do we assume practical monotonicity */
+    /** Do we assume practical monotonicity. */
     private boolean                            practicalMonotonicity        = false;
 
-    /** Make sure that no information can be derived from associations between sensitive attributes */
+    /** Make sure that no information can be derived from associations between sensitive attributes. */
     private boolean                            protectSensitiveAssociations = false;
 
-    /** Relative tuple outliers */
+    /** Relative tuple outliers. */
     private double                             relMaxOutliers               = -1;
 
-    /** The requirements per equivalence class */
+    /** The requirements per equivalence class. */
     private int                                requirements                 = 0x0;
 
-    /** The snapshot length */
+    /** The snapshot length. */
     private int                                snapshotLength;
 
-    /** Defines values of which attribute type are to be replaced by the suppression string in suppressed tuples */
+    /** Defines values of which attribute type are to be replaced by the suppression string in suppressed tuples. */
     private Integer                            suppressedAttributeTypes     = 1 << AttributeType.ATTR_TYPE_QI;
 
-    /** The string with which suppressed values are to be replaced */
+    /** The string with which suppressed values are to be replaced. */
     private String                             suppressionString            = "*";
 
-    /** Determines whether suppression is applied to the output of anonymous as well as non-anonymous transformations */
+    /** Determines whether suppression is applied to the output of anonymous as well as non-anonymous transformations. */
     private Boolean                            suppressionAlwaysEnabled     = true;
 
-    /** TODO: This is a hack and should be removed in future releases */
+    /** TODO: This is a hack and should be removed in future releases. */
     private transient ARXConfigurationInternal accessibleInstance           = null;
     
     /**
-     * Creates a new config without tuple suppression
+     * Creates a new config without tuple suppression.
      */
     private ARXConfiguration() {
         this.relMaxOutliers = 0d;
@@ -285,7 +306,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     
     /**
      * Creates a new config that allows the given percentage of outliers and
-     * thus implements tuple suppression
+     * thus implements tuple suppression.
+     *
      * @param supp
      */
     private ARXConfiguration(double supp) {
@@ -316,8 +338,10 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Adds a criterion to the configuration
+     * Adds a criterion to the configuration.
+     *
      * @param c
+     * @return
      */
     public ARXConfiguration addCriterion(PrivacyCriterion c) {
         checkArgument(c);
@@ -333,7 +357,9 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Clones this config
+     * Clones this config.
+     *
+     * @return
      */
     public ARXConfiguration clone() {
         ARXConfiguration result = new ARXConfiguration();
@@ -359,7 +385,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Returns whether the configuration contains a criterion of the given class
+     * Returns whether the configuration contains a criterion of the given class.
+     *
      * @param clazz
      * @return
      */
@@ -372,7 +399,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Returns the weight for the given attribute
+     * Returns the weight for the given attribute.
+     *
      * @param attribute
      * @return
      */
@@ -383,12 +411,15 @@ public class ARXConfiguration implements Serializable, Cloneable {
             this.attributeWeights = new HashMap<String, Double>();
         }
         Double value = this.attributeWeights.get(attribute);
-        if (value == null) return 0d;
+        if (value == null) return 0.5d;
         else return value;
     }
     
     /**
-     * Returns all configured attribute weights
+     * Returns all configured attribute weights. For attributes which are not a key in this
+     * set the default attribute weight will be assumed by ARX. This default value is 
+     * currently set to 0.5.
+     * 
      * @return
      */
     public Map<String, Double> getAttributeWeights() {
@@ -408,7 +439,9 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Returns all privacy criteria that are instances of the given class
+     * Returns all privacy criteria that are instances of the given class.
+     *
+     * @param <T>
      * @param clazz
      * @return
      */
@@ -426,6 +459,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
 
     /**
      * Returns an instance of the class, if any. Throws an exception if more than one such criterion exists.
+     *
+     * @param <T>
      * @param clazz
      * @return
      */
@@ -448,7 +483,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Returns the maximum number of allowed outliers
+     * Returns the maximum number of allowed outliers.
+     *
      * @return
      */
     public final double getMaxOutliers() {
@@ -456,7 +492,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Returns the metric used for measuring information loss
+     * Returns the metric used for measuring information loss.
+     *
      * @return
      */
     public Metric<?> getMetric() {
@@ -489,8 +526,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Determines whether the anonymity criterion is montonic
-     * 
+     * Determines whether the anonymity criterion is montonic.
+     *
      * @return
      */
     public final boolean isCriterionMonotonic() {
@@ -505,7 +542,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Is practical monotonicity assumed
+     * Is practical monotonicity assumed.
+     *
      * @return
      */
     public boolean isPracticalMonotonicity() {
@@ -513,7 +551,9 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Returns, whether the anonymizer should take associations between sensitive attributes into account
+     * Returns, whether the anonymizer should take associations between sensitive attributes into account.
+     *
+     * @return
      */
     public boolean isProtectSensitiveAssociations() {
         return this.protectSensitiveAssociations;
@@ -534,8 +574,10 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Removes the given criterion
-     * @param clazz
+     * Removes the given criterion.
+     *
+     * @param <T>
+     * @param arg
      * @return
      */
     public <T extends PrivacyCriterion> boolean removeCriterion(PrivacyCriterion arg) {
@@ -564,7 +606,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Sets the weight for the given attribute
+     * Sets the weight for the given attribute.
+     *
      * @param attribute
      * @param weight
      */
@@ -574,7 +617,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Sets the weight for the given attribute
+     * Sets the weight for the given attribute.
+     *
      * @param attribute
      * @param weight
      */
@@ -589,7 +633,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
 
     /**
      * Allows for a certain percentage of outliers and thus
-     * triggers tuple suppression
+     * triggers tuple suppression.
+     *
      * @param supp
      */
     public void setMaxOutliers(double supp) {
@@ -597,7 +642,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Sets the utility metric for measuring information loss 
+     * Sets the utility metric for measuring information loss .
+     *
      * @param metric
      */
     public void setMetric(Metric<?> metric) {
@@ -606,15 +652,17 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Set, if practical monotonicity assumed
-     * @return
+     * Set, if practical monotonicity assumed.
+     *
+     * @param assumeMonotonicity
      */
     public void setPracticalMonotonicity(final boolean assumeMonotonicity) {
         this.practicalMonotonicity = assumeMonotonicity;
     }
 
     /**
-     * Set, whether the anonymizer should take associations between sensitive attributes into account
+     * Set, whether the anonymizer should take associations between sensitive attributes into account.
+     *
      * @param protect
      */
     public void setProtectSensitiveAssociations(boolean protect) {
@@ -641,7 +689,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Checks an argument
+     * Checks an argument.
+     *
      * @param argument
      */
     private void checkArgument(Object argument){
@@ -651,7 +700,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Returns the maximum number of allowed outliers
+     * Returns the maximum number of allowed outliers.
+     *
      * @return
      */
     protected final int getAbsoluteMaxOutliers() {
@@ -659,7 +709,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * TODO: This is a hack and should be removed in future releases
+     * TODO: This is a hack and should be removed in future releases.
+     *
      * @return
      */
     protected ARXConfigurationInternal getInternalConfiguration(){
@@ -703,7 +754,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Returns the criteria's requirements
+     * Returns the criteria's requirements.
+     *
      * @return
      */
     protected int getRequirements() {
@@ -711,7 +763,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Returns the specific length of each entry in a snapshot
+     * Returns the specific length of each entry in a snapshot.
+     *
      * @return
      */
     protected int getSnapshotLength() {
@@ -719,7 +772,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Returns an integer representing all attribute types that must be suppressed
+     * Returns an integer representing all attribute types that must be suppressed.
+     *
      * @return
      */
     protected int getSuppressedAttributeTypes() {
@@ -729,7 +783,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
     
     /**
-     * Initializes the configuration
+     * Initializes the configuration.
+     *
      * @param manager
      */
     protected void initialize(DataManager manager) {
@@ -790,7 +845,8 @@ public class ARXConfiguration implements Serializable, Cloneable {
     }
 
     /**
-     * Convenience method for checking the requirements
+     * Convenience method for checking the requirements.
+     *
      * @param requirement
      * @return
      */

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.analyze;
@@ -40,23 +39,26 @@ import de.linearbits.jhc.JHCLayout;
  */
 public class ViewStatisticsContingencyHeatmap extends ViewStatistics<AnalysisContextVisualizationContingency> {
 
-    /** Static stuff */
+    /** Static stuff. */
     private static final int MAX_SIZE = 500;
     
-    /** The heat map widget */
+    /** The heat map widget. */
     private JHC              jhc;
-    /** The heat map configuration */
+    
+    /** The heat map configuration. */
     private JHCGradient      gradient;
-    /** The heat map configuration */
+    
+    /** The heat map configuration. */
     private JHCLayout        layout;
 
 	/**
-	 * Creates a new density plot
-	 * @param parent
-	 * @param controller
-	 * @param target
-	 * @param reset
-	 */
+     * Creates a new density plot.
+     *
+     * @param parent
+     * @param controller
+     * @param target
+     * @param reset
+     */
     public ViewStatisticsContingencyHeatmap(final Composite parent,
                                   final Controller controller,
                                   final ModelPart target,
@@ -65,6 +67,9 @@ public class ViewStatisticsContingencyHeatmap extends ViewStatistics<AnalysisCon
         super(parent, controller, target, reset);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#createControl(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected Control createControl(Composite parent) {
         this.jhc = new JHC(parent, SWT.DOUBLE_BUFFERED);
@@ -93,12 +98,18 @@ public class ViewStatisticsContingencyHeatmap extends ViewStatistics<AnalysisCon
     }
 
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#doReset()
+     */
     @Override
     protected void doReset() {
         jhc.setData(null, new JHCConfiguration("", "", MAX_SIZE, MAX_SIZE, gradient, layout));
     }
 
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#doUpdate(org.deidentifier.arx.gui.view.impl.analyze.AnalysisContextVisualization)
+     */
     @Override
     protected void doUpdate(AnalysisContextVisualizationContingency context) {
         int column1 = context.handle.getColumnIndexOf(context.attribute1);
@@ -112,6 +123,9 @@ public class ViewStatisticsContingencyHeatmap extends ViewStatistics<AnalysisCon
 
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.impl.analyze.ViewStatistics#createViewConfig(org.deidentifier.arx.gui.view.impl.analyze.AnalysisContext)
+     */
     @Override
     protected AnalysisContextVisualizationContingency createViewConfig(AnalysisContext context) {
         return new AnalysisContextVisualizationContingency(context);

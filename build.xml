@@ -4,7 +4,7 @@
     <description>Builds, tests, and runs the project.</description>
 
     <!-- defines the version number -->
-    <property name="arx.version" value="2.3.0" />
+    <property name="arx.version" value="2.3.2" />
 
 
     <!-- defines the to be included libraries -->
@@ -45,6 +45,8 @@
             <filename name="**/swtknob-1.0.0.jar" />
             <filename name="**/org.eclipse.nebula.widgets.nattable.core_1.1.0.201405012245.jar" />
             <filename name="**/org.swtchart_0.9.0.v20140219.jar" />
+            <filename name="**/opal-1.0.1.jar" />
+            <filename name="**/swttiles-0.0.1.jar" />
         </or>
     </fileset>
 

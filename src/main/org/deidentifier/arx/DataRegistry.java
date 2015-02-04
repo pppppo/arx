@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx;
@@ -32,31 +31,37 @@ import cern.colt.Swapper;
 import cern.colt.function.IntComparator;
 
 /**
- * This class implements sorting and swapping for a set of paired data handles
+ * This class implements sorting and swapping for a set of paired data handles.
+ *
  * @author Fabian Prasser
  */
 class DataRegistry {
 
-    /** The input handle, if any*/
+    /** The input handle, if any. */
     private DataHandleInput input;
-    /** The input subset handle, if any*/
+    
+    /** The input subset handle, if any. */
     private DataHandleSubset inputSubset;
-    /** The output handle, if any*/
+    
+    /** The output handle, if any. */
     private Map<ARXNode, DataHandleOutput> output = new HashMap<ARXNode, DataHandleOutput>();
-    /** The output subset handle, if any*/
+    
+    /** The output subset handle, if any. */
     private Map<ARXNode, DataHandleSubset> outputSubset = new HashMap<ARXNode, DataHandleSubset>();
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public DataRegistry(){
         // Empty by design
     }
     
     /**
-     * Helper that creates a view on a research subset
+     * Helper that creates a view on a research subset.
+     *
      * @param handle
      * @param subset
+     * @param eqStatistics
      * @return
      */
     private DataHandleSubset createSubset(DataHandle handle, DataSubset subset, StatisticsEquivalenceClasses eqStatistics) {
@@ -67,7 +72,8 @@ class DataRegistry {
     }
     
     /**
-     * Returns any of the registered subsets
+     * Returns any of the registered subsets.
+     *
      * @return
      */
     private DataHandleSubset getSubset() {
@@ -81,7 +87,8 @@ class DataRegistry {
     }
     
     /**
-     * Sort
+     * Sort.
+     *
      * @param handle
      * @param swapper
      * @param from
@@ -123,7 +130,8 @@ class DataRegistry {
     }
     
     /**
-     * Sort
+     * Sort.
+     *
      * @param handle
      * @param swapper
      * @param from
@@ -159,7 +167,8 @@ class DataRegistry {
     }
 
     /**
-     * Swap
+     * Swap.
+     *
      * @param handle
      * @param row1
      * @param row2
@@ -177,7 +186,8 @@ class DataRegistry {
     }
     
     /**
-     * Swap
+     * Swap.
+     *
      * @param handle
      * @param row1
      * @param row2
@@ -192,7 +202,9 @@ class DataRegistry {
     }
     
     /**
-     * Creates the views on the subset
+     * Creates the views on the subset.
+     *
+     * @param config
      */
     protected void createInputSubset(ARXConfiguration config){
         
@@ -205,8 +217,11 @@ class DataRegistry {
     }
 
     /**
-     * Creates the views on the subset
-     * @param peqStatistics 
+     * Creates the views on the subset.
+     *
+     * @param node
+     * @param config
+     * @param peqStatistics
      */
     protected void createOutputSubset(ARXNode node, ARXConfiguration config, StatisticsEquivalenceClasses peqStatistics){
         if (config.containsCriterion(DPresence.class)) {
@@ -218,7 +233,8 @@ class DataRegistry {
     }
 
     /**
-     * Returns the base data type without generalization
+     * Returns the base data type without generalization.
+     *
      * @param attribute
      * @return
      */
@@ -227,7 +243,8 @@ class DataRegistry {
     }
 
     /**
-     * Returns a registered handle, if any
+     * Returns a registered handle, if any.
+     *
      * @param node
      * @return
      */
@@ -236,7 +253,8 @@ class DataRegistry {
     }
     
     /**
-     * Implementation of {@link DataHandle#isOutlier(row)}
+     * Implementation of {@link DataHandle#isOutlier(row)}.
+     *
      * @param handle
      * @param row
      * @return
@@ -255,8 +273,9 @@ class DataRegistry {
     }
 
     /**
-     * Releases the given handle
-     * @param dataHandle
+     * Releases the given handle.
+     *
+     * @param handle
      */
     protected void release(DataHandle handle) {
         
@@ -285,7 +304,7 @@ class DataRegistry {
     }
 
     /**
-     * Removes the association to all handles, but the input handle
+     * Removes the association to all handles, but the input handle.
      */
     protected void reset() {
         while (!this.output.entrySet().isEmpty()) {
@@ -370,8 +389,9 @@ class DataRegistry {
     }
 
     /**
-     * Implementation of {@link DataHandle#swap(int, int)}
-     * @param dataHandle
+     * Implementation of {@link DataHandle#swap(int, int)}.
+     *
+     * @param handle
      * @param row1
      * @param row2
      */
@@ -384,7 +404,8 @@ class DataRegistry {
     }
 
     /**
-     * Update the registry
+     * Update the registry.
+     *
      * @param input
      */
     protected void updateInput(DataHandleInput input){
@@ -392,7 +413,8 @@ class DataRegistry {
     }
 
     /**
-     * Update the registry
+     * Update the registry.
+     *
      * @param inputSubset
      */
     protected void updateInputSubset(DataHandleSubset inputSubset){
@@ -400,7 +422,9 @@ class DataRegistry {
     }
 
     /**
-     * Update the registry
+     * Update the registry.
+     *
+     * @param node
      * @param output
      */
     protected void updateOutput(ARXNode node, DataHandleOutput output){
@@ -408,7 +432,9 @@ class DataRegistry {
     }
 
     /**
-     * Update the registry
+     * Update the registry.
+     *
+     * @param node
      * @param outputSubset
      */
     protected void updateOutputSubset(ARXNode node, DataHandleSubset outputSubset){

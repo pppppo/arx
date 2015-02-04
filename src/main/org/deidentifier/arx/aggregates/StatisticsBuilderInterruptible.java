@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.aggregates;
@@ -31,12 +30,12 @@ import org.deidentifier.arx.aggregates.StatisticsBuilder.ComputationInterruptedE
  */
 public class StatisticsBuilderInterruptible {
 
-    /** The backing builder */
+    /** The backing builder. */
     private StatisticsBuilder builder;
 
     /**
-     * Creates a new instance
-     * 
+     * Creates a new instance.
+     *
      * @param handle
      * @param ecStatistics
      */
@@ -46,21 +45,18 @@ public class StatisticsBuilderInterruptible {
     }
 
     /**
-     * Returns a contingency table for the given columns
-     * 
-     * @param column1
-     *            The first column
-     * @param orderFromDefinition1
-     *            Indicates whether the order that should be assumed for string
+     * Returns a contingency table for the given columns.
+     *
+     * @param column1 The first column
+     * @param orderFromDefinition1 Indicates whether the order that should be assumed for string
      *            data items can (and should) be derived from the hierarchy
      *            provided in the data definition (if any)
-     * @param column2
-     *            The second column
-     * @param orderFromDefinition2
-     *            Indicates whether the order that should be assumed for string
+     * @param column2 The second column
+     * @param orderFromDefinition2 Indicates whether the order that should be assumed for string
      *            data items can (and should) be derived from the hierarchy
      *            provided in the data definition (if any)
      * @return
+     * @throws InterruptedException
      */
     public StatisticsContingencyTable
             getContingencyTable(int column1,
@@ -86,16 +82,13 @@ public class StatisticsBuilderInterruptible {
     /**
      * Returns a contingency table for the given columns. The order for string
      * data items is derived from the provided hierarchies
-     * 
-     * @param column1
-     *            The first column
-     * @param hierarchy1
-     *            The hierarchy for the first column, may be null
-     * @param column2
-     *            The second column
-     * @param hierarchy2
-     *            The hierarchy for the second column, may be null
+     *
+     * @param column1 The first column
+     * @param hierarchy1 The hierarchy for the first column, may be null
+     * @param column2 The second column
+     * @param hierarchy2 The hierarchy for the second column, may be null
      * @return
+     * @throws InterruptedException
      */
     public StatisticsContingencyTable
             getContingencyTable(int column1,
@@ -122,12 +115,11 @@ public class StatisticsBuilderInterruptible {
      * Returns a contingency table for the given columns. This method assumes
      * that the order of string data items can (and should) be derived from the
      * hierarchies provided in the data definition (if any)
-     * 
-     * @param column1
-     *            The first column
-     * @param column2
-     *            The second column
+     *
+     * @param column1 The first column
+     * @param column2 The second column
      * @return
+     * @throws InterruptedException
      */
     public StatisticsContingencyTable
             getContingencyTable(int column1, int column2) throws InterruptedException {
@@ -144,25 +136,20 @@ public class StatisticsBuilderInterruptible {
     }
 
     /**
-     * Returns a contingency table for the given columns
-     * 
-     * @param column1
-     *            The first column
-     * @param size1
-     *            The maximal size in this dimension
-     * @param orderFromDefinition1
-     *            Indicates whether the order that should be assumed for string
+     * Returns a contingency table for the given columns.
+     *
+     * @param column1 The first column
+     * @param size1 The maximal size in this dimension
+     * @param orderFromDefinition1 Indicates whether the order that should be assumed for string
      *            data items can (and should) be derived from the hierarchy
      *            provided in the data definition (if any)
-     * @param column2
-     *            The second column
-     * @param size2
-     *            The maximal size in this dimension
-     * @param orderFromDefinition2
-     *            Indicates whether the order that should be assumed for string
+     * @param column2 The second column
+     * @param size2 The maximal size in this dimension
+     * @param orderFromDefinition2 Indicates whether the order that should be assumed for string
      *            data items can (and should) be derived from the hierarchy
      *            provided in the data definition (if any)
      * @return
+     * @throws InterruptedException
      */
     public StatisticsContingencyTable
             getContingencyTable(int column1,
@@ -191,20 +178,15 @@ public class StatisticsBuilderInterruptible {
     /**
      * Returns a contingency table for the given columns. The order for string
      * data items is derived from the provided hierarchies
-     * 
-     * @param column1
-     *            The first column
-     * @param size1
-     *            The maximal size in this dimension
-     * @param hierarchy1
-     *            The hierarchy for the first column, may be null
-     * @param column2
-     *            The second column
-     * @param size2
-     *            The maximal size in this dimension
-     * @param hierarchy2
-     *            The hierarchy for the second column, may be null
+     *
+     * @param column1 The first column
+     * @param size1 The maximal size in this dimension
+     * @param hierarchy1 The hierarchy for the first column, may be null
+     * @param column2 The second column
+     * @param size2 The maximal size in this dimension
+     * @param hierarchy2 The hierarchy for the second column, may be null
      * @return
+     * @throws InterruptedException
      */
     public StatisticsContingencyTable
             getContingencyTable(int column1,
@@ -234,16 +216,13 @@ public class StatisticsBuilderInterruptible {
      * Returns a contingency table for the given columns. This method assumes
      * that the order of string data items can (and should) be derived from the
      * hierarchies provided in the data definition (if any)
-     * 
-     * @param column1
-     *            The first column
-     * @param size1
-     *            The maximal size in this dimension
-     * @param column2
-     *            The second column
-     * @param size2
-     *            The maximal size in this dimension
+     *
+     * @param column1 The first column
+     * @param size1 The maximal size in this dimension
+     * @param column2 The second column
+     * @param size2 The maximal size in this dimension
      * @return
+     * @throws InterruptedException
      */
     public StatisticsContingencyTable
             getContingencyTable(int column1, int size1, int column2, int size2) throws InterruptedException {
@@ -260,11 +239,11 @@ public class StatisticsBuilderInterruptible {
     }
 
     /**
-     * Returns the distinct set of data items from the given column
-     * 
-     * @param column
-     *            The column
+     * Returns the distinct set of data items from the given column.
+     *
+     * @param column The column
      * @return
+     * @throws InterruptedException
      */
     public String[] getDistinctValues(int column) throws InterruptedException {
         try {
@@ -284,10 +263,10 @@ public class StatisticsBuilderInterruptible {
      * column. This method assumes that the order of string data items can (and
      * should) be derived from the hierarchy provided in the data definition (if
      * any)
-     * 
-     * @param column
-     *            The column
+     *
+     * @param column The column
      * @return
+     * @throws InterruptedException
      */
     public String[]
             getDistinctValuesOrdered(int column) throws InterruptedException {
@@ -305,15 +284,14 @@ public class StatisticsBuilderInterruptible {
 
     /**
      * Returns an ordered list of the distinct set of data items from the given
-     * column
-     * 
-     * @param column
-     *            The column
-     * @param orderFromDefinition
-     *            Indicates whether the order that should be assumed for string
+     * column.
+     *
+     * @param column The column
+     * @param orderFromDefinition Indicates whether the order that should be assumed for string
      *            data items can (and should) be derived from the hierarchy
      *            provided in the data definition (if any)
      * @return
+     * @throws InterruptedException
      */
     public String[]
             getDistinctValuesOrdered(int column, boolean orderFromDefinition) throws InterruptedException {
@@ -333,12 +311,11 @@ public class StatisticsBuilderInterruptible {
      * Returns an ordered list of the distinct set of data items from the given
      * column. This method assumes that the order of string data items can (and
      * should) be derived from the provided hierarchy
-     * 
-     * @param column
-     *            The column
-     * @param hierarchy
-     *            The hierarchy, may be null
+     *
+     * @param column The column
+     * @param hierarchy The hierarchy, may be null
      * @return
+     * @throws InterruptedException
      */
     public String[]
             getDistinctValuesOrdered(int column, Hierarchy hierarchy) throws InterruptedException {
@@ -355,9 +332,10 @@ public class StatisticsBuilderInterruptible {
     }
 
     /**
-     * Returns statistics about the equivalence classes
-     * 
+     * Returns statistics about the equivalence classes.
+     *
      * @return
+     * @throws InterruptedException
      */
     public StatisticsEquivalenceClasses
             getEquivalenceClassStatistics() throws InterruptedException {
@@ -377,10 +355,10 @@ public class StatisticsBuilderInterruptible {
      * Returns a frequency distribution for the values in the given column. This
      * method assumes that the order of string data items can (and should) be
      * derived from the hierarchy provided in the data definition (if any)
-     * 
-     * @param column
-     *            The column
+     *
+     * @param column The column
      * @return
+     * @throws InterruptedException
      */
     public StatisticsFrequencyDistribution
             getFrequencyDistribution(int column) throws InterruptedException {
@@ -397,15 +375,14 @@ public class StatisticsBuilderInterruptible {
     }
 
     /**
-     * Returns a frequency distribution for the values in the given column
-     * 
-     * @param column
-     *            The column
-     * @param orderFromDefinition
-     *            Indicates whether the order that should be assumed for string
+     * Returns a frequency distribution for the values in the given column.
+     *
+     * @param column The column
+     * @param orderFromDefinition Indicates whether the order that should be assumed for string
      *            data items can (and should) be derived from the hierarchy
      *            provided in the data definition (if any)
      * @return
+     * @throws InterruptedException
      */
     public StatisticsFrequencyDistribution
             getFrequencyDistribution(int column, boolean orderFromDefinition) throws InterruptedException {
@@ -424,12 +401,11 @@ public class StatisticsBuilderInterruptible {
     /**
      * Returns a frequency distribution for the values in the given column. The
      * order for string data items is derived from the provided hierarchy
-     * 
-     * @param column
-     *            The column
-     * @param hierarchy
-     *            The hierarchy, may be null
+     *
+     * @param column The column
+     * @param hierarchy The hierarchy, may be null
      * @return
+     * @throws InterruptedException
      */
     public StatisticsFrequencyDistribution
             getFrequencyDistribution(int column, Hierarchy hierarchy) throws InterruptedException {
@@ -446,7 +422,7 @@ public class StatisticsBuilderInterruptible {
     }
 
     /**
-     * Interrupts all computations
+     * Interrupts all computations.
      */
     public void interrupt() {
         builder.interrupt();

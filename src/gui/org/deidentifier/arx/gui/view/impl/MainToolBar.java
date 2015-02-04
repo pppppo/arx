@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl;
@@ -53,40 +52,51 @@ import org.eclipse.swt.widgets.ToolItem;
 import cern.colt.Arrays;
 
 /**
- * This class implements the global application tool bar
+ * This class implements the global application tool bar.
+ *
  * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public class MainToolBar implements IView {
 
     /**
-     * Helper class including some statistics
+     * Helper class including some statistics.
      */
     private static class SearchSpaceStatistics {
         
-        /** Count*/
+        /** Count. */
         private final int numTransformationsInSearchSpace;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsPruned;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsAnonymous;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsNotAnonymous;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsProbablyAnonymous;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsProbablyNotAnonymous;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsAnonymityUnknown;
-        /** Count*/
+        
+        /** Count. */
         private final int numTransformationsInfolossAvailable;
-        /** Time in seconds*/
+        
+        /** Time in seconds. */
         private final double executionTime;
-        /** Optimal transformation*/
+        
+        /** Optimal transformation. */
         private final ARXNode optimum;
         
         /**
-         * Creates the statistics
+         * Creates the statistics.
+         *
          * @param result
          */
         private SearchSpaceStatistics(ARXResult result){
@@ -137,6 +147,9 @@ public class MainToolBar implements IView {
             this.optimum = result.getGlobalOptimum();
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Object#toString()
+         */
         @Override
         public String toString() {
 
@@ -208,34 +221,42 @@ public class MainToolBar implements IView {
         }
     }
 
-    /** Static offset */
+    /** Static offset. */
     private static final int OFFSET = 10;
 
-    /** Text */
+    /** Text. */
     private String           tooltip;
 
-    /** State */
+    /** State. */
     private Controller       controller;
-    /** State */
+    
+    /** State. */
     private Model            model;
-    /** State */
+    
+    /** State. */
     private List<ToolItem>   toolitems;
 
-    /** Widget */
+    /** Widget. */
     private ToolBar          toolbar;
-    /** Widget */
+    
+    /** Widget. */
     private Label            labelTransformations;
-    /** Widget */
+    
+    /** Widget. */
     private Label            labelApplied;
-    /** Widget */
+    
+    /** Widget. */
     private Label            labelSelected;
-    /** Widget */
+    
+    /** Widget. */
     private Composite        infoComposite;
-    /** Widget */
+    
+    /** Widget. */
     private ToolItem         infoItem;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param controller
      */
@@ -251,11 +272,17 @@ public class MainToolBar implements IView {
         toolbar.pack();
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#dispose()
+     */
     @Override
     public void dispose() {
         controller.removeListener(this);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#reset()
+     */
     @Override
     public void reset() {
         if (labelSelected != null) {
@@ -281,6 +308,9 @@ public class MainToolBar implements IView {
         }
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#update(org.deidentifier.arx.gui.model.ModelEvent)
+     */
     @Override
     public void update(final ModelEvent event) {
         
@@ -344,7 +374,7 @@ public class MainToolBar implements IView {
     
 
     /**
-     * Builds the component
+     * Builds the component.
      */
     private void build() {
         toolitems = new ArrayList<ToolItem>();
@@ -539,7 +569,7 @@ public class MainToolBar implements IView {
     }
 
     /**
-     * Performs layouting
+     * Performs layouting.
      */
     private void layout() {
         
@@ -580,8 +610,9 @@ public class MainToolBar implements IView {
     }
 
     /**
-     * Sets the tooltip
-     * @param text
+     * Sets the tooltip.
+     *
+     * @param stats
      */
     private void setToolTip(SearchSpaceStatistics stats) {
         this.tooltip = stats.toString();

@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.analyze;
@@ -39,25 +38,34 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * This class layouts the analysis view
+ * This class layouts the analysis view.
+ *
  * @author Fabian Prasser
  */
 public class LayoutAnalyze implements ILayout {
 
     /**
-     * A runnable for synchronizing both tables
+     * A runnable for synchronizing both tables.
+     *
      * @author Fabian Prasser
      */
     private class Synchronizer implements Runnable {
 
+        /**  TODO */
         final ViewData in;
+        
+        /**  TODO */
         final ViewData out;
         
+        /**  TODO */
         Boolean        stop     = false;
+        
+        /**  TODO */
         Runnable       runnable = null;
 
         /**
-         * Creates a new instance
+         * Creates a new instance.
+         *
          * @param in
          * @param out
          */
@@ -80,13 +88,17 @@ public class LayoutAnalyze implements ILayout {
         }
 
         /**
-         * Returns the input view
+         * Returns the input view.
+         *
          * @return
          */
         public ViewData getIn() {
             return in;
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Runnable#run()
+         */
         @Override
         public void run() {
             final long time = System.currentTimeMillis();
@@ -114,6 +126,9 @@ public class LayoutAnalyze implements ILayout {
             }
         }
 
+        /**
+         * 
+         */
         public void stop() {
             stop = true;
             synchronized (monitor) {
@@ -128,28 +143,54 @@ public class LayoutAnalyze implements ILayout {
         }
     }
 
+    /**  TODO */
     private static final int       WEIGHT_TOP    = 75;
+    
+    /**  TODO */
     private static final int       WEIGHT_BOTTOM = 25;
+    
+    /**  TODO */
     private static final int       WEIGHT_LEFT   = 50;
+    
+    /**  TODO */
     private static final int       WEIGHT_RIGHT  = 50;
 
+    /**  TODO */
     private final Composite        centerLeft;
+    
+    /**  TODO */
     private final Composite        centerRight;
+    
+    /**  TODO */
     private final Composite        bottomLeft;
+    
+    /**  TODO */
     private final Composite        bottomRight;
+    
+    /**  TODO */
     private final SashForm         centerSash;
     
+    /**  TODO */
     private final ViewData         dataInputView;
+    
+    /**  TODO */
     private final ViewData         dataOutputView;
 
+    /**  TODO */
     private final LayoutStatistics statisticsInputLayout;
+    
+    /**  TODO */
     private final LayoutStatistics statisticsOutputLayout;
 
+    /**  TODO */
     private Synchronizer           synchronizer  = null;
+    
+    /**  TODO */
     private String[]               monitor = new String[0];
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param controller
      */
@@ -253,8 +294,8 @@ public class LayoutAnalyze implements ILayout {
     }
 
     /**
-     * Synchronizes the tables for another second
-     * 
+     * Synchronizes the tables for another second.
+     *
      * @param in
      * @param out
      */

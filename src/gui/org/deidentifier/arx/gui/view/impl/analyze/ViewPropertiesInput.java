@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.analyze;
@@ -41,43 +40,62 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
 /**
- * This view displays basic properties about input data
- * 
+ * This view displays basic properties about input data.
+ *
  * @author Fabian Prasser
  */
 public class ViewPropertiesInput extends ViewProperties {
 
     /**
-     * A content provider
+     * A content provider.
+     *
      * @author Fabian Prasser
      */
     private class InputContentProvider implements ITreeContentProvider {
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+         */
         @Override
         public void dispose() {
             // Nothing to do
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+         */
         @Override
         public Object[] getChildren(final Object arg0) {
             return ((Property) arg0).children.toArray();
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
+         */
         @Override
         public Object[] getElements(final Object arg0) {
             return roots.toArray();
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+         */
         @Override
         public Object getParent(final Object arg0) {
             return ((Property) arg0).parent;
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+         */
         @Override
         public boolean hasChildren(final Object arg0) {
             return !((Property) arg0).children.isEmpty();
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+         */
         @Override
         public void inputChanged(final Viewer arg0,
                                  final Object arg1,
@@ -88,28 +106,40 @@ public class ViewPropertiesInput extends ViewProperties {
     }
 
     /**
-     * A label provider
-     * @author Fabian Prasser
+     * A label provider.
      *
+     * @author Fabian Prasser
      */
     private class InputLabelProvider implements ITableLabelProvider {
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+         */
         @Override
         public void addListener(final ILabelProviderListener listener) {
             // Nothing to do
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+         */
         @Override
         public void dispose() {
             // Nothing to do
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object, int)
+         */
         @Override
         public Image
                 getColumnImage(final Object element, final int columnIndex) {
             return null;
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object, int)
+         */
         @Override
         public String
                 getColumnText(final Object element, final int columnIndex) {
@@ -125,12 +155,18 @@ public class ViewPropertiesInput extends ViewProperties {
             }
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+         */
         @Override
         public boolean isLabelProperty(final Object element,
                                        final String property) {
             return false;
         }
 
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+         */
         @Override
         public void removeListener(final ILabelProviderListener listener) {
             // Nothing to do
@@ -139,7 +175,8 @@ public class ViewPropertiesInput extends ViewProperties {
 
     
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param parent
      * @param controller
      */
@@ -152,7 +189,8 @@ public class ViewPropertiesInput extends ViewProperties {
     }
 
     /**
-     * Creates the view
+     * Creates the view.
+     *
      * @param group
      */
     private void create(final Composite group) {
@@ -205,7 +243,7 @@ public class ViewPropertiesInput extends ViewProperties {
     }
 
     /**
-     * Update the view
+     * Update the view.
      */
     protected void update() {
 

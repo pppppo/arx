@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.gui.view.impl.define;
@@ -45,22 +44,24 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * This view displays settings regarding the utility metrics
+ * This view displays settings regarding the utility metrics.
+ *
  * @author Fabian Prasser
  */
 public class ViewMetric implements IView {
 
-    /** Static settings */
+    /** Static settings. */
     private static final int                     LABEL_HEIGHT = 20;
 
-    /** Static settings */
+    /** Static settings. */
     private static final List<MetricDescription> METRICS      = Metric.list();
-    /** Static settings */
+    
+    /** Static settings. */
     private static final String[]                LABELS       = getLabels(METRICS);
 
     /**
-     * Returns a list of names of all available metrics
-     * 
+     * Returns a list of names of all available metrics.
+     *
      * @param metrics
      * @return
      */
@@ -72,29 +73,39 @@ public class ViewMetric implements IView {
         return labels;
     }
 
-    /** Controller */
+    /** Controller. */
     private final Controller      controller;
-    /** Model */
+    
+    /** Model. */
     private Model                 model;
-    /** View */
+    
+    /** View. */
     private Combo                 comboMetric;
-    /** View */
+    
+    /** View. */
     private Composite             root;
-    /** View */
+    
+    /** View. */
     private ComponentTitledFolder folder;
-    /** View */
+    
+    /** View. */
     private IView                 viewCodingModel;
-    /** View */
+    
+    /** View. */
     private IView                 viewAttributeWeights;
-    /** View */
+    
+    /** View. */
     private Button                monotonicVariant;
-    /** View */
+    
+    /** View. */
     private Combo                 comboAggregate;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
      * @param parent
      * @param controller
+     * @param folder
      */
     public ViewMetric(final Composite parent,
                       final Controller controller,
@@ -111,11 +122,17 @@ public class ViewMetric implements IView {
         this.root = build(parent);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#dispose()
+     */
     @Override
     public void dispose() {
         controller.removeListener(this);
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#reset()
+     */
     @Override
     public void reset() {
 
@@ -124,6 +141,9 @@ public class ViewMetric implements IView {
         SWTUtil.disable(root);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.gui.view.def.IView#update(org.deidentifier.arx.gui.model.ModelEvent)
+     */
     @Override
     public void update(final ModelEvent event) {
         if (event.part == ModelPart.MODEL) {
@@ -160,6 +180,12 @@ public class ViewMetric implements IView {
         }
     }
 
+    /**
+     * 
+     *
+     * @param parent
+     * @return
+     */
     private Composite build(final Composite parent) {
 
         final Composite mBase = new Composite(parent, SWT.NONE);
@@ -171,12 +197,15 @@ public class ViewMetric implements IView {
         GridData d2 = new GridData();
         d2.heightHint = LABEL_HEIGHT;
         d2.minimumHeight = LABEL_HEIGHT;
+        d2.grabExcessVerticalSpace = true;
+        d2.verticalAlignment = GridData.CENTER;
         mLabel.setLayoutData(d2);
 
         comboMetric = new Combo(mBase, SWT.READ_ONLY);
         GridData d30 = SWTUtil.createFillHorizontallyGridData();
-        d30.verticalAlignment = SWT.CENTER;
         d30.horizontalSpan = 3;
+        d30.verticalAlignment = GridData.CENTER;
+        d30.grabExcessVerticalSpace = true;
         comboMetric.setLayoutData(d30);
         comboMetric.setItems(LABELS);
         comboMetric.select(0);
@@ -195,13 +224,15 @@ public class ViewMetric implements IView {
         GridData d22 = new GridData();
         d22.heightHint = LABEL_HEIGHT;
         d22.minimumHeight = LABEL_HEIGHT;
+        d22.grabExcessVerticalSpace = true;
+        d22.verticalAlignment = GridData.CENTER;
         mLabel2.setLayoutData(d22);
 
         monotonicVariant = new Button(mBase, SWT.CHECK);
         monotonicVariant.setText(Resources.getMessage("CriterionDefinitionView.68")); //$NON-NLS-1$
         monotonicVariant.setSelection(false);
         monotonicVariant.setEnabled(false);
-        monotonicVariant.setLayoutData(GridDataFactory.swtDefaults().span(3, 1).create());
+        monotonicVariant.setLayoutData(GridDataFactory.swtDefaults().span(3, 1).grab(false, true).align(GridData.BEGINNING, GridData.CENTER).create());
         monotonicVariant.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(final SelectionEvent arg0) {
@@ -215,13 +246,17 @@ public class ViewMetric implements IView {
         GridData d23 = new GridData();
         d23.heightHint = LABEL_HEIGHT;
         d23.minimumHeight = LABEL_HEIGHT;
+        d23.grabExcessVerticalSpace = true;
+        d23.verticalAlignment = GridData.CENTER;
         mLabel3.setLayoutData(d23);
 
         comboAggregate = new Combo(mBase, SWT.READ_ONLY);
         GridData d31 = SWTUtil.createFillHorizontallyGridData();
-        d31.verticalAlignment = SWT.CENTER;
         d31.horizontalSpan = 3;
+        d31.grabExcessVerticalSpace = true;
+        d31.verticalAlignment = GridData.CENTER;
         comboAggregate.setLayoutData(d31);
+        comboAggregate.setEnabled(false);
         comboAggregate.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(final SelectionEvent arg0) {
@@ -238,7 +273,7 @@ public class ViewMetric implements IView {
     }
 
     /**
-     * Hides the settings for the attribute weights
+     * Hides the settings for the attribute weights.
      */
     private void hideSettingsAttributeWeights(){
 
@@ -250,7 +285,7 @@ public class ViewMetric implements IView {
     }
     
     /**
-     * Hides the settings for the coding model
+     * Hides the settings for the coding model.
      */
     private void hideSettingsCodingModel(){
         if (this.viewCodingModel != null) {
@@ -261,7 +296,8 @@ public class ViewMetric implements IView {
     }
 
     /**
-     * Select metric action
+     * Select metric action.
+     *
      * @param metric
      */
     private void selectMetricAction(final MetricDescription metric) {
@@ -291,7 +327,7 @@ public class ViewMetric implements IView {
     }
     
     /**
-     * Shows the settings for the attribute weights
+     * Shows the settings for the attribute weights.
      */
     private void showSettingsAttributeWeights(){
         if (this.viewAttributeWeights != null) return;
@@ -302,7 +338,7 @@ public class ViewMetric implements IView {
     }
   
     /**
-     * Shows the settings for the coding model
+     * Shows the settings for the coding model.
      */
     private void showSettingsCodingModel(){
         if (this.viewCodingModel != null) return;
@@ -314,7 +350,7 @@ public class ViewMetric implements IView {
 
     /**
      * This method adjusts the toolbar attached to the folder with criteria
-     * according to the current state of the model
+     * according to the current state of the model.
      */
     private void updateControlls(){
 
@@ -364,7 +400,11 @@ public class ViewMetric implements IView {
             if (selected != -1) {
                 comboAggregate.select(selected);
             }
-            comboAggregate.setEnabled(!description.getSupportedAggregateFunctions().isEmpty());
+
+            if (comboAggregate.getItemCount()==0) {
+                comboAggregate.add("None available");
+                comboAggregate.select(0);
+            }
             
         } else {
             reset();

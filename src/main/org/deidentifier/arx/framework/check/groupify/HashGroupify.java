@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.framework.check.groupify;
@@ -36,24 +35,42 @@ import org.deidentifier.arx.framework.data.Data;
 public class HashGroupify implements IHashGroupify {
 
     /**
-     * Statistics about the groups, excluding outliers
+     * Statistics about the groups, excluding outliers.
+     *
      * @author Fabian Prasser
      */
     public static class GroupStatistics {
 
+        /**  TODO */
         private double averageEquivalenceClassSize;
+        
+        /**  TODO */
         private int    maximalEquivalenceClassSize;
+        
+        /**  TODO */
         private int    minimalEquivalenceClassSize;
+        
+        /**  TODO */
         private double averageEquivalenceClassSizeIncludingOutliers;
+        
+        /**  TODO */
         private int    maximalEquivalenceClassSizeIncludingOutliers;
+        
+        /**  TODO */
         private int    minimalEquivalenceClassSizeIncludingOutliers;
+        
+        /**  TODO */
         private int    numberOfGroups;
+        
+        /**  TODO */
         private int    numberOfOutlyingEquivalenceClasses;
+        
+        /**  TODO */
         private int    numberOfOutlyingTuples;
 
         /**
-         * Creates a new instance
-         * @param handle
+         * Creates a new instance.
+         *
          * @param averageEquivalenceClassSize
          * @param maximalEquivalenceClassSize
          * @param minimalEquivalenceClassSize
@@ -85,7 +102,8 @@ public class HashGroupify implements IHashGroupify {
         }
 
         /**
-         * Returns the maximal size of an equivalence class
+         * Returns the maximal size of an equivalence class.
+         *
          * @return
          */
         public double getAverageEquivalenceClassSize() {
@@ -102,7 +120,8 @@ public class HashGroupify implements IHashGroupify {
         }
 
         /**
-         * Returns the maximal size of an equivalence class
+         * Returns the maximal size of an equivalence class.
+         *
          * @return
          */
         public int getMaximalEquivalenceClassSize() {
@@ -119,7 +138,8 @@ public class HashGroupify implements IHashGroupify {
         }
 
         /**
-         * Returns the minimal size of an equivalence class
+         * Returns the minimal size of an equivalence class.
+         *
          * @return
          */
         public int getMinimalEquivalenceClassSize() {
@@ -137,8 +157,8 @@ public class HashGroupify implements IHashGroupify {
 
         /**
          * Returns the number of equivalence classes in the currently selected data
-         * representation
-         * 
+         * representation.
+         *
          * @return
          */
         public int getNumberOfGroups() {
@@ -147,8 +167,8 @@ public class HashGroupify implements IHashGroupify {
 
         /**
          * Returns the number of outlying equivalence classes in the currently selected data
-         * representation
-         * 
+         * representation.
+         *
          * @return
          */
         public int getNumberOfOutlyingEquivalenceClasses() {
@@ -157,8 +177,8 @@ public class HashGroupify implements IHashGroupify {
 
         /**
          * Returns the number of outliers in the currently selected data
-         * representation
-         * 
+         * representation.
+         *
          * @return
          */
         public int getNumberOfOutlyingTuples() {
@@ -166,10 +186,10 @@ public class HashGroupify implements IHashGroupify {
         }
     }
 
-    /** Is the result k-anonymous? */
+    /** Is the result k-anonymous?. */
     private boolean                  kAnonymous;
 
-    /** Is the result anonymous */
+    /** Is the result anonymous. */
    private boolean                   anonymous;
 
     /** The current outliers. */
@@ -193,24 +213,24 @@ public class HashGroupify implements IHashGroupify {
     /** Maximum number of elements that can be put in this map before having to rehash. */
     private int                      threshold;
 
-    /** Allowed tuple outliers */
+    /** Allowed tuple outliers. */
     private final int                absoluteMaxOutliers;
 
-    /** The parameter k, if k-anonymity is contained in the set of criteria */
+    /** The parameter k, if k-anonymity is contained in the set of criteria. */
     private final int                k;
 
-    /** The research subset, if d-presence is contained in the set of criteria */
+    /** The research subset, if d-presence is contained in the set of criteria. */
     private final RowSet             subset;
 
-    /** True, if the contained d-presence criterion is not inclusion */
+    /** True, if the contained d-presence criterion is not inclusion. */
     private final boolean            dpresence;
 
-    /** Criteria*/
+    /** Criteria. */
     private final PrivacyCriterion[] criteria;
 
     /**
-     * Constructs a new hash groupify operator
-     * 
+     * Constructs a new hash groupify operator.
+     *
      * @param capacity The capacity
      * @param config The config
      */
@@ -248,6 +268,9 @@ public class HashGroupify implements IHashGroupify {
         dpresence = (criteria.length > 0 && (criteria[0] instanceof DPresence) && !(criteria[0] instanceof Inclusion));
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#addAll(int[], int, int, int[], int)
+     */
     @Override
     public void addAll(int[] key, int representant, int count, int[] sensitive, int pcount) {
 
@@ -277,6 +300,9 @@ public class HashGroupify implements IHashGroupify {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#addGroupify(int[], int, int, org.deidentifier.arx.framework.check.distribution.Distribution[], int)
+     */
     @Override
     public void addGroupify(int[] key, int representant, int count, Distribution[] distributions, int pcount) {
 
@@ -298,6 +324,9 @@ public class HashGroupify implements IHashGroupify {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#addSnapshot(int[], int, int, int[][], int[][], int)
+     */
     @Override
     public void addSnapshot(int[] key, int representant, int count, int[][] elements, int[][] frequencies, int pcount) {
 
@@ -325,6 +354,9 @@ public class HashGroupify implements IHashGroupify {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#analyze(boolean)
+     */
     @Override
     public void analyze(boolean force){
         if (force) analyzeAll();
@@ -359,6 +391,9 @@ public class HashGroupify implements IHashGroupify {
         return firstEntry;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#getGroupStatistics()
+     */
     @Override
     public GroupStatistics getGroupStatistics() {
 
@@ -430,16 +465,25 @@ public class HashGroupify implements IHashGroupify {
                                     numberOfOutlyingTuples);
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#isAnonymous()
+     */
     @Override
     public boolean isAnonymous() {
         return anonymous;
     }
 
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#isKAnonymous()
+     */
     @Override
     public boolean isKAnonymous() {
         return kAnonymous;
     }
     
+    /* (non-Javadoc)
+     * @see org.deidentifier.arx.framework.check.groupify.IHashGroupify#markOutliers(int[][])
+     */
     @Override
     public void markOutliers(final int[][] data) {
         
@@ -461,7 +505,7 @@ public class HashGroupify implements IHashGroupify {
     }
 
     /**
-     * This method will reset all flags that indicate that equivalence classes are suppressed
+     * This method will reset all flags that indicate that equivalence classes are suppressed.
      */
     public void resetSuppression() {
         HashGroupifyEntry entry = firstEntry;
@@ -484,15 +528,12 @@ public class HashGroupify implements IHashGroupify {
 
     /**
      * Internal adder method.
-     * 
-     * @param key
-     *            the key
-     * @param line
-     *            the line
-     * @param value
-     *            the value
-     * @param hash
-     *            the hash
+     *
+     * @param key the key
+     * @param hash the hash
+     * @param representant
+     * @param count
+     * @param pcount
      * @return the hash groupify entry
      */
     private final HashGroupifyEntry addInternal(final int[] key, final int hash, final int representant, int count, final int pcount) {
@@ -538,7 +579,7 @@ public class HashGroupify implements IHashGroupify {
     }
 
     /**
-     * Analyze
+     * Analyze.
      */
     private void analyzeAll(){
 
@@ -580,7 +621,7 @@ public class HashGroupify implements IHashGroupify {
     }
 
     /**
-     * Analyze
+     * Analyze.
      */
     private void analyzeWithEarlyAbort(){
         
@@ -673,8 +714,8 @@ public class HashGroupify implements IHashGroupify {
     }
 
     /**
-     * TODO: Ugly!
-     * 
+     * TODO: Ugly!.
+     *
      * @param a
      * @param a2
      * @return
@@ -706,8 +747,10 @@ public class HashGroupify implements IHashGroupify {
     }
 
     /**
-     * Checks whether the given entry is anonymous
+     * Checks whether the given entry is anonymous.
+     *
      * @param entry
+     * @return
      * @returns -1, if all criteria are fulfilled, 0, if minimal group size is not fulfilled, (index+1) if criteria[index] is not fulfilled
      */
     private int isAnonymous(HashGroupifyEntry entry) {

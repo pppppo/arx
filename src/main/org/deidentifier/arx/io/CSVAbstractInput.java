@@ -1,19 +1,18 @@
 /*
  * ARX: Powerful Data Anonymization
- * Copyright (C) 2012 - 2014 Florian Kohlmayer, Fabian Prasser
+ * Copyright 2012 - 2015 Florian Kohlmayer, Fabian Prasser
  * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.deidentifier.arx.io;
@@ -22,23 +21,22 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Abstract class for reading CSV encoded information
- * 
- * @author Fabian Prasser 
+ * Abstract class for reading CSV encoded information.
+ *
+ * @author Fabian Prasser
  * @author Florian Kohlmayer
  */
 public abstract class CSVAbstractInput {
 
-    /** The iterator */
+    /** The iterator. */
     protected Iterator<String[]> iterator;
 
     /** The separator. */
     protected final char         separator;
 
     /**
-     * Constructor
-     * 
-     * @param file
+     * Constructor.
+     *
      * @param separator
      */
     public CSVAbstractInput(final char separator) {
@@ -46,8 +44,8 @@ public abstract class CSVAbstractInput {
     }
 
     /**
-     * Builds the iterator
-     * 
+     * Builds the iterator.
+     *
      * @return
      * @throws IOException
      */
@@ -80,16 +78,17 @@ public abstract class CSVAbstractInput {
     }
 
     /**
-     * Closes the input
-     * 
+     * Closes the input.
+     *
      * @throws IOException
      */
     public abstract void close() throws IOException;
 
     /**
-     * Returns an iterator
-     * 
+     * Returns an iterator.
+     *
      * @return
+     * @throws IOException
      */
     public Iterator<String[]> iterator() throws IOException {
         if (iterator == null) {
@@ -98,6 +97,11 @@ public abstract class CSVAbstractInput {
         return iterator;
     }
 
-    /** Reads a row */
+    /**
+     * Reads a row.
+     *
+     * @return
+     * @throws IOException
+     */
     protected abstract String[] readRow() throws IOException;
 }
